@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using TienIchLich.Models;
 
@@ -33,10 +33,10 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Calendar categories.
         /// </summary>
-        public ObservableCollection<CalendarCategoryViewModel> CalendarCategories 
+        public ObservableCollection<CalendarCategoryViewModel> CalendarCategories
         {
             get
-            { 
+            {
                 return calendarCategories;
             }
             set
