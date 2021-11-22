@@ -9,6 +9,7 @@
     <Window.Resources>
         <!-- Collection view for CalendarEvents. Use for filtering. -->
         <CollectionViewSource x:Key="CalendarEventCollectionView" Source="{Binding CalendarEvents}"/>
+        <CollectionViewSource x:Key="CalendarCategoryCollectionView" Source="{Binding CalendarCategories}"/>
     </Window.Resources>
     
     <!-- Main UI grid -->
@@ -28,19 +29,7 @@
             <TextBlock Grid.Row="0" Text="Loại lịch" />
             
             <!-- Calendar category listbox -->
-            <ListBox Grid.Row="1">
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox />
-                        <TextBlock Text="Ngày lễ" />
-                    </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox />
-                        <TextBlock Text="Học tập" />
-                    </StackPanel>
-                </ListBoxItem>
+            <ListBox Grid.Row="1" ItemsSource="{Binding Source={StaticResource CalendarCategoryCollectionView}}">
             </ListBox>
         </Grid>
 
@@ -59,7 +48,7 @@
                 <TabItem.Header>
                     <TextBlock>Tháng</TextBlock>
                 </TabItem.Header>
-                <TextBlock>Test</TextBlock>
+                <Calendar />
             </TabItem>
 
             <!-- Calendar year view -->

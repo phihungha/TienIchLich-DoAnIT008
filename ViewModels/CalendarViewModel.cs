@@ -63,7 +63,7 @@ namespace TienIchLich.ViewModels
             using (var dbContext = new CalendarData())
             {
                 dbContext.Database.EnsureCreated();
-                CalendarEvent calendarEvent = dbContext.CalendarEvents.First<CalendarEvent>();
+                CalendarEvent calendarEvent = dbContext.CalendarEvents.First();
                 var newEvent = new CalendarEventViewModel()
                 {
                     Title = calendarEvent.Title,
@@ -74,6 +74,14 @@ namespace TienIchLich.ViewModels
                     ReminderTime = calendarEvent.ReminderTime
                 };
                 calendarEvents.Add(newEvent);
+                CalendarCategory calendarCategory = dbContext.CalendarCategories.First();
+
+                var newCalendarCategory = new CalendarCategoryViewModel()
+                {
+                    Name = calendarCategory.Name,
+                    DisplayColor = calendarCategory.DisplayColor,
+                };
+                calendarCategories.Add(newCalendarCategory);
             }
         }
     }

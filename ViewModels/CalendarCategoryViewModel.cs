@@ -20,11 +20,11 @@ namespace TienIchLich
         {
             get
             {
-                return Name;
+                return name;
             }
             set
             {
-                Name = value;
+                name = value;
                 NotifyPropertyChanged();
             }
         }
