@@ -11,7 +11,7 @@ namespace TienIchLich
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        string title = "";
+        string subject = "";
         DateTime startTime;
         DateTime endTime;
         bool allDay = true;
@@ -21,15 +21,15 @@ namespace TienIchLich
         /// <summary>
         /// Title of event.
         /// </summary>
-        public string Title
+        public string Subject
         {
             get
             {
-                return title;
+                return subject;
             }
             set
             {
-                title = value;
+                subject = value;
                 NotifyPropertyChanged();
             }
         }

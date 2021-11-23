@@ -15,7 +15,7 @@ namespace TienIchLich.Models
         /// <summary>
         /// Title of event.
         /// </summary>
-        public string Title { get; set; }
+        public string Subject { get; set; }
 
         /// <summary>
         /// Event start time.

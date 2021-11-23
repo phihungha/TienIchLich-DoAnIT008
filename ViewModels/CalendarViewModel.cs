@@ -66,8 +66,8 @@ namespace TienIchLich.ViewModels
                 CalendarEvent calendarEvent = dbContext.CalendarEvents.First();
                 var newEvent = new CalendarEventViewModel()
                 {
-                    Title = calendarEvent.Title,
-                    Description = calendarEvent.Title,
+                    Subject = calendarEvent.Subject,
+                    Description = calendarEvent.Subject,
                     StartTime = calendarEvent.StartTime,
                     EndTime = calendarEvent.EndTime,
                     AllDay = calendarEvent.AllDay,
