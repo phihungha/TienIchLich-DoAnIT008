@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TienIchLich
+namespace TienIchLich.Pages
 {
     /// <summary>
-    /// Interaction logic for EventList.xaml
+    /// Interaction logic for EventEditor.xaml
     /// </summary>
-    public partial class EventList : Page
+    public partial class EventEditor : Page
     {
-        public EventList()
+        public EventEditor()
         {
             InitializeComponent();
         }

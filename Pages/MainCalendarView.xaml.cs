@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TienIchLich
+namespace TienIchLich.Pages
 {
     /// <summary>
-    /// Interaction logic for UpcomingOverview.xaml
+    /// Interaction logic for MainCalendarView.xaml
     /// </summary>
-    public partial class UpcomingOverview : Page
+    public partial class MainCalendarView : Page
     {
-        public UpcomingOverview()
+        public MainCalendarView()
         {
             InitializeComponent();
         }

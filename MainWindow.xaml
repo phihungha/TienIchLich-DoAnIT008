@@ -6,11 +6,6 @@
         xmlns:local="clr-namespace:TienIchLich.ViewModels"
         mc:Ignorable="d"
         Title="Lịch" Height="450" Width="800">
-    <Window.Resources>
-        <!-- Collection view for CalendarEvents. Use for filtering. -->
-        <CollectionViewSource x:Key="CalendarEventCollectionView" Source="{Binding CalendarEvents}"/>
-        <CollectionViewSource x:Key="CalendarCategoryCollectionView" Source="{Binding CalendarCategories}"/>
-    </Window.Resources>
     
     <!-- Main UI grid -->
     <Grid>
@@ -29,60 +24,16 @@
             <TextBlock Grid.Row="0" Text="Loại lịch" />
             
             <!-- Calendar category listbox -->
-            <ListBox Grid.Row="1" ItemsSource="{Binding Source={StaticResource CalendarCategoryCollectionView}}">
+            <ListBox Grid.Row="1" ItemsSource="{Binding CalendarCategories}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
 
-        <!-- Calendar view tabs -->
-        <TabControl Grid.Column="1">
-            <!-- Upcoming event overview -->
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock>Tóm tắt</TextBlock>
-                </TabItem.Header>
-                <TextBlock>Test</TextBlock>
-            </TabItem>
-            
-            <!-- Calendar month view -->
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock>Tháng</TextBlock>
-                </TabItem.Header>
-                <Calendar />
-            </TabItem>
-
-            <!-- Calendar year view -->
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock>Năm</TextBlock>
-                </TabItem.Header>
-                <TextBlock>Test</TextBlock>
-            </TabItem>
-            
-            <!-- Event data grid view -->
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock>Sự kiện</TextBlock>
-                </TabItem.Header>
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <DataGrid ItemsSource="{Binding Source={StaticResource CalendarEventCollectionView}}" AutoGenerateColumns="False"
-                          Grid.Row="1" Background="White">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Tiêu đề" Binding="{Binding Title}" />
-                            <DataGridTextColumn Header="Loại lịch" />
-                            <DataGridTextColumn Header="Bắt đầu" Binding="{Binding StartTime}" />
-                            <DataGridTextColumn Header="Kết thúc" Binding="{Binding EndTime}" />
-                            <DataGridTextColumn Header="Nhắc nhở trước" Binding="{Binding ReminderTime}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </TabItem>
-        </TabControl>
+        <Frame Name="mainCalendarViewFrame" Grid.Column="1" Source="Pages/MainCalendarView.xaml"
+               LoadCompleted="Frame_LoadCompleted" DataContextChanged="Frame_DataContextChanged" />
     </Grid>
 </Window>
