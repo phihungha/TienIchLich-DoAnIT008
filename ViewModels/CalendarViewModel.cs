@@ -63,6 +63,7 @@ namespace TienIchLich.ViewModels
             using (var dbContext = new CalendarData())
             {
                 dbContext.Database.EnsureCreated();
+
                 CalendarEvent calendarEvent = dbContext.CalendarEvents.First();
                 var newEvent = new CalendarEventViewModel()
                 {

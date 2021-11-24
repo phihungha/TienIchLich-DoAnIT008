@@ -13,7 +13,7 @@ namespace TienIchLich.Models
         public int CalendarEventId { get; set; }
 
         /// <summary>
-        /// Title of event.
+        /// Subject of event.
         /// </summary>
         public string Subject { get; set; }
 

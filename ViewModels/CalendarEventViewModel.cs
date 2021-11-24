@@ -11,15 +11,16 @@ namespace TienIchLich
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        string subject = "";
+        string subject = "(No subject)";
         DateTime startTime;
         DateTime endTime;
         bool allDay = true;
         TimeSpan reminderTime = new TimeSpan(0, 30, 0);
-        string description;
+        CalendarCategoryViewModel category;
+        string description = "";
 
         /// <summary>
-        /// Title of event.
+        /// Subject of event.
         /// </summary>
         public string Subject
         {
@@ -110,6 +111,22 @@ namespace TienIchLich
             set
             {
                 description = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Calendar category of event.
+        /// </summary>
+        public CalendarCategoryViewModel Category 
+        {
+            get
+            {
+                return category;
+            }
+            set
+            {
+                category = value;
                 NotifyPropertyChanged();
             }
         }
