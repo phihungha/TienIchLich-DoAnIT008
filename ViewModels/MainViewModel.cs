@@ -7,7 +7,7 @@ using TienIchLich.Models;
 
 namespace TienIchLich.ViewModels
 {
-    public class CalendarViewModel : INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,7 +58,7 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public CalendarViewModel()
+        public MainViewModel()
         {
             using (var dbContext = new CalendarData())
             {

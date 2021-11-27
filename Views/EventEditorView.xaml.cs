@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TienIchLich.Pages
+namespace TienIchLich.Views
 {
     /// <summary>
-    /// Interaction logic for MainCalendarView.xaml
+    /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class MainCalendarView : Page
+    public partial class UserControl1 : UserControl
     {
-        public MainCalendarView()
+        public UserControl1()
         {
             InitializeComponent();
         }

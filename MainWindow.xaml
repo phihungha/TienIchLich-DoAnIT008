@@ -3,37 +3,64 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TienIchLich.ViewModels"
+        xmlns:vm="clr-namespace:TienIchLich.ViewModels"
+        xmlns:views="clr-namespace:TienIchLich.Views"
+        xmlns:custom_controls="clr-namespace:TienIchLich.MonthEventCalendarControl"
         mc:Ignorable="d"
         Title="Lịch" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/MonthEventCalendarStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     
     <!-- Main UI grid -->
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <!-- Calendar category grid -->        
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <!-- Side panel -->
+        <views:SidePanelView Grid.Column="0" />
 
-            <TextBlock Grid.Row="0" Text="Loại lịch" />
-            
-            <!-- Calendar category listbox -->
-            <ListBox Grid.Row="1" ItemsSource="{Binding CalendarCategories}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+        <!-- Main view -->
+        <TabControl Grid.Column="1">
+            <!-- Upcoming event overview -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock>Tóm tắt</TextBlock>
+                </TabItem.Header>
+                <views:UpcomingOverviewView />
+            </TabItem>
 
-        <Frame Name="mainCalendarViewFrame" Grid.Column="1" Source="Pages/MainCalendarView.xaml"
-               LoadCompleted="Frame_LoadCompleted" DataContextChanged="Frame_DataContextChanged" />
+            <!-- Calendar month view -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock>Tháng</TextBlock>
+                </TabItem.Header>
+                <custom_controls:MonthEventCalendar x:Name="monthEventCalendar" CalendarEvents="{Binding CalendarEvents}" />
+            </TabItem>
+
+            <!-- Calendar year view -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock>Năm</TextBlock>
+                </TabItem.Header>
+            </TabItem>
+
+            <!-- Event list view -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock>Sự kiện</TextBlock>
+                </TabItem.Header>
+                <views:EventListView />
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

@@ -12,25 +12,6 @@ namespace TienIchLich
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new CalendarViewModel();
-        }
-
-        private void Frame_LoadCompleted(object sender, NavigationEventArgs e)
-        {
-            UpdateFrameDataContext(sender);
-        }
-
-        private void Frame_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            UpdateFrameDataContext(sender);
-        }
-
-        private void UpdateFrameDataContext(object sender)
-        {
-            var content = mainCalendarViewFrame.Content as FrameworkElement;
-            if (content == null)
-                return;
-            content.DataContext = mainCalendarViewFrame.DataContext;
         }
     }
 }

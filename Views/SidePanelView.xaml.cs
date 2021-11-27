@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TienIchLich.Pages
+namespace TienIchLich.Views
 {
     /// <summary>
-    /// Interaction logic for EventEditor.xaml
+    /// Interaction logic for SidePanelView.xaml
     /// </summary>
-    public partial class EventEditor : Page
+    public partial class SidePanelView : UserControl
     {
-        public EventEditor()
+        public SidePanelView()
         {
             InitializeComponent();
         }
