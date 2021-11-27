@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 
-namespace TienIchLich.MonthViewEventCalendarControl
+namespace TienIchLich.MonthEventCalendarControl
 {
     /// <summary>
     /// Get events for the current CalendarDayButton.

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
-namespace TienIchLich.MonthViewEventCalendarControl
+namespace TienIchLich.MonthEventCalendarControl
 {
     /// <summary>
     /// Converts the specified short day name to its normal counterpart.
@@ -18,12 +18,8 @@ namespace TienIchLich.MonthViewEventCalendarControl
             string[] dayNames = dateTimeFormat.DayNames;
 
             for (int i = 0; i < shortestDayNames.Count(); i++)
-            {
                 if (shortestDayNames[i] == value.ToString())
-                {
                     return dayNames[i];
-                }
-            }
 
             return null;
         }
