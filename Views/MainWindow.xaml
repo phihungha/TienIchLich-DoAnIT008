@@ -11,13 +11,6 @@
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/MonthEventCalendarStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
     
     <!-- Main UI grid -->
     <Grid>
