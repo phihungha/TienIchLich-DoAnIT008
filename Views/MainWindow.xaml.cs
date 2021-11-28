@@ -11,6 +11,7 @@ namespace TienIchLich
     {
         public MainWindow()
         {
+            DataContext = new MainViewModel();
             InitializeComponent();
         }
     }
