@@ -45,7 +45,7 @@ namespace TienIchLich.Models
         /// <summary>
         /// Calendar category Id of event. Foreign key.
         /// </summary>
-        public int CalendarCategoryId { get; set; } // Khóa ngoại
+        public int CalendarCategoryId { get; set; } // Foreign key
 
         /// <summary>
         /// Instance of the calendar category of event.
