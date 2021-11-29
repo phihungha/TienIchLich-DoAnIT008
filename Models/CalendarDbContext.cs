@@ -5,7 +5,7 @@ namespace TienIchLich.Models
     /// <summary>
     /// Database context for calendar events.
     /// </summary>
-    public class CalendarData : DbContext
+    public class CalendarDbContext : DbContext
     {
         /// <summary>
         /// Calendar categories.

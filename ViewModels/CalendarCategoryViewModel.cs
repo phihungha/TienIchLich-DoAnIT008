@@ -1,17 +1,30 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using TienIchLich.ViewModels;
 
 namespace TienIchLich
 {
     /// <summary>
     /// View model of a calendar event.
     /// </summary>
-    public class CalendarCategoryViewModel : INotifyPropertyChanged
+    public class CalendarCategoryViewModel : ViewModelBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        int id = 0;
         string name = "";
         string displayColor = "#000000";
+
+        public int Id
+        {
+            get
+            {
+                return id;
+            }
+            set
+            {
+                id = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Category name.
@@ -42,18 +55,6 @@ namespace TienIchLich
             {
                 displayColor = value;
                 NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Raises property change event.
-        /// </summary>
-        /// <param name="propertyName"></param>
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

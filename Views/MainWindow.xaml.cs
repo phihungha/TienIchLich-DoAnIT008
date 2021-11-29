@@ -11,7 +11,8 @@ namespace TienIchLich
     {
         public MainWindow()
         {
-            DataContext = new MainViewModel();
+            var CalendarData = new CalendarData();
+            DataContext = new MasterViewModel(CalendarData);
             InitializeComponent();
         }
     }

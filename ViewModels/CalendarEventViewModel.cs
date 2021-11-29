@@ -1,23 +1,39 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using TienIchLich.ViewModels;
 
 namespace TienIchLich
 {
     /// <summary>
     /// View model of a calendar event.
     /// </summary>
-    public class CalendarEventViewModel : INotifyPropertyChanged
+    public class CalendarEventViewModel : ViewModelBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        int id = 0;
         string subject = "(No subject)";
         DateTime startTime;
         DateTime endTime;
         bool allDay = true;
         TimeSpan reminderTime = new TimeSpan(0, 30, 0);
-        CalendarCategoryViewModel category;
+        CalendarCategoryViewModel calendarCategory;
         string description = "";
+
+        /// <summary>
+        /// Id of event (For searching).
+        /// </summary>
+        public int Id
+        {
+            get
+            {
+                return id;
+            }
+            set
+            {
+                id = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Subject of event.
@@ -118,28 +134,16 @@ namespace TienIchLich
         /// <summary>
         /// Calendar category of event.
         /// </summary>
-        public CalendarCategoryViewModel Category 
+        public CalendarCategoryViewModel CalendarCategory 
         {
             get
             {
-                return category;
+                return calendarCategory;
             }
             set
             {
-                category = value;
+                calendarCategory = value;
                 NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Raises property change event.
-        /// </summary>
-        /// <param name="propertyName"></param>
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
