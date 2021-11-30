@@ -432,7 +432,7 @@
                                 <ListBox.ItemTemplate>
                                     <!-- Template for calendar event list item -->
                                     <DataTemplate>
-                                        <Border Background="MediumSlateBlue" CornerRadius="3">
+                                        <Border Background="{Binding CalendarCategory.DisplayColor}" CornerRadius="3">
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel.Resources>
                                                     <Style TargetType="TextBlock">
