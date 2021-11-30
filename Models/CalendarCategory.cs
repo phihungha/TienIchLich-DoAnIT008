@@ -25,6 +25,6 @@ namespace TienIchLich.Models
         /// <summary>
         /// Events associate with this category.
         /// </summary>
-        public ICollection<CalendarEvent> Events { get; set; }
+        public List<CalendarEvent> Events { get; set; }
     }
 }

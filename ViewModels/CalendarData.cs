@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.ObjectModel;
 using TienIchLich.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace TienIchLich.ViewModels
 {
@@ -73,6 +74,7 @@ namespace TienIchLich.ViewModels
         {
             return new CalendarCategoryViewModel
             {
+                Id = calendarCategory.CalendarCategoryId,
                 Name = calendarCategory.Name,
                 DisplayColor = calendarCategory.DisplayColor
             };
@@ -92,7 +94,9 @@ namespace TienIchLich.ViewModels
                     Description = calendarEvent.Description
                 };
 
-                CalendarCategory category = db.CalendarCategories.Find(calendarEvent.CalendarCategory.Id);
+                CalendarCategory category = db.CalendarCategories
+                    .Include(i => i.Events)
+                    .Single(i => i.CalendarCategoryId == calendarEvent.CalendarCategory.Id);
                 category.Events.Add(newEvent);
                 db.SaveChanges();
             }
@@ -113,7 +117,9 @@ namespace TienIchLich.ViewModels
                 eventToEdit.AllDay = calendarEvent.AllDay;
                 eventToEdit.Description = calendarEvent.Description;
 
-                CalendarCategory category = db.CalendarCategories.Find(calendarEvent.CalendarCategory.Id);
+                CalendarCategory category = db.CalendarCategories
+                    .Include(i => i.Events)
+                    .Single(i => i.CalendarCategoryId == calendarEvent.CalendarCategory.Id);
                 eventToEdit.CalendarCategory = category;
                 db.SaveChanges();
             }
