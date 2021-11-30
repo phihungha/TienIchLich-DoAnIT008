@@ -1,11 +1,9 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using TienIchLich.ViewModels;
+﻿using TienIchLich.ViewModels;
 
 namespace TienIchLich
 {
     /// <summary>
-    /// View model of a calendar category for 
+    /// View model of a calendar category for
     /// displaying in ItemsControl and passing around.
     /// </summary>
     public class CalendarCategoryVM : ViewModelBase
