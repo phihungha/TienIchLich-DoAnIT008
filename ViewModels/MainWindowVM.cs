@@ -1,8 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using TienIchLich.Models;
-
-namespace TienIchLich.ViewModels
+﻿namespace TienIchLich.ViewModels
 {
     /// <summary>
     /// View model of the main window and the entire application GUI.
