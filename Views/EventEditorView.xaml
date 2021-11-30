@@ -3,13 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TienIchLich.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="0,0,0,15" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+    </UserControl.Resources>
 
     <Border BorderThickness="10">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -19,36 +26,84 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="130" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0">Chủ đề</TextBlock>
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="0,0,50,15">Nhập chủ đề...</TextBox>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" FontSize="24" Margin="0,0,0,20">Chỉnh sửa sự kiện</TextBlock>
 
-            <TextBlock Grid.Row="1" Grid.Column="0">Thời gian bắt đầu</TextBlock>
-            <DatePicker Grid.Row="1" Grid.Column="1" Margin="0,0,500,15"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" FontSize="15">Chủ đề</TextBlock>
+            <TextBox Text="{Binding Subject}" Grid.Row="1" Grid.Column="1" 
+                     Margin="0,0,50,15" FontSize="20" />
 
-            <TextBlock Grid.Row="2" Grid.Column="0">Thời gian kết thúc</TextBlock>
-            <DatePicker Grid.Row="2" Grid.Column="1" Margin="0,0,500,15"/>
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,0,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="180" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="130" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0">
+                    Bắt đầu lúc
+                </TextBlock>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <DatePicker VerticalContentAlignment="Center" SelectedDate="{Binding startTime}" />
+                    <TextBox Width="25" Margin="3,0,3,0" />
+                    <TextBlock Margin="0,0,3,0" VerticalAlignment="Center">:</TextBlock>
+                    <TextBox Width="25" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="2" Margin="30,0,10,0">
+                    Kết thúc lúc
+                </TextBlock>
+                <DatePicker Grid.Column="3" VerticalContentAlignment="Center" SelectedDate="{Binding endTime}" />
+
+                <TextBlock Grid.Column="4" Margin="30,0,10,0">
+                    Cả ngày
+                </TextBlock>
+                <CheckBox Grid.Column="5" IsChecked="{Binding AllDay}" />
+            </Grid>
 
             <TextBlock Grid.Row="3" Grid.Column="0">Nhắc nhở trước</TextBlock>
-            <ComboBox Grid.Row="3" Grid.Column="1" Margin="0,0,500,15">
+            <ComboBox Grid.Row="3" Grid.Column="1" Margin="0,0,0,15">
                 <ComboBoxItem>1 tiếng</ComboBoxItem>
                 <ComboBoxItem>2 tiếng</ComboBoxItem>
+                <ComboBoxItem>6 tiếng</ComboBoxItem>
+                <ComboBoxItem>12 tiếng</ComboBoxItem>
+                <ComboBoxItem>1 ngày</ComboBoxItem>
+                <ComboBoxItem>1 tuần</ComboBoxItem>
+                <ComboBoxItem>Tùy chọn</ComboBoxItem>
             </ComboBox>
 
-            <TextBlock Grid.Row="4" Grid.Column="0">Mô tả</TextBlock>
-            <TextBox Grid.Row="4" Grid.Column="1"/>
+            <TextBlock Grid.Row="4" Grid.Column="0">Loại lịch</TextBlock>
+            <ComboBox  ItemsSource="{Binding CalendarCategories}" SelectedItem="{Binding CalendarCategory}"
+                       Grid.Row="4" Grid.Column="1" Margin="0,0,0,15">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="8" Height="8" Margin="2" Fill="{Binding DisplayColor}" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            
+            <TextBlock Grid.Row="5" Grid.Column="0">Mô tả</TextBlock>
+            <TextBox Grid.Row="5" Grid.Column="1" Margin="0,0,0,15" />
 
-            <Grid Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" Margin="10">
+            <Grid Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Margin="10">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1" Padding="8,4,8,4" Margin="5,0,5,0" Content="Lưu" />
                 <Button Command="{Binding CancelCommand}" Grid.Column="0" Padding="8,4,8,4" Margin="5,0,5,0" Content="Hủy" />
+                <Button Command="{Binding SaveCommand}" Grid.Column="1" Padding="8,4,8,4" Margin="5,0,5,0" Content="Lưu" />
+                <Button Command="{Binding DeleteCommand}" Grid.Column="2" Padding="8,4,8,4" Margin="5,0,5,0" Content="Xóa" />
             </Grid>
         </Grid>
     </Border>
