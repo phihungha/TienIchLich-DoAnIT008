@@ -1,6 +1,4 @@
-﻿using TienIchLich.ViewModels;
-
-namespace TienIchLich
+﻿namespace TienIchLich.ViewModels
 {
     /// <summary>
     /// View model of a calendar category for
