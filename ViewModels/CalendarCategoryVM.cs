@@ -5,14 +5,18 @@ using TienIchLich.ViewModels;
 namespace TienIchLich
 {
     /// <summary>
-    /// View model of a calendar event.
+    /// View model of a calendar category for 
+    /// displaying in ItemsControl and passing around.
     /// </summary>
-    public class CalendarCategoryViewModel : ViewModelBase
+    public class CalendarCategoryVM : ViewModelBase
     {
-        int id = 0;
-        string name = "";
-        string displayColor = "#000000";
+        private int id = 0;
+        private string name = "(Không tên)";
+        private string displayColor = "#000000";
 
+        /// <summary>
+        /// Id of category in the model for searching.
+        /// </summary>
         public int Id
         {
             get

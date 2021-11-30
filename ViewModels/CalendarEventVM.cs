@@ -1,26 +1,38 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using TienIchLich.ViewModels;
 
-namespace TienIchLich
+namespace TienIchLich.ViewModels
 {
     /// <summary>
     /// View model of a calendar event.
     /// </summary>
-    public class CalendarEventViewModel : ViewModelBase
+    public class CalendarEventVM : ViewModelBase
     {
-        int id = 0;
-        string subject = "(No subject)";
-        DateTime startTime;
-        DateTime endTime;
-        bool allDay = true;
-        TimeSpan reminderTime = new TimeSpan(0, 30, 0);
-        CalendarCategoryViewModel calendarCategory;
-        string description = "";
+        private ICommand openEditorCommand;
+
+        private int id = 0;
+        private string subject = "(Tên rỗng)";
+        private DateTime startTime = DateTime.Now.Date.AddDays(1);
+        private DateTime endTime = DateTime.Now.Date.AddDays(2);
+        private bool allDay = true;
+        private TimeSpan reminderTime = new TimeSpan(0, 30, 0);
+        private CalendarCategoryVM calendarCategoryVM;
+        private string description = "";
 
         /// <summary>
-        /// Id of event (For searching).
+        /// Command to open event editor in edit mode for this event.
+        /// </summary>
+        public ICommand OpenEditorCommand
+        {
+            get
+            {
+                return openEditorCommand;
+            }
+        }
+
+        /// <summary>
+        /// Id of event in the model for searching.
         /// </summary>
         public int Id
         {
@@ -84,7 +96,8 @@ namespace TienIchLich
         }
 
         /// <summary>
-        /// Event happens in an entire day. 
+        /// Event happens in an entire day.
+        /// Used for hiding hour:minutes textbox.
         /// </summary>
         public bool AllDay
         {
@@ -132,28 +145,24 @@ namespace TienIchLich
         }
 
         /// <summary>
-        /// Calendar category of event.
+        /// View model for the calendar category of event.
         /// </summary>
-        public CalendarCategoryViewModel CalendarCategory 
+        public CalendarCategoryVM CalendarCategoryVM 
         {
             get
             {
-                return calendarCategory;
+                return calendarCategoryVM;
             }
             set
             {
-                calendarCategory = value;
+                calendarCategoryVM = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public CalendarEventViewModel()
+        public CalendarEventVM(MasterViewModel masterVM)
         {
-            // Set default start and end date.
-            DateTime currentTime = DateTime.Now;
-            startTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day);
-            startTime = startTime.AddDays(1);
-            endTime = startTime.AddDays(1);
+            this.openEditorCommand = new RelayCommand(i => masterVM.NavigateToEventEditor(this), i => true);
         }
     }
 }
