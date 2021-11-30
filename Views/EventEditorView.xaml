@@ -50,7 +50,7 @@
                     Bắt đầu lúc
                 </TextBlock>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <DatePicker VerticalContentAlignment="Center" SelectedDate="{Binding startTime}" />
+                    <DatePicker VerticalContentAlignment="Center" SelectedDate="{Binding StartTime}" />
                     <TextBox Width="25" Margin="3,0,3,0" />
                     <TextBlock Margin="0,0,3,0" VerticalAlignment="Center">:</TextBlock>
                     <TextBox Width="25" />
@@ -59,7 +59,7 @@
                 <TextBlock Grid.Column="2" Margin="30,0,10,0">
                     Kết thúc lúc
                 </TextBlock>
-                <DatePicker Grid.Column="3" VerticalContentAlignment="Center" SelectedDate="{Binding endTime}" />
+                <DatePicker Grid.Column="3" VerticalContentAlignment="Center" SelectedDate="{Binding EndTime}" />
 
                 <TextBlock Grid.Column="4" Margin="30,0,10,0">
                     Cả ngày

@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using TienIchLich.ViewModels;
 
 namespace TienIchLich.MonthEventCalendarControl
 {
@@ -13,13 +15,13 @@ namespace TienIchLich.MonthEventCalendarControl
             DependencyProperty.Register
             (
                 "CalendarEvents",
-                typeof(ObservableCollection<CalendarEventViewModel>),
+                typeof(ObservableCollection<CalendarEventVM>),
                 typeof(Calendar)
             );
 
-        public ObservableCollection<CalendarEventViewModel> CalendarEvents
+        public ObservableCollection<CalendarEventVM> CalendarEvents
         {
-            get { return (ObservableCollection<CalendarEventViewModel>)GetValue(CalendarEventsProperty); }
+            get { return (ObservableCollection<CalendarEventVM>)GetValue(CalendarEventsProperty); }
             set { SetValue(CalendarEventsProperty, value); }
         }
 
@@ -32,7 +34,7 @@ namespace TienIchLich.MonthEventCalendarControl
         public MonthEventCalendar()
             : base()
         {
-            SetValue(CalendarEventsProperty, new ObservableCollection<CalendarEventViewModel>());
+            SetValue(CalendarEventsProperty, new ObservableCollection<CalendarEventVM>());
         }
-    }
+     }
 }

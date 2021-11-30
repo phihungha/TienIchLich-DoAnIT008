@@ -4,11 +4,13 @@ using System.Windows.Input;
 
 namespace TienIchLich.ViewModels
 {
-    public class EventEditorViewModel : ViewModelBase
+    public class EventEditorVM : ViewModelBase
     {
-        private MasterViewModel masterVM;
-        private CalendarEventViewModel calendarEventVM;
-        private ObservableCollection<CalendarCategoryViewModel> calendarCategories;
+        private NavigationVM navigationVM;
+        private CalendarEventVM calendarEventVM;
+        private CalendarCategoryVMs calendarCategoryVMs;
+        private CalendarEventVMs calendarEventVMs;
+
         private ICommand cancelCommand;
         private ICommand saveCommand;
         private ICommand deleteCommand;
@@ -19,10 +21,13 @@ namespace TienIchLich.ViewModels
         DateTime endTime;
         bool allDay;
         TimeSpan reminderTime;
-        CalendarCategoryViewModel calendarCategory;
+        CalendarCategoryVM calendarCategory;
         string description = "";
 
-        public CalendarEventViewModel CalendarEventVM
+        /// <summary>
+        /// View model of currently edited calendar event.
+        /// </summary>
+        public CalendarEventVM CalendarEventVM
         {
             get
             {
@@ -36,19 +41,15 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public ObservableCollection<CalendarCategoryViewModel> CalendarCategories
-        {
-            get
-            {
-                return calendarCategories;
-            }
-            set
-            {
-                calendarCategories = value;
-                NotifyPropertyChanged();
-            }
-        }
+        /// <summary>
+        /// View models of calendar categories to select.
+        /// </summary>
+        public ObservableCollection<CalendarCategoryVM> CalendarCategories
+        { get => calendarCategoryVMs.CategoryVMs; }
 
+        /// <summary>
+        /// Discard changes. Go to main workspace view.
+        /// </summary>
         public ICommand CancelCommand
         {
             get
@@ -57,6 +58,9 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        /// <summary>
+        /// Save event and go back to main workspace view.
+        /// </summary>
         public ICommand SaveCommand
         {
             get
@@ -65,6 +69,9 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        /// <summary>
+        /// Delete event and go back to main workspace view.
+        /// </summary>
         public ICommand DeleteCommand
         {
             get
@@ -190,7 +197,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Calendar category of event.
         /// </summary>
-        public CalendarCategoryViewModel CalendarCategory
+        public CalendarCategoryVM CalendarCategory
         {
             get
             {
@@ -203,18 +210,33 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public EventEditorViewModel(MasterViewModel masterVM)
+        public EventEditorVM(NavigationVM navigationVM, CalendarEventVMs calendarEventVMs, CalendarCategoryVMs calendarCategoryVMs)
         {
-            this.masterVM = masterVM;
-            this.calendarCategories = masterVM.CalendarData.CalendarCategories;
-            this.cancelCommand = new RelayCommand(i => masterVM.NavigateToMainView(), i => true);
+            this.navigationVM = navigationVM;
+            this.calendarCategoryVMs = calendarCategoryVMs;
+            this.calendarEventVMs = calendarEventVMs;
+            this.cancelCommand = new RelayCommand(i => navigationVM.NavigateToMainWorkspaceView(), i => true);
             this.saveCommand = new RelayCommand(i => this.SaveCalendarEvent(), i => true);
-            this.deleteCommand = new RelayCommand(i => this.SaveCalendarEvent(), i => this.editMode);
+            this.deleteCommand = new RelayCommand(i => this.DeleteCalendarEvent(), i => this.editMode);
 
+            // View model for a new event.
             if (!this.EditMode)
-                this.CalendarEventVM = new CalendarEventViewModel();
+                this.CalendarEventVM = new CalendarEventVM(this.navigationVM);
         }
 
+        /// <summary>
+        /// Enable edit mode. Edit directly on the provided calendar event view model.
+        /// </summary>
+        /// <param name="calendarEventVM">View model of calendar event to edit.</param>
+        public void EnableEditMode(CalendarEventVM calendarEventVM)
+        {
+            this.editMode = true;
+            this.CalendarEventVM = calendarEventVM;
+        }
+
+        /// <summary>
+        /// Set all displayed properties to the provided calendar event view model.
+        /// </summary>
         private void SetCalendarEvent()
         {
             this.Subject = this.calendarEventVM.Subject;
@@ -222,10 +244,13 @@ namespace TienIchLich.ViewModels
             this.EndTime = this.calendarEventVM.EndTime;
             this.AllDay = this.calendarEventVM.AllDay;
             this.ReminderTime = this.calendarEventVM.ReminderTime;
-            this.CalendarCategory = this.calendarEventVM.CalendarCategory;
+            this.CalendarCategory = this.calendarEventVM.CalendarCategoryVM;
             this.Description = this.calendarEventVM.Description;
         }
 
+        /// <summary>
+        /// Save calendar event into database and go back to main workspace view.
+        /// </summary>
         private void SaveCalendarEvent()
         {
             this.calendarEventVM.Subject = this.Subject;
@@ -233,20 +258,24 @@ namespace TienIchLich.ViewModels
             this.calendarEventVM.EndTime = this.EndTime;
             this.calendarEventVM.AllDay = this.AllDay;
             this.calendarEventVM.ReminderTime = this.ReminderTime;
-            this.calendarEventVM.CalendarCategory = this.CalendarCategory;
+            this.calendarEventVM.CalendarCategoryVM = this.CalendarCategory;
             this.calendarEventVM.Description = this.Description;
 
             if (this.editMode)
-                this.masterVM.CalendarData.EditCalendarEvent(this.calendarEventVM);
+                this.calendarEventVMs.EditCalendarEvent(this.calendarEventVM);
             else
-                this.masterVM.CalendarData.AddCalendarEvent(this.calendarEventVM);
+                this.calendarEventVMs.AddCalendarEvent(this.calendarEventVM);
 
-            this.masterVM.NavigateToMainView();
+            this.navigationVM.NavigateToMainWorkspaceView();
         }
 
+        /// <summary>
+        /// Delete calendar event from database and go back to main workspace view.
+        /// </summary>
         private void DeleteCalendarEvent()
         {
-            this.masterVM.CalendarData.DeleteCalendarEvent(this.calendarEventVM);
+            this.calendarEventVMs.DeleteCalendarEvent(this.calendarEventVM);
+            this.navigationVM.NavigateToMainWorkspaceView();
         }
     }
 }

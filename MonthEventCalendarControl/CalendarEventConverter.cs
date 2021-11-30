@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
+using TienIchLich.ViewModels;
 
 namespace TienIchLich.MonthEventCalendarControl
 {
     /// <summary>
     /// Get events for the current CalendarDayButton.
     /// </summary>
-    [ValueConversion(typeof(ObservableCollection<CalendarEventViewModel>), typeof(ObservableCollection<CalendarEventViewModel>))]
+    [ValueConversion(typeof(ObservableCollection<CalendarEventVM>), typeof(ObservableCollection<CalendarEventVM>))]
     public class CalendarEventConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             DateTime date = (DateTime)values[1];
 
-            var thisDayEvents = new ObservableCollection<CalendarEventViewModel>();
-            foreach (CalendarEventViewModel calendarEvent in (ObservableCollection<CalendarEventViewModel>)values[0])
+            var thisDayEvents = new ObservableCollection<CalendarEventVM>();
+            if (values[0] == null)
+                return thisDayEvents;
+
+            foreach (CalendarEventVM calendarEvent in (ObservableCollection<CalendarEventVM>)values[0])
             {
                 var startTime = calendarEvent.StartTime;
                 var startDate = new DateTime(startTime.Year, startTime.Month, startTime.Day);

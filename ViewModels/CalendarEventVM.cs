@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Input;
-using TienIchLich.ViewModels;
 
 namespace TienIchLich.ViewModels
 {
@@ -160,9 +159,11 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public CalendarEventVM(MasterViewModel masterVM)
+        public CalendarEventVM(NavigationVM navigationVM)
         {
-            this.openEditorCommand = new RelayCommand(i => masterVM.NavigateToEventEditor(this), i => true);
+            this.openEditorCommand = new RelayCommand(
+                i => navigationVM.NavigateToEventEditorView(this), 
+                i => true);
         }
     }
 }

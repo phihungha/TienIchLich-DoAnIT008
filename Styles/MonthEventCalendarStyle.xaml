@@ -393,17 +393,23 @@
                                 <ListBox.ItemTemplate>
                                     <!-- Template for calendar event list item -->
                                     <DataTemplate>
-                                        <Border Background="{Binding CalendarCategory.DisplayColor}" CornerRadius="3">
+                                        <Button Background="{Binding CalendarCategoryVM.DisplayColor}" HorizontalContentAlignment="Left">
+                                            <Button.InputBindings>
+                                                <MouseBinding Gesture="LeftClick" Command="{Binding OpenEditorCommand}" />
+                                            </Button.InputBindings>
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel.Resources>
                                                     <Style TargetType="TextBlock">
                                                         <Setter Property="Margin" Value="3,0,0,0" />
+                                                        <Setter Property="FontWeight" Value="Bold" />
+                                                        <Setter Property="FontSize" Value="10" />
+                                                        <Setter Property="Foreground" Value="White" />
                                                     </Style>
                                                 </StackPanel.Resources>
-                                                <TextBlock Foreground="White" FontWeight="Bold" FontSize="10" Text="{Binding StartTime, StringFormat=t}" />
-                                                <TextBlock Foreground="White" FontWeight="Bold" FontSize="10" Text="{Binding Subject}" />
+                                                <TextBlock Text="{Binding StartTime, StringFormat=t}" />
+                                                <TextBlock Text="{Binding Subject}" />
                                             </StackPanel>
-                                        </Border>
+                                        </Button>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
