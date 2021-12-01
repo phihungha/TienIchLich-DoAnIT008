@@ -25,6 +25,8 @@
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="14" />
         </Style>
+        <vm:ReminderTimeOptionToStringConverter x:Key="ReminderTimeOptionToStringConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
 
     <Border BorderThickness="10">
@@ -51,7 +53,7 @@
 
             <TextBlock Grid.Row="1" Grid.Column="0" FontSize="15">Chủ đề</TextBlock>
             <TextBox Text="{Binding Subject}" Grid.Row="1" Grid.Column="1" 
-                     Margin="0,0,50,15" FontSize="20" />
+                     HorizontalAlignment="Stretch" Margin="0,0,30,15" FontSize="20" />
 
             <TextBlock Grid.Row="2" Grid.Column="0">
                 Bắt đầu lúc
@@ -74,20 +76,29 @@
             <TextBlock Grid.Row="4" Grid.Column="0">
                 Cả ngày
             </TextBlock>
+            <!-- Cannot use binding due to unknown bug -->
             <CheckBox Grid.Row="4" Grid.Column="1" 
                       VerticalAlignment="Center" Margin="0,0,0,15" 
-                      IsChecked="{Binding AllDay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+                      IsChecked="{Binding AllDay}" 
+                      Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
 
             <TextBlock Grid.Row="5" Grid.Column="0">Nhắc nhở trước</TextBlock>
-            <ComboBox Grid.Row="5" Grid.Column="1" Margin="0,0,300,15">
-                <ComboBoxItem>1 tiếng</ComboBoxItem>
-                <ComboBoxItem>2 tiếng</ComboBoxItem>
-                <ComboBoxItem>6 tiếng</ComboBoxItem>
-                <ComboBoxItem>12 tiếng</ComboBoxItem>
-                <ComboBoxItem>1 ngày</ComboBoxItem>
-                <ComboBoxItem>1 tuần</ComboBoxItem>
-                <ComboBoxItem>Tùy chọn</ComboBoxItem>
-            </ComboBox>
+            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,15">
+                <ComboBox
+                      ItemsSource="{Binding ReminderTimeOptions}"
+                      SelectedItem="{Binding ChosenReminderTimeOption}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource ReminderTimeOptionToStringConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <xctk:TimeSpanUpDown Margin="5,0,0,0" CurrentDateTimePart="Hour24"
+                                     Visibility="{Binding UseCustomReminderTime,
+                                                  Converter={StaticResource BooleanToVisibilityConverter}}"
+                                     Minimum="0"
+                                     Value="{Binding CustomReminderTime}" />
+            </StackPanel>
 
             <TextBlock Grid.Row="6" Grid.Column="0">Loại lịch</TextBlock>
             <ComboBox  ItemsSource="{Binding CalendarCategories}" 
@@ -96,9 +107,10 @@
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Ellipse Width="8" Height="8" 
-                                     Margin="2" Fill="{Binding DisplayColor}" />
-                            <TextBlock Text="{Binding Name}" />
+                            <Ellipse Width="9" Height="9" VerticalAlignment="Center"
+                                     Margin="3" Fill="{Binding DisplayColor}" />
+                            <TextBlock VerticalAlignment="Center" Margin="3" 
+                                       Text="{Binding Name}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
