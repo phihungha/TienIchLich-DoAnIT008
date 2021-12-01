@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Navigation;
 using TienIchLich.ViewModels;
+using System.Globalization;
 
 namespace TienIchLich
 {
@@ -11,6 +11,7 @@ namespace TienIchLich
     {
         public MainWindow()
         {
+            CultureInfo.CurrentCulture = new CultureInfo("vi-VN");
             DataContext = new MainWindowVM();
             InitializeComponent();
         }
