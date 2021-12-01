@@ -378,8 +378,8 @@
                             <!-- Day number -->
                             <ContentPresenter x:Name="NormalText" Grid.Row="0" TextElement.FontSize="13"
                                               Margin="5"
-                                              HorizontalAlignment="{TemplateBinding VerticalContentAlignment}" 
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                              HorizontalAlignment="Left" 
+                                              VerticalAlignment="Top" />
                             
                             <!-- Event list -->
                             <ListBox x:Name="appointmentsLbx" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.Row="1" Background="Transparent" 
