@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:vm="clr-namespace:TienIchLich.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -55,15 +56,19 @@
             <TextBlock Grid.Row="2" Grid.Column="0">
                 Bắt đầu lúc
             </TextBlock>
-            <xctk:DateTimePicker Grid.Row="2" Grid.Column="1" Margin="0,0,190,15" 
-                                 Format="Custom" FormatString="dddd, dd MMMM yyyy HH:mm"
+            <xctk:DateTimePicker Name="StartTimePicker" Grid.Row="2" Grid.Column="1" 
+                                 Margin="0,0,190,15" 
+                                 Format="Custom"
+                                 FormatString="dddd, dd MMMM yyyy HH:mm"
                                  Value="{Binding StartTime}" />
 
             <TextBlock Grid.Row="3" Grid.Column="0">
                 Kết thúc lúc
             </TextBlock>
-            <xctk:DateTimePicker Grid.Row="3" Grid.Column="1" Margin="0,0,190,15" 
-                                 Format="Custom" FormatString="dddd, dd MMMM yyyy HH:mm"
+            <xctk:DateTimePicker Name="EndTimePicker" Grid.Row="3" Grid.Column="1" 
+                                 Margin="0,0,190,15"
+                                 Format="Custom"
+                                 FormatString="dddd, dd MMMM yyyy HH:mm"
                                  Value="{Binding EndTime}" />
 
             <TextBlock Grid.Row="4" Grid.Column="0">
@@ -71,7 +76,7 @@
             </TextBlock>
             <CheckBox Grid.Row="4" Grid.Column="1" 
                       VerticalAlignment="Center" Margin="0,0,0,15" 
-                      IsChecked="{Binding AllDay}" />
+                      IsChecked="{Binding AllDay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
 
             <TextBlock Grid.Row="5" Grid.Column="0">Nhắc nhở trước</TextBlock>
             <ComboBox Grid.Row="5" Grid.Column="1" Margin="0,0,300,15">

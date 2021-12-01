@@ -22,7 +22,7 @@ namespace TienIchLich.ViewModels
         bool allDay;
         TimeSpan reminderTime;
         CalendarCategoryVM calendarCategory;
-        string description = "";
+        string description;
 
         /// <summary>
         /// View model of currently edited calendar event.
@@ -215,6 +215,7 @@ namespace TienIchLich.ViewModels
             this.navigationVM = navigationVM;
             this.calendarCategoryVMs = calendarCategoryVMs;
             this.calendarEventVMs = calendarEventVMs;
+
             this.cancelCommand = new RelayCommand(i => navigationVM.NavigateToMainWorkspaceView(), i => true);
             this.saveCommand = new RelayCommand(i => this.SaveCalendarEvent(), i => true);
             this.deleteCommand = new RelayCommand(i => this.DeleteCalendarEvent(), i => this.editMode);
@@ -254,8 +255,18 @@ namespace TienIchLich.ViewModels
         private void SaveCalendarEvent()
         {
             this.calendarEventVM.Subject = this.Subject;
-            this.calendarEventVM.StartTime = this.StartTime;
-            this.calendarEventVM.EndTime = this.EndTime;
+
+            if (this.AllDay)
+            {
+                this.calendarEventVM.StartTime = this.StartTime.Date;
+                this.calendarEventVM.EndTime = this.EndTime.Date;
+            }
+            else
+            {
+                this.calendarEventVM.StartTime = this.StartTime;
+                this.calendarEventVM.EndTime = this.EndTime;
+            }
+
             this.calendarEventVM.AllDay = this.AllDay;
             this.calendarEventVM.ReminderTime = this.ReminderTime;
             this.calendarEventVM.CalendarCategoryVM = this.CalendarCategory;
