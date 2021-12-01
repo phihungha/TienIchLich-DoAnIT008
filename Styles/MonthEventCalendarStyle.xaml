@@ -383,27 +383,52 @@
                                               VerticalAlignment="Top" />
                             
                             <!-- Event list -->
-                            <ListBox x:Name="appointmentsLbx" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.Row="1" Background="Transparent" 
+                            <ListBox Grid.Row="1"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                     Background="Transparent" 
                                      BorderBrush="Transparent" HorizontalContentAlignment="Stretch">
+
                                 <ListBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource EventConverter}">
                                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MonthEventCalendar}}" Path="CalendarEvents" />
                                         <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext" />
                                     </MultiBinding>
                                 </ListBox.ItemsSource>
+                                
+                                <!-- Item container style. Disable highlight -->
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <ContentPresenter />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                
+                                <!-- Template for calendar event list item -->
                                 <ListBox.ItemTemplate>
-                                    <!-- Template for calendar event list item -->
                                     <DataTemplate>
-                                        <Button Background="{Binding CalendarCategoryVM.DisplayColor}" HorizontalContentAlignment="Left">
+                                        <Button Background="{Binding CalendarCategoryVM.DisplayColor}" 
+                                                HorizontalContentAlignment="Left"
+                                                Padding="2">
                                             <Button.InputBindings>
                                                 <MouseBinding Gesture="LeftClick" Command="{Binding OpenEditorCommand}" />
                                             </Button.InputBindings>
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="5" />
+                                                </Style>
+                                            </Button.Resources>
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel.Resources>
                                                     <Style TargetType="TextBlock">
                                                         <Setter Property="Margin" Value="3,0,0,0" />
                                                         <Setter Property="FontWeight" Value="Bold" />
-                                                        <Setter Property="FontSize" Value="10" />
+                                                        <Setter Property="FontSize" Value="11" />
                                                         <Setter Property="Foreground" Value="White" />
                                                     </Style>
                                                 </StackPanel.Resources>
