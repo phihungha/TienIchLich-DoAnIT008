@@ -19,7 +19,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Margin="0,10,15,10">Thêm sự kiện</Button>
+            <Button Command="{Binding AddEventCommand}" 
+                    Margin="0,25,30,10" FontSize="14"
+                    Content="Thêm sự kiện" />
         </Grid>
         
         <TabControl Grid.Row="1" SelectedIndex="1">
@@ -32,11 +34,13 @@
             </TabItem>
 
             <!-- Calendar month view -->
-            <TabItem>
+            <TabItem DataContext="{Binding CalendarVM}">
                 <TabItem.Header>
                     <TextBlock>Tháng</TextBlock>
                 </TabItem.Header>
-                <custom_controls:MonthEventCalendar x:Name="monthEventCalendar" CalendarEvents="{Binding CalendarEvents}" />
+                <custom_controls:MonthEventCalendar 
+                    CalendarVM="{Binding}"
+                    SelectedDate="{Binding SelectedDate}" />
             </TabItem>
 
             <!-- Calendar year view -->
@@ -51,7 +55,7 @@
                 <TabItem.Header>
                     <TextBlock>Sự kiện</TextBlock>
                 </TabItem.Header>
-                <views:EventListView />
+                <views:EventListView DataContext="{Binding CalendarVM}" />
             </TabItem>
         </TabControl>
     </Grid>

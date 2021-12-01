@@ -292,6 +292,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CalendarDayButton}">
                     <Border x:Name="ButtonBorder" BorderThickness="0.2" BorderBrush="LightGray">
+                        <Border.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick" 
+                                          Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                                           AncestorType={x:Type local:MonthEventCalendar}}, 
+                                                            Path=CalendarVM.AddEventCommand}" />
+                        </Border.InputBindings>
+                        
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualStateGroup.Transitions>
@@ -387,11 +394,13 @@
                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                      Background="Transparent" 
-                                     BorderBrush="Transparent" HorizontalContentAlignment="Stretch">
-
+                                     BorderBrush="Transparent" 
+                                     HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource EventConverter}">
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MonthEventCalendar}}" Path="CalendarEvents" />
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, 
+                                                                                 AncestorType={x:Type local:MonthEventCalendar}}" 
+                                                 Path="CalendarVM.CalendarEvents" />
                                         <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext" />
                                     </MultiBinding>
                                 </ListBox.ItemsSource>
@@ -414,6 +423,7 @@
                                     <DataTemplate>
                                         <Button Background="{Binding CalendarCategoryVM.DisplayColor}" 
                                                 HorizontalContentAlignment="Left"
+                                                Margin="2"
                                                 Padding="2">
                                             <Button.InputBindings>
                                                 <MouseBinding Gesture="LeftClick" Command="{Binding OpenEditorCommand}" />
@@ -428,7 +438,7 @@
                                                     <Style TargetType="TextBlock">
                                                         <Setter Property="Margin" Value="3,0,0,0" />
                                                         <Setter Property="FontWeight" Value="Bold" />
-                                                        <Setter Property="FontSize" Value="11" />
+                                                        <Setter Property="FontSize" Value="10" />
                                                         <Setter Property="Foreground" Value="White" />
                                                     </Style>
                                                 </StackPanel.Resources>

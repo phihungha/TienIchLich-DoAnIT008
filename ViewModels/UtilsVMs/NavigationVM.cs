@@ -1,4 +1,6 @@
-﻿namespace TienIchLich.ViewModels
+﻿using System;
+
+namespace TienIchLich.ViewModels
 {
     /// <summary>
     /// View model to use in navigating between main workspace and event editor.
@@ -57,12 +59,24 @@
         }
 
         /// <summary>
-        /// Navigate to event editor view.
+        /// Navigate to event editor view. 
+        /// Begin editing on provided calendar event view model.
         /// </summary>
         /// <param name="calendarEventVM">View model of calendar event to edit.</param>
-        public void NavigateToEventEditorView(CalendarEventVM calendarEventVM)
+        public void NavigateToEventEditorViewOnEdit(CalendarEventVM calendarEventVM)
         {
-            this.eventEditorVM.EnableEditMode(calendarEventVM);
+            this.eventEditorVM.BeginEdit(calendarEventVM);
+            this.DisplayedVM = this.eventEditorVM;
+        }
+
+        /// <summary>
+        /// Navigate to event editor view. 
+        /// Begin adding calendar event with provided start time.
+        /// </summary>
+        /// <param name="startTime">View model of calendar event to edit.</param>
+        public void NavigateToEventEditorViewOnAdd(DateTime? startTime)
+        {
+            this.eventEditorVM.BeginAdd(startTime);
             this.DisplayedVM = this.eventEditorVM;
         }
     }

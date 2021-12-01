@@ -11,7 +11,7 @@
                           Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Tiêu đề" Binding="{Binding Subject}" />
-                <DataGridTextColumn Header="Loại lịch" Binding="{Binding Category}" />
+                <DataGridTextColumn Header="Loại lịch" Binding="{Binding CalendarCategoryVM}" />
                 <DataGridTextColumn Header="Bắt đầu" Binding="{Binding StartTime}" />
                 <DataGridTextColumn Header="Kết thúc" Binding="{Binding EndTime}" />
                 <DataGridTextColumn Header="Nhắc nhở trước" Binding="{Binding ReminderTime}" />

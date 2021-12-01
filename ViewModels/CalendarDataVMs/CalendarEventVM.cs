@@ -163,10 +163,16 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public CalendarEventVM(NavigationVM navigationVM)
+        public CalendarEventVM(NavigationVM navigationVM, DateTime? startTime = null)
         {
+            if (startTime != null)
+            {
+                this.StartTime = (DateTime)startTime;
+                this.EndTime = this.StartTime.AddDays(1);
+            }
+            
             this.openEditorCommand = new RelayCommand(
-                i => navigationVM.NavigateToEventEditorView(this), 
+                i => navigationVM.NavigateToEventEditorViewOnEdit(this),
                 i => true);
 
             this.reminderTimer = new Timer();

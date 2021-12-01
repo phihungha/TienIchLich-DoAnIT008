@@ -282,24 +282,40 @@ namespace TienIchLich.ViewModels
             this.calendarCategoryVMs = calendarCategoryVMs;
             this.calendarEventVMs = calendarEventVMs;
 
-            this.cancelCommand = new RelayCommand(i => navigationVM.NavigateToMainWorkspaceView(), i => true);
+            this.cancelCommand = new RelayCommand(i => this.HideView(), i => true);
             this.saveCommand = new RelayCommand(i => this.SaveCalendarEvent(), i => true);
             this.deleteCommand = new RelayCommand(i => this.DeleteCalendarEvent(), i => this.editMode);
+        }
 
-            // View model for a new event.
-            if (!this.EditMode)
+        /// <summary>
+        /// Begin add mode. Add a new event with the provided start time.
+        /// </summary>
+        /// <param name="startTime">Start time</param>
+        public void BeginAdd(DateTime? startTime)
+        {
+            if (startTime == null)
+            {
                 this.CalendarEventVM = new CalendarEventVM(this.navigationVM)
                 {
                     CalendarCategoryVM = this.CalendarCategories[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
                 };
+            }
+            else
+            {
+                this.CalendarEventVM = new CalendarEventVM(this.navigationVM, startTime)
+                {
+                    CalendarCategoryVM = this.CalendarCategories[0],
+                    ReminderTime = new TimeSpan(0, 30, 0)
+                };
+            }
         }
 
         /// <summary>
-        /// Enable edit mode. Edit directly on the provided calendar event view model.
+        /// Begin edit mode. Edit directly on the provided calendar event view model.
         /// </summary>
         /// <param name="calendarEventVM">View model of calendar event to edit.</param>
-        public void EnableEditMode(CalendarEventVM calendarEventVM)
+        public void BeginEdit(CalendarEventVM calendarEventVM)
         {
             this.editMode = true;
             this.CalendarEventVM = calendarEventVM;
@@ -320,6 +336,10 @@ namespace TienIchLich.ViewModels
             this.Description = this.calendarEventVM.Description;
         }
 
+        /// <summary>
+        /// Set chosen reminder time option from
+        /// provided calendar event view model's reminder time.
+        /// </summary>
         private void SetChosenReminderTimeOption()
         {
             TimeSpan reminderTime = this.calendarEventVM.ReminderTime;
@@ -360,9 +380,14 @@ namespace TienIchLich.ViewModels
             else
                 this.calendarEventVMs.AddCalendarEvent(this.calendarEventVM);
 
+            this.editMode = false;
             this.navigationVM.NavigateToMainWorkspaceView();
         }
 
+        /// <summary>
+        /// Set reminder time on calendar event view model
+        /// from chosen reminder time option.
+        /// </summary>
         private void SetReminderTimeOnEventVM()
         {
             switch (this.ChosenReminderTimeOption)
@@ -394,6 +419,10 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        /// <summary>
+        /// Set start and end time on calendar event view model.
+        /// Ignore hour and minute selection if All Day checkbox is checked.
+        /// </summary>
         private void SetStartEndTimeOnEventVM()
         {
             if (this.AllDay)
@@ -414,6 +443,13 @@ namespace TienIchLich.ViewModels
         private void DeleteCalendarEvent()
         {
             this.calendarEventVMs.DeleteCalendarEvent(this.calendarEventVM);
+            this.editMode = false;
+            this.navigationVM.NavigateToMainWorkspaceView();
+        }
+
+        private void HideView()
+        {
+            this.editMode = false;
             this.navigationVM.NavigateToMainWorkspaceView();
         }
     }

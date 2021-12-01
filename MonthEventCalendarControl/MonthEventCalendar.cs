@@ -11,18 +11,18 @@ namespace TienIchLich.MonthEventCalendarControl
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static DependencyProperty CalendarEventsProperty =
+        public static DependencyProperty CalendarVMProperty =
             DependencyProperty.Register
             (
-                "CalendarEvents",
-                typeof(ObservableCollection<CalendarEventVM>),
+                "CalendarVM",
+                typeof(CalendarVM),
                 typeof(Calendar)
             );
 
-        public ObservableCollection<CalendarEventVM> CalendarEvents
+        public CalendarVM CalendarVM
         {
-            get { return (ObservableCollection<CalendarEventVM>)GetValue(CalendarEventsProperty); }
-            set { SetValue(CalendarEventsProperty, value); }
+            get { return (CalendarVM)GetValue(CalendarVMProperty); }
+            set { SetValue(CalendarVMProperty, value); }
         }
 
         static MonthEventCalendar()
@@ -34,7 +34,7 @@ namespace TienIchLich.MonthEventCalendarControl
         public MonthEventCalendar()
             : base()
         {
-            SetValue(CalendarEventsProperty, new ObservableCollection<CalendarEventVM>());
+            SetValue(CalendarVMProperty, new CalendarVM());
         }
      }
 }

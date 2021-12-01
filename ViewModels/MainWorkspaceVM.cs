@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace TienIchLich.ViewModels
 {
@@ -7,16 +8,25 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class MainWorkspaceVM : ViewModelBase
     {
-        private CalendarEventVMs calendarEventVMs;
+        private CalendarVM calendarVM;
+
+        ICommand addEventCommand;
 
         /// <summary>
-        /// Calendar event view models to display.
+        /// Command to add a new event.
         /// </summary>
-        public ObservableCollection<CalendarEventVM> CalendarEvents => calendarEventVMs.EventVMs;
+        public ICommand AddEventCommand => addEventCommand;
 
-        public MainWorkspaceVM(CalendarEventVMs calendarEventVMs)
+        /// <summary>
+        /// View model for calendar controls.
+        /// </summary>
+        public CalendarVM CalendarVM => calendarVM; 
+        
+        public MainWorkspaceVM(CalendarEventVMs calendarEventVMs, NavigationVM navigationVM)
         {
-            this.calendarEventVMs = calendarEventVMs;
+            this.calendarVM = new CalendarVM(calendarEventVMs, navigationVM);
+            this.addEventCommand = new RelayCommand(
+                i => navigationVM.NavigateToEventEditorViewOnAdd(CalendarVM.SelectedDate));
         }
     }
 }

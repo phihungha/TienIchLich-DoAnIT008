@@ -76,6 +76,7 @@ namespace TienIchLich.ViewModels
                     .Single(i => i.CalendarCategoryId == eventVM.CalendarCategoryVM.Id);
                 category.Events.Add(newEvent);
                 db.SaveChanges();
+                eventVM.Id = newEvent.CalendarEventId;
             }
 
             // Add to view model collection to update displayed ItemControls

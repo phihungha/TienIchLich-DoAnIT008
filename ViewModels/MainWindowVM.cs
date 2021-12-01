@@ -23,11 +23,11 @@
 
             this.categoryPanelVM = new CategoryPanelVM(calendarCategoryVMs);
 
-            var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMs);
+            var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMs, this.navigationVM);
             var eventEditorVM = new EventEditorVM(this.navigationVM, calendarEventVMs, calendarCategoryVMs);
             this.navigationVM.EventEditorVM = eventEditorVM;
             this.navigationVM.MainWorkspaceVM = mainWorkspaceVM;
-            this.navigationVM.DisplayedVM = eventEditorVM;
+            this.navigationVM.DisplayedVM = mainWorkspaceVM;
         }
     }
 }

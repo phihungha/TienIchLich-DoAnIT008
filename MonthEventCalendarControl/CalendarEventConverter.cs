@@ -16,7 +16,7 @@ namespace TienIchLich.MonthEventCalendarControl
             DateTime date = (DateTime)values[1];
 
             var thisDayEvents = new ObservableCollection<CalendarEventVM>();
-            if (values[0] == null)
+            if (values[0] == null || !(values[0] is ObservableCollection<CalendarEventVM>))
                 return thisDayEvents;
 
             foreach (CalendarEventVM calendarEvent in (ObservableCollection<CalendarEventVM>)values[0])
