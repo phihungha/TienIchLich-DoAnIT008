@@ -90,13 +90,14 @@
                                                 </VisualStateManager.VisualStateGroups>
                                                 <Rectangle Fill="#11E5EBF1" Stretch="Fill" Opacity="1" />
                                                 <Grid>
-                                                    
-                                                    <Path Margin="4,0,0,0" Height="10" Width="6" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="Fill" Data="M288.75,232.25 L283,236.625 L288.75,240.625" StrokeThickness="2">
+                                                    <Path Margin="4,0,0,0" Height="10" Width="6" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                                          Stretch="Fill" Data="M288.75,232.25 L283,236.625 L288.75,240.625" StrokeThickness="2">
                                                         <Path.Stroke>
                                                             <SolidColorBrush x:Name="TextColor" Color="#FF333333" />
                                                         </Path.Stroke>
                                                     </Path>
-                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="Fill" Data="M283,236.625 L297,236.625" Stroke="#FF333333" StrokeThickness="2" />
+                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                                          Stretch="Fill" Data="M283,236.625 L297,236.625" Stroke="#FF333333" StrokeThickness="2" />
                                                 </Grid>
                                             </Grid>
                                         </ControlTemplate>
