@@ -14,7 +14,7 @@
 
                         <!-- Start: Data template for header button -->
                         <DataTemplate x:Key="{x:Static CalendarItem.DayTitleTemplateResourceKey}">
-                            <TextBlock FontWeight="Bold" FontFamily="Verdana" Foreground="#FF333333" FontSize="9.5" HorizontalAlignment="Center" Margin="0,6,0,6" Text="{Binding Converter={StaticResource DayNameConverter}}" VerticalAlignment="Center"/>
+                            <TextBlock FontFamily="Verdana" Foreground="#FF333333" FontSize="12" HorizontalAlignment="Center" Margin="0,6,0,6" Text="{Binding Converter={StaticResource DayNameConverter}}" VerticalAlignment="Center"/>
                         </DataTemplate>
                         <!-- End: Data template for header button -->
 
