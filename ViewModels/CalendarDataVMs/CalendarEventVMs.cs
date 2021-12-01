@@ -38,7 +38,7 @@ namespace TienIchLich.ViewModels
             CalendarCategoryVM categoryVM = this.categoryVMs.CategoryVMs
                 .Where(i => i.Id == calendarEvent.CalendarCategoryId)
                 .FirstOrDefault();
-            return new CalendarEventVM(this.navigationVM)
+            var newEventVM = new CalendarEventVM(this.navigationVM)
             {
                 Id = calendarEvent.CalendarEventId,
                 Subject = calendarEvent.Subject,
@@ -49,6 +49,8 @@ namespace TienIchLich.ViewModels
                 Description = calendarEvent.Description,
                 CalendarCategoryVM = categoryVM
             };
+            newEventVM.StartReminderTimer();
+            return newEventVM;
         }
 
         /// <summary>
@@ -78,6 +80,7 @@ namespace TienIchLich.ViewModels
 
             // Add to view model collection to update displayed ItemControls
             this.EventVMs.Add(eventVM);
+            eventVM.StartReminderTimer();
         }
 
         /// <summary>
@@ -103,6 +106,7 @@ namespace TienIchLich.ViewModels
 
                 db.SaveChanges();
             }
+            eventVM.StartReminderTimer();
         }
 
         /// <summary>
@@ -120,6 +124,7 @@ namespace TienIchLich.ViewModels
 
             // Delete from view model collection to update displayed ItemControls
             this.EventVMs.Remove(eventVM);
+            eventVM.StopReminderTimer();
         }
     }
 }

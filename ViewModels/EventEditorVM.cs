@@ -290,7 +290,8 @@ namespace TienIchLich.ViewModels
             if (!this.EditMode)
                 this.CalendarEventVM = new CalendarEventVM(this.navigationVM)
                 {
-                    CalendarCategoryVM = this.CalendarCategories[0]
+                    CalendarCategoryVM = this.CalendarCategories[0],
+                    ReminderTime = new TimeSpan(0, 30, 0)
                 };
         }
 

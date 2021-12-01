@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
+using System.Timers;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace TienIchLich.ViewModels
 {
@@ -8,6 +10,8 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class CalendarEventVM : ViewModelBase
     {
+        private Timer reminderTimer;
+
         private ICommand openEditorCommand;
 
         private int id = 0;
@@ -164,6 +168,36 @@ namespace TienIchLich.ViewModels
             this.openEditorCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorView(this), 
                 i => true);
+
+            this.reminderTimer = new Timer();
+            this.reminderTimer.AutoReset = false;
+            this.reminderTimer.Elapsed += ReminderTimer_Elapsed;
+        }
+
+        public void StartReminderTimer()
+        {
+            double timeUntilEventStarts = (this.StartTime - this.ReminderTime - DateTime.Now).TotalMilliseconds;
+            if (timeUntilEventStarts > 0)
+            {
+                this.reminderTimer.Interval = timeUntilEventStarts;
+                this.reminderTimer.Enabled = true;
+            }
+            else
+                this.reminderTimer.Enabled = false;
+        }
+
+        public void StopReminderTimer()
+        {
+            this.reminderTimer.Dispose();
+        }
+
+        private void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            new ToastContentBuilder()
+                .AddText($"Sự kiện {this.Subject} sắp diễn ra trong {this.ReminderTime} nữa!")
+                .AddText($"Bắt đầu: {this.StartTime.ToString("F")}\nKết thúc: {this.EndTime.ToString("F")}")
+                .AddText(this.Description).Show();
+            this.reminderTimer.Enabled = false;
         }
     }
 }
