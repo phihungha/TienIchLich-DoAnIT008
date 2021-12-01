@@ -13,22 +13,8 @@
                         <local:DayNameConverter x:Key="DayNameConverter" />
 
                         <!-- Start: Data template for header button -->
-                        <DataTemplate x:Key="DayTitleTemplate">
-                            <Grid>
-                                <Rectangle 
-                                        Margin="-1" 
-                                        Fill="#FFE3EFFF"
-                                        />
-                                <TextBlock
-                                        FontWeight="Normal" 
-                                        FontFamily="Arial" 
-                                        FontSize="10.5" 
-                                        Foreground="#FF7C93D7" 
-                                        HorizontalAlignment="Center"
-                                        Text="{Binding Converter={StaticResource DayNameConverter}}"
-                                        Margin="0,6,0,6"
-                                        VerticalAlignment="Center" />
-                            </Grid>
+                        <DataTemplate x:Key="{x:Static CalendarItem.DayTitleTemplateResourceKey}">
+                            <TextBlock FontWeight="Bold" FontFamily="Verdana" Foreground="#FF333333" FontSize="9.5" HorizontalAlignment="Center" Margin="0,6,0,6" Text="{Binding Converter={StaticResource DayNameConverter}}" VerticalAlignment="Center"/>
                         </DataTemplate>
                         <!-- End: Data template for header button -->
 
@@ -104,13 +90,13 @@
                                                 </VisualStateManager.VisualStateGroups>
                                                 <Rectangle Fill="#11E5EBF1" Stretch="Fill" Opacity="1" />
                                                 <Grid>
-                                                    <Ellipse Style="{StaticResource NavigationEllipseStyle}" />
+                                                    
                                                     <Path Margin="4,0,0,0" Height="10" Width="6" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="Fill" Data="M288.75,232.25 L283,236.625 L288.75,240.625" StrokeThickness="2">
                                                         <Path.Stroke>
-                                                            <SolidColorBrush x:Name="TextColor" Color="#FF406CA6" />
+                                                            <SolidColorBrush x:Name="TextColor" Color="#FF333333" />
                                                         </Path.Stroke>
                                                     </Path>
-                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="Fill" Data="M283,236.625 L297,236.625" Stroke="#FF406CA6" StrokeThickness="2" />
+                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="Fill" Data="M283,236.625 L297,236.625" Stroke="#FF333333" StrokeThickness="2" />
                                                 </Grid>
                                             </Grid>
                                         </ControlTemplate>
@@ -137,13 +123,13 @@
                                                 </VisualStateManager.VisualStateGroups>
                                                 <Rectangle Fill="#11E5EBF1" Stretch="Fill" Opacity="1" />
                                                 <Grid>
-                                                    <Ellipse Style="{StaticResource NavigationEllipseStyle}" />
+                                                    
                                                     <Path Margin="0,0,4,0" Height="10" Width="6" VerticalAlignment="Center" HorizontalAlignment="Right" Stretch="Fill" Data="M283,232.25 L288.75,236.625 L283,240.625" StrokeThickness="2">
                                                         <Path.Stroke>
-                                                            <SolidColorBrush x:Name="TextColor" Color="#FF406CA6" />
+                                                            <SolidColorBrush x:Name="TextColor" Color="#FF333333" />
                                                         </Path.Stroke>
                                                     </Path>
-                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="Fill" Data="M283,236.625 L297,236.625" Stroke="#FF406CA6" StrokeThickness="2" />
+                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="Fill" Data="M283,236.625 L297,236.625" Stroke="#FF333333" StrokeThickness="2" />
                                                 </Grid>
                                             </Grid>
                                         </ControlTemplate>
@@ -313,7 +299,7 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <DoubleAnimation Duration="0" Storyboard.TargetName="HighlightBackground" Storyboard.TargetProperty="Opacity" To="0.5" />
+                                        <DoubleAnimation Duration="0" Storyboard.TargetName="NormalBackground" Storyboard.TargetProperty="Opacity" To="0.5" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
@@ -334,33 +320,7 @@
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
-                            <VisualStateGroup x:Name="CalendarButtonFocusStates">
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition GeneratedDuration="0" />
-                                </VisualStateGroup.Transitions>
-                                <VisualState x:Name="CalendarButtonFocused">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetName="DayButtonFocusVisual" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <Visibility>Visible</Visibility>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CalendarButtonUnfocused">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetName="DayButtonFocusVisual" Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <Visibility>Collapsed</Visibility>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
+                            
                             <VisualStateGroup x:Name="ActiveStates">
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition GeneratedDuration="0" />
@@ -404,8 +364,9 @@
                             </Grid.RowDefinitions>
 
                             <!-- Elements for visual state -->
-                            <Rectangle x:Name="TodayBackground" Fill="#FFAAAAAA" Opacity="0" RadiusX="1" RadiusY="1" />
-                            <Rectangle x:Name="SelectedBackground" Fill="#FFBADDE9" Opacity="0" RadiusX="1" RadiusY="1" />
+                            <Rectangle x:Name="TodayBackground" Grid.RowSpan="2" Fill="#FFAAAAAA" Opacity="0" RadiusX="1" RadiusY="1" />
+                            <Rectangle x:Name="SelectedBackground" Grid.RowSpan="2" Fill="#FFBADDE9" Opacity="0" RadiusX="1" RadiusY="1" />
+                            <Rectangle x:Name="NormalBackground" Grid.RowSpan="2" Fill="#FFBADDE9" Opacity="0" RadiusX="1" RadiusY="1" />
                             <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" 
                                     BorderBrush="{TemplateBinding BorderBrush}" />
                             <Rectangle x:Name="HighlightBackground" Fill="#FFBADDE9" Opacity="0" RadiusX="1" RadiusY="1" />
@@ -421,7 +382,7 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             
                             <!-- Event list -->
-                            <ListBox x:Name="appointmentsLbx" Grid.Row="1" Background="Transparent" 
+                            <ListBox x:Name="appointmentsLbx" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.Row="1" Background="Transparent" 
                                      BorderBrush="Transparent" HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource EventConverter}">
