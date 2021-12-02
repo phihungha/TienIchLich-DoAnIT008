@@ -3,9 +3,10 @@
     
     <!-- Style for normal button -->
     <Style TargetType="Button">
-        <Setter Property="Padding" Value="20,10,20,10" />
+        <Setter Property="Padding" Value="17,10,17,10" />
         <Setter Property="Background" Value="#e8e8e8" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="13.5" />
     </Style>
     
 </ResourceDictionary>

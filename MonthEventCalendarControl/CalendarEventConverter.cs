@@ -23,7 +23,8 @@ namespace TienIchLich.MonthEventCalendarControl
             {
                 var startTime = calendarEvent.StartTime;
                 var startDate = new DateTime(startTime.Year, startTime.Month, startTime.Day);
-                if (startDate == date)
+                bool isDisplayed = calendarEvent.CalendarCategoryVM.IsDisplayed;
+                if (startDate == date && isDisplayed)
                     thisDayEvents.Add(calendarEvent);
             }
 

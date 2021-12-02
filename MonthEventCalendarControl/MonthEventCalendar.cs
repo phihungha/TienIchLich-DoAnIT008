@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,5 +37,15 @@ namespace TienIchLich.MonthEventCalendarControl
         {
             SetValue(CalendarVMProperty, new CalendarVM());
         }
-     }
+
+        private void CalendarCategoryVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.SelectedDate = new DateTime();
+        }
+
+        private void EventVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.SelectedDate = new DateTime();
+        }
+    }
 }

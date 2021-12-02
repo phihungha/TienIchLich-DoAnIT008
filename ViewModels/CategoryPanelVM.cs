@@ -2,6 +2,18 @@
 
 namespace TienIchLich.ViewModels
 {
+    enum CategoryColorOption
+    {
+        Red,
+        Yellow,
+        Green,
+        Blue,
+        Cyan,
+        Purple,
+        Black,
+        Custom
+    }
+
     public class CategoryPanelVM : ViewModelBase
     {
         private CalendarCategoryVMs calendarCategoryVMs;

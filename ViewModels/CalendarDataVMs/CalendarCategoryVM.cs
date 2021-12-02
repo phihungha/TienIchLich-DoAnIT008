@@ -9,6 +9,7 @@
         private int id = 0;
         private string name = "(Không tên)";
         private string displayColor = "#000000";
+        private bool isDisplayed = true;
 
         /// <summary>
         /// Id of category in the model for searching.
@@ -54,6 +55,19 @@
             set
             {
                 displayColor = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool IsDisplayed
+        {
+            get
+            {
+                return isDisplayed;
+            }
+            set
+            {
+                isDisplayed = value;
                 NotifyPropertyChanged();
             }
         }
