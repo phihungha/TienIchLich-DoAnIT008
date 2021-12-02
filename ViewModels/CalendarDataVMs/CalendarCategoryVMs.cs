@@ -30,7 +30,7 @@ namespace TienIchLich.ViewModels
         /// <returns></returns>
         private CalendarCategoryVM GetVMFromCalendarCategoryModel(CalendarCategory calendarCategory)
         {
-            return new CalendarCategoryVM
+            return new CalendarCategoryVM(this)
             {
                 Id = calendarCategory.CalendarCategoryId,
                 Name = calendarCategory.Name,
@@ -54,6 +54,7 @@ namespace TienIchLich.ViewModels
 
                 db.CalendarCategories.Add(newCategory);
                 db.SaveChanges();
+                categoryVM.Id = newCategory.CalendarCategoryId;
             }
 
             // Add to view model collection to update displayed ItemControls
@@ -64,13 +65,13 @@ namespace TienIchLich.ViewModels
         /// Edit calendar category of provided calendar category view model in database.
         /// </summary>
         /// <param name="categoryVM">View model of calendar category to edit.</param>
-        public void EditCalendarCategory(CalendarCategoryVM calendarCategory)
+        public void EditCalendarCategory(CalendarCategoryVM categoryVM)
         {
             using (var db = new CalendarDbContext())
             {
-                CalendarCategory categoryToEdit = db.CalendarCategories.Single(i => i.CalendarCategoryId == calendarCategory.Id);
-                categoryToEdit.CalendarCategoryId = calendarCategory.Id;
-                categoryToEdit.DisplayColor = calendarCategory.DisplayColor;
+                CalendarCategory categoryToEdit = db.CalendarCategories.Single(i => i.CalendarCategoryId == categoryVM.Id);
+                categoryToEdit.Name = categoryVM.Name;
+                categoryToEdit.DisplayColor = categoryVM.DisplayColor;
 
                 db.SaveChanges();
             }
@@ -80,17 +81,17 @@ namespace TienIchLich.ViewModels
         /// Delete calendar category of provided calendar category view model from database.
         /// </summary>
         /// <param name="categoryVM">View model of calendar category to delete.</param>
-        public void DeleteCalendarCategory(CalendarCategoryVM calendarCategory)
+        public void DeleteCalendarCategory(CalendarCategoryVM categoryVM)
         {
             using (var db = new CalendarDbContext())
             {
-                CalendarCategory categoryToEdit = db.CalendarCategories.Single(i => i.CalendarCategoryId == calendarCategory.Id);
+                CalendarCategory categoryToEdit = db.CalendarCategories.Single(i => i.CalendarCategoryId == categoryVM.Id);
                 db.CalendarCategories.Remove(categoryToEdit);
                 db.SaveChanges();
             }
 
             // Remove from view model collection to update displayed ItemControls
-            this.CategoryVMs.Remove(calendarCategory);
+            this.CategoryVMs.Remove(categoryVM);
         }
     }
 }
