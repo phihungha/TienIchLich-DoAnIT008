@@ -22,8 +22,14 @@ namespace TienIchLich.MonthEventCalendarControl
 
         public CalendarVM CalendarVM
         {
-            get { return (CalendarVM)GetValue(CalendarVMProperty); }
-            set { SetValue(CalendarVMProperty, value); }
+            get 
+            { 
+                return (CalendarVM)GetValue(CalendarVMProperty); 
+            }
+            set 
+            { 
+                SetValue(CalendarVMProperty, value); 
+            }
         }
 
         static MonthEventCalendar()
@@ -36,16 +42,6 @@ namespace TienIchLich.MonthEventCalendarControl
             : base()
         {
             SetValue(CalendarVMProperty, new CalendarVM());
-        }
-
-        private void CalendarCategoryVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            this.SelectedDate = new DateTime();
-        }
-
-        private void EventVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            this.SelectedDate = new DateTime();
         }
     }
 }

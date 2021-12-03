@@ -3,8 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:TienIchLich.ViewModels"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:CategoryDisplayColorOption}" 
+                      x:Key="StandardCategoryColorOptionTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse Width="9" Height="9" VerticalAlignment="Center"
+                          Margin="3" Fill="{Binding HexCode}" />
+                <TextBlock VerticalAlignment="Center" Margin="3" Text="{Binding Name}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CategoryDisplayColorOption}" 
+                      x:Key="CustomCategoryColorOptionTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse Width="9" Height="9" VerticalAlignment="Center"
+                          Margin="3" Fill="#000000" />
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="3">Tùy chọn</TextBlock>
+                    <xctk:ColorPicker x:Name="ColorPicker" Width="100" HorizontalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+        <vm:CategoryColorOptionDataTemplateSelector x:Key="CategoryColorOptionTemplateSelector" />
+    </UserControl.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -66,18 +90,8 @@
                             <DataTemplate>
                                 <ComboBox ItemsSource="{Binding DisplayColorOptions}" 
                                           SelectedItem="{Binding SelectedDisplayColorOption}"
-                                          FontSize="12">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Ellipse Width="9" Height="9" VerticalAlignment="Center"
-                                                         Margin="3" Fill="{Binding HexCode}" />
-                                                <TextBlock VerticalAlignment="Center" Margin="3"
-                                                           Text="{Binding Name}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
+                                          ItemTemplateSelector="{StaticResource CategoryColorOptionTemplateSelector}"
+                                          FontSize="12" Height="25" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
