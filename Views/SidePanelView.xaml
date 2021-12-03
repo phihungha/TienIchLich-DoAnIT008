@@ -47,7 +47,13 @@
                       CanUserAddRows="False" CanUserDeleteRows="False"
                       MinRowHeight="30">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Binding="{Binding IsDisplayed}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsDisplayed, UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     
                     <DataGridTemplateColumn Width="40">
                         <DataGridTemplateColumn.CellTemplate>
