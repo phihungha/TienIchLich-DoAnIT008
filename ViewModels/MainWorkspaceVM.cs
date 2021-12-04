@@ -22,11 +22,12 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public CalendarVM CalendarVM => calendarVM; 
         
-        public MainWorkspaceVM(CalendarEventVMs calendarEventVMs, NavigationVM navigationVM)
+        public MainWorkspaceVM(CalendarEventVMs calendarEventVMs, CalendarCategoryVMs calendarCategoryVMs, NavigationVM navigationVM)
         {
-            this.calendarVM = new CalendarVM(calendarEventVMs, navigationVM);
+            this.calendarVM = new CalendarVM(calendarEventVMs, calendarCategoryVMs, navigationVM);
             this.addEventCommand = new RelayCommand(
-                i => navigationVM.NavigateToEventEditorViewOnAdd(CalendarVM.SelectedDate));
+                i => navigationVM.NavigateToEventEditorViewOnAdd(CalendarVM.SelectedDate)
+                );
         }
     }
 }
