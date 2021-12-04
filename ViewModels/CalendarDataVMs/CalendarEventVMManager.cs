@@ -5,19 +5,23 @@ using TienIchLich.Models;
 
 namespace TienIchLich.ViewModels
 {
-    public class CalendarEventVMs : ViewModelBase
+    /// <summary>
+    /// Manager for calendar event view models.
+    /// Used to access database.
+    /// </summary>
+    public class CalendarEventVMManager : ViewModelBase
     {
-        private CalendarCategoryVMs categoryVMs;
+        private CalendarCategoryVMManager categoryVMs;
         private NavigationVM navigationVM;
 
-        private ObservableCollection<CalendarEventVM> eventVMs = new();
+        private ObservableCollection<CalendarEventVM> calendarEventVMs = new();
 
         /// <summary>
-        /// Calendar event view models.
+        /// Calendar event view model collection.
         /// </summary>
-        public ObservableCollection<CalendarEventVM> EventVMs { get => eventVMs; }
+        public ObservableCollection<CalendarEventVM> CalendarEventVMs => calendarEventVMs;
 
-        public CalendarEventVMs(NavigationVM navigationVM, CalendarCategoryVMs categoryVMs)
+        public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs)
         {
             this.navigationVM = navigationVM;
             this.categoryVMs = categoryVMs;
@@ -25,7 +29,7 @@ namespace TienIchLich.ViewModels
             // Build view models from all calendar events in database
             using (var db = new CalendarDbContext())
                 foreach (CalendarEvent calendarEvent in db.CalendarEvents)
-                    this.EventVMs.Add(GetVMFromCalendarEventModel(calendarEvent));
+                    this.CalendarEventVMs.Add(GetVMFromCalendarEventModel(calendarEvent));
         }
 
         /// <summary>
@@ -35,7 +39,7 @@ namespace TienIchLich.ViewModels
         /// <returns></returns>
         private CalendarEventVM GetVMFromCalendarEventModel(CalendarEvent calendarEvent)
         {
-            CalendarCategoryVM categoryVM = this.categoryVMs.CategoryVMs
+            CalendarCategoryVM categoryVM = this.categoryVMs.CalendarCategoryVMs
                 .Where(i => i.Id == calendarEvent.CalendarCategoryId)
                 .FirstOrDefault();
             var newEventVM = new CalendarEventVM(this.navigationVM)
@@ -80,7 +84,7 @@ namespace TienIchLich.ViewModels
             }
 
             // Add to view model collection to update displayed ItemControls
-            this.EventVMs.Add(eventVM);
+            this.CalendarEventVMs.Add(eventVM);
             eventVM.StartReminderTimer();
         }
 
@@ -124,7 +128,7 @@ namespace TienIchLich.ViewModels
             }
 
             // Delete from view model collection to update displayed ItemControls
-            this.EventVMs.Remove(eventVM);
+            this.CalendarEventVMs.Remove(eventVM);
             eventVM.StopReminderTimer();
         }
     }

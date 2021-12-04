@@ -6,8 +6,8 @@ namespace TienIchLich.ViewModels
 {
     public class CalendarVM : ViewModelBase
     {
-        private ObservableCollection<CalendarEventVM> calendarEvents = new();
-        private ObservableCollection<CalendarCategoryVM> calendarCategories = new();
+        private ObservableCollection<CalendarEventVM> calendarEventVMs = new();
+        private ObservableCollection<CalendarCategoryVM> calendarCategoryVMs = new();
         private DateTime? selectedDate;
 
         private ICommand addEventCommand = new RelayCommand(i => { });
@@ -15,16 +15,16 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Calendar event view models to display.
         /// </summary>
-        public ObservableCollection<CalendarEventVM> CalendarEvents => calendarEvents;
+        public ObservableCollection<CalendarEventVM> CalendarEventVMs => calendarEventVMs;
 
         /// <summary>
         /// Calendar category view models for MonthEventCalendar to monitor and update itself when
         /// a category's display box is checked.
         /// </summary>
-        public ObservableCollection<CalendarCategoryVM> CalendarCategories => calendarCategories;
+        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs => calendarCategoryVMs;
 
         /// <summary>
-        /// Currently selected date.
+        /// Currently selected date on the calendar control.
         /// </summary>
         public DateTime? SelectedDate
         {
@@ -44,10 +44,10 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand AddEventCommand => addEventCommand;
 
-        public CalendarVM(CalendarEventVMs calendarEventVMs, CalendarCategoryVMs calendarCategoryVMs, NavigationVM navigationVM)
+        public CalendarVM(CalendarEventVMManager calendarEventVMs, ObservableCollection<CalendarCategoryVM> calendarCategoryVMs, NavigationVM navigationVM)
         {
-            this.calendarEvents = calendarEventVMs.EventVMs;
-            this.calendarCategories = calendarCategoryVMs.CategoryVMs;
+            this.calendarEventVMs = calendarEventVMs.CalendarEventVMs;
+            this.calendarCategoryVMs = calendarCategoryVMs;
             this.addEventCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewOnAdd(this.SelectedDate));
         }

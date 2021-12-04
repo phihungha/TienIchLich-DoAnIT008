@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace TienIchLich.ViewModels
 {
+    /// <summary>
+    /// Category display color option info.
+    /// </summary>
     public struct CategoryDisplayColorOption
     {
         public string Name { get; set; }
@@ -14,10 +17,11 @@ namespace TienIchLich.ViewModels
     /// <summary>
     /// View model of a calendar category for
     /// displaying in ItemsControl and passing around.
+    /// Provides support for editing directly on this object in the view.
     /// </summary>
     public class CalendarCategoryVM : ViewModelBase, IEditableObject
     {
-        private CalendarCategoryVMs calendarCategoryVMs;
+        private CalendarCategoryVMManager calendarCategoryVMManager;
 
         private CategoryDisplayColorOption selectedDisplayColorOption;
         private static CategoryDisplayColorOption[] displayColorOptions =
@@ -83,6 +87,9 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        /// <summary>
+        /// Command to delete this calendar category.
+        /// </summary>
         public ICommand DeleteCommand => deleteCommand;
 
         /// <summary>
@@ -147,9 +154,9 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public CalendarCategoryVM(CalendarCategoryVMs calendarCategoryVMs)
+        public CalendarCategoryVM(CalendarCategoryVMManager calendarCategoryVMs)
         {
-            this.calendarCategoryVMs = calendarCategoryVMs;
+            this.calendarCategoryVMManager = calendarCategoryVMs;
             this.deleteCommand = new RelayCommand(i => calendarCategoryVMs.DeleteCalendarCategory(this));
 
             this.Id = -1;
@@ -169,6 +176,9 @@ namespace TienIchLich.ViewModels
                 this.DisplayColor = this.SelectedDisplayColorOption.HexCode;
         }
 
+        /// <summary>
+        /// Set currently selected option from DisplayColor property.
+        /// </summary>
         private void SetSelectedOptionFromDisplayColor()
         {
             this.SelectedDisplayColorOption = DisplayColorOptions
@@ -190,7 +200,7 @@ namespace TienIchLich.ViewModels
         public void EndEdit()
         {
             this.SetDisplayColorFromSelectedOption();
-            this.calendarCategoryVMs.EditCalendarCategory(this);
+            this.calendarCategoryVMManager.EditCalendarCategory(this);
         }
     }
 }

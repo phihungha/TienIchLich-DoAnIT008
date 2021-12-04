@@ -400,7 +400,7 @@
                                     <MultiBinding Converter="{StaticResource EventConverter}">
                                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor, 
                                                                                  AncestorType={x:Type local:MonthEventCalendar}}" 
-                                                 Path="CalendarVM.CalendarEvents" />
+                                                 Path="CalendarVM.CalendarEventVMs" />
                                         <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext" />
                                     </MultiBinding>
                                 </ListBox.ItemsSource>

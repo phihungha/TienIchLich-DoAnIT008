@@ -21,8 +21,8 @@ namespace TienIchLich.ViewModels
     {
         private NavigationVM navigationVM;
         private CalendarEventVM calendarEventVM;
-        private CalendarCategoryVMs calendarCategoryVMs;
-        private CalendarEventVMs calendarEventVMs;
+        private ObservableCollection<CalendarCategoryVM> calendarCategoryVMs;
+        private CalendarEventVMManager calendarEventVMManager;
 
         private static ReminderTimeOption[] reminderTimeOptions =
         {
@@ -48,7 +48,7 @@ namespace TienIchLich.ViewModels
         private bool allDay;
         private ReminderTimeOption chosenReminderTimeOption;
         private TimeSpan customReminderTime;
-        private CalendarCategoryVM calendarCategory;
+        private CalendarCategoryVM calendarCategoryVM;
         private string description;
 
         /// <summary>
@@ -71,8 +71,8 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// View models of calendar categories to select.
         /// </summary>
-        public ObservableCollection<CalendarCategoryVM> CalendarCategories
-        { get => calendarCategoryVMs.CategoryVMs; }
+        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs
+        { get => calendarCategoryVMs; }
 
         public static ReminderTimeOption[] ReminderTimeOptions => reminderTimeOptions;
 
@@ -263,24 +263,24 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Calendar category of event.
         /// </summary>
-        public CalendarCategoryVM CalendarCategory
+        public CalendarCategoryVM CalendarCategoryVM
         {
             get
             {
-                return calendarCategory;
+                return calendarCategoryVM;
             }
             set
             {
-                calendarCategory = value;
+                calendarCategoryVM = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public EventEditorVM(NavigationVM navigationVM, CalendarEventVMs calendarEventVMs, CalendarCategoryVMs calendarCategoryVMs)
+        public EventEditorVM(NavigationVM navigationVM, CalendarEventVMManager calendarEventVMs, ObservableCollection<CalendarCategoryVM> calendarCategoryVMs)
         {
             this.navigationVM = navigationVM;
             this.calendarCategoryVMs = calendarCategoryVMs;
-            this.calendarEventVMs = calendarEventVMs;
+            this.calendarEventVMManager = calendarEventVMs;
 
             this.cancelCommand = new RelayCommand(i => this.HideView(), i => true);
             this.saveCommand = new RelayCommand(i => this.SaveCalendarEvent(), i => true);
@@ -297,7 +297,7 @@ namespace TienIchLich.ViewModels
             {
                 this.CalendarEventVM = new CalendarEventVM(this.navigationVM)
                 {
-                    CalendarCategoryVM = this.CalendarCategories[0],
+                    CalendarCategoryVM = this.CalendarCategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
                 };
             }
@@ -305,7 +305,7 @@ namespace TienIchLich.ViewModels
             {
                 this.CalendarEventVM = new CalendarEventVM(this.navigationVM, startTime)
                 {
-                    CalendarCategoryVM = this.CalendarCategories[0],
+                    CalendarCategoryVM = this.CalendarCategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
                 };
             }
@@ -332,7 +332,7 @@ namespace TienIchLich.ViewModels
             this.AllDay = this.calendarEventVM.AllDay;
             SetChosenReminderTimeOption();
             this.CustomReminderTime = this.calendarEventVM.ReminderTime;
-            this.CalendarCategory = this.calendarEventVM.CalendarCategoryVM;
+            this.CalendarCategoryVM = this.calendarEventVM.CalendarCategoryVM;
             this.Description = this.calendarEventVM.Description;
         }
 
@@ -372,13 +372,13 @@ namespace TienIchLich.ViewModels
             SetStartEndTimeOnEventVM();
             SetReminderTimeOnEventVM();
             this.calendarEventVM.AllDay = this.AllDay;
-            this.calendarEventVM.CalendarCategoryVM = this.CalendarCategory;
+            this.calendarEventVM.CalendarCategoryVM = this.CalendarCategoryVM;
             this.calendarEventVM.Description = this.Description;
 
             if (this.editMode)
-                this.calendarEventVMs.EditCalendarEvent(this.calendarEventVM);
+                this.calendarEventVMManager.EditCalendarEvent(this.calendarEventVM);
             else
-                this.calendarEventVMs.AddCalendarEvent(this.calendarEventVM);
+                this.calendarEventVMManager.AddCalendarEvent(this.calendarEventVM);
 
             this.editMode = false;
             this.navigationVM.NavigateToMainWorkspaceView();
@@ -442,7 +442,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void DeleteCalendarEvent()
         {
-            this.calendarEventVMs.DeleteCalendarEvent(this.calendarEventVM);
+            this.calendarEventVMManager.DeleteCalendarEvent(this.calendarEventVM);
             this.editMode = false;
             this.navigationVM.NavigateToMainWorkspaceView();
         }

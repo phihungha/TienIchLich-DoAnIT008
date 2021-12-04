@@ -1,7 +1,7 @@
 ﻿namespace TienIchLich.ViewModels
 {
     /// <summary>
-    /// View model of the main window and the entire application GUI.
+    /// View model of the main window.
     /// </summary>
     public class MainWindowVM : ViewModelBase
     {
@@ -18,13 +18,13 @@
         public MainWindowVM()
         {
             this.navigationVM = new NavigationVM();
-            var calendarCategoryVMs = new CalendarCategoryVMs();
-            var calendarEventVMs = new CalendarEventVMs(this.navigationVM, calendarCategoryVMs);
+            var calendarCategoryVMManager = new CalendarCategoryVMManager();
+            var calendarEventVMManager = new CalendarEventVMManager(this.navigationVM, calendarCategoryVMManager);
 
-            this.categoryPanelVM = new CategoryPanelVM(calendarCategoryVMs);
+            this.categoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager);
 
-            var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMs, calendarCategoryVMs, this.navigationVM);
-            var eventEditorVM = new EventEditorVM(this.navigationVM, calendarEventVMs, calendarCategoryVMs);
+            var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager, calendarCategoryVMManager, this.navigationVM);
+            var eventEditorVM = new EventEditorVM(this.navigationVM, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
 
             this.navigationVM.EventEditorVM = eventEditorVM;
             this.navigationVM.MainWorkspaceVM = mainWorkspaceVM;

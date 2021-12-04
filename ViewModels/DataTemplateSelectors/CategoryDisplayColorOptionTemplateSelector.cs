@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace TienIchLich.ViewModels
 {
-    public class CategoryColorOptionDataTemplateSelector : DataTemplateSelector
+    public class CategoryDisplayColorOptionTemplateSelector : DataTemplateSelector
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -13,12 +13,12 @@ namespace TienIchLich.ViewModels
             {
                 var optionItem = (CategoryDisplayColorOption)item;
 
-                if (optionItem.Name == "Tùy chọn")
+                if (optionItem.HexCode == "")
                     return
-                        element.FindResource("CustomCategoryColorOptionTemplate") as DataTemplate;
+                        element.FindResource("CustomCategoryDisplayColorOptionTemplate") as DataTemplate;
                 else
                     return
-                        element.FindResource("StandardCategoryColorOptionTemplate") as DataTemplate;
+                        element.FindResource("StandardCategoryDisplayColorOptionTemplate") as DataTemplate;
             }
 
             return null;

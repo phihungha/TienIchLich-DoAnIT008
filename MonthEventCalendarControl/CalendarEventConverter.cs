@@ -19,13 +19,13 @@ namespace TienIchLich.MonthEventCalendarControl
             if (values[0] == null || !(values[0] is ObservableCollection<CalendarEventVM>))
                 return thisDayEvents;
 
-            foreach (CalendarEventVM calendarEvent in (ObservableCollection<CalendarEventVM>)values[0])
+            foreach (CalendarEventVM calendarEventVM in (ObservableCollection<CalendarEventVM>)values[0])
             {
-                var startTime = calendarEvent.StartTime;
+                var startTime = calendarEventVM.StartTime;
                 var startDate = new DateTime(startTime.Year, startTime.Month, startTime.Day);
-                bool isDisplayed = calendarEvent.CalendarCategoryVM.IsDisplayed;
+                bool isDisplayed = calendarEventVM.CalendarCategoryVM.IsDisplayed;
                 if (startDate == date && isDisplayed)
-                    thisDayEvents.Add(calendarEvent);
+                    thisDayEvents.Add(calendarEventVM);
             }
 
             return thisDayEvents;

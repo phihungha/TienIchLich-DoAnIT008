@@ -62,10 +62,10 @@ namespace TienIchLich.MonthEventCalendarControl
         {
             if (this.CalendarVM != null)
             {
-                foreach (CalendarCategoryVM categoryVM in this.CalendarVM.CalendarCategories)
+                foreach (CalendarCategoryVM categoryVM in this.CalendarVM.CalendarCategoryVMs)
                     categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
 
-                this.CalendarVM.CalendarCategories.CollectionChanged += CalendarCategories_CollectionChanged;
+                this.CalendarVM.CalendarCategoryVMs.CollectionChanged += CalendarCategories_CollectionChanged;
             }
         }
 

@@ -27,7 +27,7 @@
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
-        <vm:CategoryColorOptionDataTemplateSelector x:Key="CategoryColorOptionTemplateSelector" />
+        <vm:CategoryDisplayColorOptionTemplateSelector x:Key="CategoryDisplayColorOptionTemplateSelector" />
     </UserControl.Resources>
     
     <Grid>
@@ -63,7 +63,7 @@
             </Grid>
 
             <DataGrid Grid.Row="1" 
-                      ItemsSource="{Binding CalendarCategories}"
+                      ItemsSource="{Binding CalendarCategoryVMs}"
                       AutoGenerateColumns="False" 
                       Margin="0,10,0,0" HeadersVisibility="None" 
                       Background="Transparent" GridLinesVisibility="None" 
@@ -90,7 +90,7 @@
                             <DataTemplate>
                                 <ComboBox ItemsSource="{Binding DisplayColorOptions}" 
                                           SelectedItem="{Binding SelectedDisplayColorOption}"
-                                          ItemTemplateSelector="{StaticResource CategoryColorOptionTemplateSelector}"
+                                          ItemTemplateSelector="{StaticResource CategoryDisplayColorOptionTemplateSelector}"
                                           FontSize="12" Height="25" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>

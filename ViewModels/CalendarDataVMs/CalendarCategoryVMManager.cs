@@ -4,22 +4,26 @@ using TienIchLich.Models;
 
 namespace TienIchLich.ViewModels
 {
-    public class CalendarCategoryVMs : ViewModelBase
+    /// <summary>
+    /// Manager for calendar category view models.
+    /// Used to access database.
+    /// </summary>
+    public class CalendarCategoryVMManager : ViewModelBase
     {
-        private ObservableCollection<CalendarCategoryVM> categoryVMs = new();
+        private ObservableCollection<CalendarCategoryVM> calendarCategoryVMs = new();
 
         /// <summary>
         /// Calendar category view models.
         /// </summary>
-        public ObservableCollection<CalendarCategoryVM> CategoryVMs { get => categoryVMs; }
+        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs => calendarCategoryVMs; 
 
-        public CalendarCategoryVMs()
+        public CalendarCategoryVMManager()
         {
             // Build view models from all calendar categories in database
             using (var db = new CalendarDbContext())
             {
                 foreach (CalendarCategory categoryModel in db.CalendarCategories)
-                    this.categoryVMs.Add(GetVMFromCalendarCategoryModel(categoryModel));
+                    this.calendarCategoryVMs.Add(GetVMFromCalendarCategoryModel(categoryModel));
             }
         }
 
@@ -58,7 +62,7 @@ namespace TienIchLich.ViewModels
             }
 
             // Add to view model collection to update displayed ItemControls
-            this.CategoryVMs.Add(categoryVM);
+            this.CalendarCategoryVMs.Add(categoryVM);
         }
 
         /// <summary>
@@ -91,7 +95,7 @@ namespace TienIchLich.ViewModels
             }
 
             // Remove from view model collection to update displayed ItemControls
-            this.CategoryVMs.Remove(categoryVM);
+            this.CalendarCategoryVMs.Remove(categoryVM);
         }
     }
 }
