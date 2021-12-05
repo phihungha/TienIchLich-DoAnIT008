@@ -170,7 +170,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void SetDisplayColorFromSelectedOption()
         {
-            if (this.SelectedDisplayColorOption.Name == "Tùy chọn")
+            if (this.SelectedDisplayColorOption.HexCode == "")
                 this.DisplayColor = this.CustomDisplayColorOption;
             else
                 this.DisplayColor = this.SelectedDisplayColorOption.HexCode;
@@ -185,6 +185,8 @@ namespace TienIchLich.ViewModels
                 .Where(i => i.HexCode == this.DisplayColor)
                 .DefaultIfEmpty(DisplayColorOptions[7])
                 .First();
+            if (this.SelectedDisplayColorOption.HexCode == "")
+                this.CustomDisplayColorOption = this.DisplayColor;
         }
 
         public void BeginEdit()

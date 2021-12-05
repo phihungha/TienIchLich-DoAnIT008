@@ -8,25 +8,37 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <!-- Appearance of a preset category display color option item in a ComboBox -->
         <DataTemplate DataType="{x:Type vm:CategoryDisplayColorOption}" 
-                      x:Key="StandardCategoryColorOptionTemplate">
+                      x:Key="StandardCategoryDisplayColorOptionTemplate">
             <StackPanel Orientation="Horizontal">
                 <Ellipse Width="9" Height="9" VerticalAlignment="Center"
                           Margin="3" Fill="{Binding HexCode}" />
                 <TextBlock VerticalAlignment="Center" Margin="3" Text="{Binding Name}" />
             </StackPanel>
         </DataTemplate>
+        
+        <!-- Appearance of the custom category display color option item in a ComboBox -->
         <DataTemplate DataType="{x:Type vm:CategoryDisplayColorOption}" 
-                      x:Key="CustomCategoryColorOptionTemplate">
+                      x:Key="CustomCategoryDisplayColorOptionTemplate">
             <StackPanel Orientation="Horizontal">
-                <Ellipse Width="9" Height="9" VerticalAlignment="Center"
-                          Margin="3" Fill="#000000" />
+                <Ellipse Width="9" 
+                         Height="9" 
+                         VerticalAlignment="Center"
+                         Margin="3" 
+                         Fill="{Binding ElementName=DisplayColorComboBox, Path=DataContext.CustomDisplayColorOption}" />
                 <StackPanel Orientation="Vertical">
                     <TextBlock Margin="3">Tùy chọn</TextBlock>
-                    <xctk:ColorPicker x:Name="ColorPicker" Width="100" HorizontalAlignment="Center" />
+                    <xctk:ColorPicker x:Name="ColorPicker" 
+                                      SelectedColor="{Binding ElementName=DisplayColorComboBox,
+                                                              Path=DataContext.CustomDisplayColorOption}"
+                                      Width="100"
+                                      Margin="3"
+                                      HorizontalAlignment="Center" />
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
+        
         <vm:CategoryDisplayColorOptionTemplateSelector x:Key="CategoryDisplayColorOptionTemplateSelector" />
     </UserControl.Resources>
     
@@ -88,7 +100,8 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding DisplayColorOptions}" 
+                                <ComboBox Name="DisplayColorComboBox"
+                                          ItemsSource="{Binding DisplayColorOptions}" 
                                           SelectedItem="{Binding SelectedDisplayColorOption}"
                                           ItemTemplateSelector="{StaticResource CategoryDisplayColorOptionTemplateSelector}"
                                           FontSize="12" Height="25" />
