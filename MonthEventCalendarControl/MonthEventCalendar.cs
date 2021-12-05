@@ -21,12 +21,13 @@ namespace TienIchLich.MonthEventCalendarControl
                     FrameworkPropertyMetadataOptions.AffectsRender,
                     new PropertyChangedCallback(OnCalendarVMPropertyChanged))
             );
+        private CalendarVM oldCalendarVM; // Calendar view model before property change. Used for removing event handlers.
 
         public CalendarVM CalendarVM
         {
             get => (CalendarVM)GetValue(CalendarVMProperty); 
 
-            set => SetValue(CalendarVMProperty, value); 
+            set => SetValue(CalendarVMProperty, value);
         }
 
         static MonthEventCalendar()
@@ -38,17 +39,38 @@ namespace TienIchLich.MonthEventCalendarControl
         public MonthEventCalendar()
             : base()
         {
+            this.Unloaded += MonthEventCalendar_Unloaded;
+        }
 
+        /// <summary>
+        /// Remove all event handlers when control is unloaded.
+        /// </summary>
+        private void MonthEventCalendar_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (this.oldCalendarVM != null)
+            {
+                foreach (CalendarCategoryVM categoryVM in this.oldCalendarVM.CalendarCategoryVMs)
+                    categoryVM.PropertyChanged -= CategoryVM_PropertyChanged;
+
+                this.oldCalendarVM.CalendarCategoryVMs.CollectionChanged -= CalendarCategories_CollectionChanged;
+            }
         }
 
         private static void OnCalendarVMPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var obj = (MonthEventCalendar)d;
+            obj.SetOldCalendarVM();
             obj.AttachEventHandlersToCalendarCategoryVMs();
         }
 
+        public void SetOldCalendarVM()
+        {
+            if (this.CalendarVM != null)
+                this.oldCalendarVM = this.CalendarVM;
+        }
+
         /// <summary>
-        /// Allow calendar to be refreshed upon change in CalendarCategoryVM.IsDisplayed property
+        /// Allow calendar to be refreshed upon change of CalendarCategoryVM.IsDisplayed property
         /// by adding an event handler to its PropertyChanged event.
         /// </summary>
         private void AttachEventHandlersToCalendarCategoryVMs()
