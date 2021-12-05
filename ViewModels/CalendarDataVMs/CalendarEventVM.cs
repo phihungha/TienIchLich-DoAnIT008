@@ -10,8 +10,6 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class CalendarEventVM : ViewModelBase
     {
-        private Timer reminderTimer;
-
         private ICommand openEditorCommand;
 
         private int id = 0;
@@ -174,36 +172,18 @@ namespace TienIchLich.ViewModels
             this.openEditorCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewOnEdit(this),
                 i => true);
-
-            this.reminderTimer = new Timer();
-            this.reminderTimer.AutoReset = false;
-            this.reminderTimer.Elapsed += ReminderTimer_Elapsed;
         }
 
-        public void StartReminderTimer()
+        public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            double timeUntilEventStarts = (this.StartTime - this.ReminderTime - DateTime.Now).TotalMilliseconds;
-            if (timeUntilEventStarts > 0)
-            {
-                this.reminderTimer.Interval = timeUntilEventStarts;
-                this.reminderTimer.Enabled = true;
-            }
+            string title;
+            if (this.ReminderTime.Ticks == 0)
+                title = $"Sự kiện \"{this.Subject}\" đã bắt đầu!";
             else
-                this.reminderTimer.Enabled = false;
-        }
+                title = $"Sự kiện \"{this.Subject}\" sắp diễn ra trong {this.ReminderTime} nữa!";
 
-        public void StopReminderTimer()
-        {
-            this.reminderTimer.Dispose();
-        }
-
-        private void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            new ToastContentBuilder()
-                .AddText($"Sự kiện {this.Subject} sắp diễn ra trong {this.ReminderTime} nữa!")
-                .AddText($"Bắt đầu: {this.StartTime.ToString("F")}\nKết thúc: {this.EndTime.ToString("F")}")
-                .AddText(this.Description).Show();
-            this.reminderTimer.Enabled = false;
+            string subtitle = $"Bắt đầu: {this.StartTime.ToString("F")}\nKết thúc: {this.EndTime.ToString("F")}";
+            new ToastContentBuilder().AddText(title).AddText(subtitle).AddText(this.Description).Show();
         }
     }
 }

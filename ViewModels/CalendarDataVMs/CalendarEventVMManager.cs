@@ -13,6 +13,7 @@ namespace TienIchLich.ViewModels
     {
         private CalendarCategoryVMManager categoryVMs;
         private NavigationVM navigationVM;
+        private ReminderManager reminderManager = new();
 
         private ObservableCollection<CalendarEventVM> calendarEventVMs = new();
 
@@ -42,7 +43,7 @@ namespace TienIchLich.ViewModels
             CalendarCategoryVM categoryVM = this.categoryVMs.CalendarCategoryVMs
                 .Where(i => i.Id == calendarEvent.CalendarCategoryId)
                 .FirstOrDefault();
-            var newEventVM = new CalendarEventVM(this.navigationVM)
+            var eventVM = new CalendarEventVM(this.navigationVM)
             {
                 Id = calendarEvent.CalendarEventId,
                 Subject = calendarEvent.Subject,
@@ -53,8 +54,12 @@ namespace TienIchLich.ViewModels
                 Description = calendarEvent.Description,
                 CalendarCategoryVM = categoryVM
             };
-            newEventVM.StartReminderTimer();
-            return newEventVM;
+            reminderManager.Add(
+                eventVM.Id, 
+                eventVM.StartTime, 
+                eventVM.ReminderTime, 
+                eventVM.ReminderTimer_Elapsed);
+            return eventVM;
         }
 
         /// <summary>
@@ -83,9 +88,13 @@ namespace TienIchLich.ViewModels
                 eventVM.Id = newEvent.CalendarEventId;
             }
 
-            // Add to view model collection to update displayed ItemControls
             this.CalendarEventVMs.Add(eventVM);
-            eventVM.StartReminderTimer();
+
+            reminderManager.Add(
+                eventVM.Id,
+                eventVM.StartTime,
+                eventVM.ReminderTime,
+                eventVM.ReminderTimer_Elapsed);
         }
 
         /// <summary>
@@ -111,7 +120,8 @@ namespace TienIchLich.ViewModels
 
                 db.SaveChanges();
             }
-            eventVM.StartReminderTimer();
+
+            reminderManager.Edit(eventVM.Id, eventVM.StartTime, eventVM.ReminderTime);
         }
 
         /// <summary>
@@ -127,9 +137,9 @@ namespace TienIchLich.ViewModels
                 db.SaveChanges();
             }
 
-            // Delete from view model collection to update displayed ItemControls
             this.CalendarEventVMs.Remove(eventVM);
-            eventVM.StopReminderTimer();
+
+            reminderManager.Remove(eventVM.Id);
         }
     }
 }
