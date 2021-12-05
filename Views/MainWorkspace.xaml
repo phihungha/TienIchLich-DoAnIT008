@@ -34,13 +34,13 @@
             </TabItem>
 
             <!-- Calendar month view -->
-            <TabItem DataContext="{Binding CalendarVM}">
+            <TabItem>
                 <TabItem.Header>
                     <TextBlock>Tháng</TextBlock>
                 </TabItem.Header>
                 <custom_controls:MonthEventCalendar
-                    CalendarVM="{Binding}"
-                    SelectedDate="{Binding SelectedDate}" />
+                    CalendarVM="{Binding CalendarVM}"
+                    SelectedDate="{Binding CalendarVM.SelectedDate}" />
             </TabItem>
 
             <!-- Calendar year view -->

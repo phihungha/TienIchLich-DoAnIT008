@@ -45,11 +45,6 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public NavigationVM()
-        {
-            this.DisplayedVM = this.eventEditorVM;
-        }
-
         /// <summary>
         /// Navigate to main workspace view
         /// </summary>

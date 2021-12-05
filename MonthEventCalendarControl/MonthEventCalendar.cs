@@ -11,8 +11,6 @@ namespace TienIchLich.MonthEventCalendarControl
 {
     public class MonthEventCalendar : Calendar
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public static DependencyProperty CalendarVMProperty =
             DependencyProperty.Register
             (
@@ -26,14 +24,9 @@ namespace TienIchLich.MonthEventCalendarControl
 
         public CalendarVM CalendarVM
         {
-            get 
-            { 
-                return (CalendarVM)GetValue(CalendarVMProperty); 
-            }
-            set 
-            { 
-                SetValue(CalendarVMProperty, value); 
-            }
+            get => (CalendarVM)GetValue(CalendarVMProperty); 
+
+            set => SetValue(CalendarVMProperty, value); 
         }
 
         static MonthEventCalendar()
@@ -45,7 +38,7 @@ namespace TienIchLich.MonthEventCalendarControl
         public MonthEventCalendar()
             : base()
         {
-            SetValue(CalendarVMProperty, new CalendarVM());
+
         }
 
         private static void OnCalendarVMPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

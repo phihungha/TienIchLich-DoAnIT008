@@ -9,7 +9,6 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class RelayCommand : ICommand
     {
-        public event EventHandler canExecuteChanged;
         private Action<object> execute;
         private Predicate<object> canExecute;
 
