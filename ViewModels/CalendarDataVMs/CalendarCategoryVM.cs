@@ -6,11 +6,26 @@ using System.Linq;
 namespace TienIchLich.ViewModels
 {
     /// <summary>
-    /// Category display color option info.
+    /// Category display color option identifiers.
+    /// </summary>
+    public enum CategoryDisplayColorOptionId
+    {
+        Black,
+        Red,
+        Yellow,
+        Green,
+        Cyan,
+        Blue,
+        Purple,
+        Custom
+    }
+
+    /// <summary>
+    /// Info of each category display option.
     /// </summary>
     public struct CategoryDisplayColorOption
     {
-        public string Name { get; set; }
+        public CategoryDisplayColorOptionId Id { get; set; }
         public string HexCode { get; set; }
     }
 
@@ -26,14 +41,46 @@ namespace TienIchLich.ViewModels
         private CategoryDisplayColorOption selectedDisplayColorOption;
         private static CategoryDisplayColorOption[] displayColorOptions =
         {
-            new CategoryDisplayColorOption() { Name = "Đen", HexCode = Colors.Black.ToString() },
-            new CategoryDisplayColorOption() { Name = "Đỏ", HexCode = Colors.Red.ToString() },
-            new CategoryDisplayColorOption() { Name = "Vàng", HexCode = Colors.Yellow.ToString() },
-            new CategoryDisplayColorOption() { Name = "Xanh lá", HexCode = Colors.Green.ToString() },
-            new CategoryDisplayColorOption() { Name = "Xanh nhạt", HexCode = Colors.Cyan.ToString() },
-            new CategoryDisplayColorOption() { Name = "Xanh dương", HexCode = Colors.Blue.ToString() },
-            new CategoryDisplayColorOption() { Name = "Tím", HexCode = Colors.Purple.ToString() },
-            new CategoryDisplayColorOption() { Name = "Tùy chọn", HexCode = "" }
+            new CategoryDisplayColorOption() 
+            {   
+                Id = CategoryDisplayColorOptionId.Black, 
+                HexCode = Colors.Black.ToString() 
+            },
+            new CategoryDisplayColorOption()
+            {
+                Id = CategoryDisplayColorOptionId.Red,
+                HexCode = Colors.Red.ToString()
+            },
+            new CategoryDisplayColorOption()
+            {
+                Id = CategoryDisplayColorOptionId.Yellow,
+                HexCode = Colors.Yellow.ToString()
+            },
+            new CategoryDisplayColorOption()
+            {
+                Id = CategoryDisplayColorOptionId.Green,
+                HexCode = Colors.Green.ToString()
+            },
+            new CategoryDisplayColorOption()
+            {
+                Id = CategoryDisplayColorOptionId.Cyan,
+                HexCode = Colors.Cyan.ToString()
+            },
+            new CategoryDisplayColorOption()
+            {
+                Id = CategoryDisplayColorOptionId.Blue,
+                HexCode = Colors.Blue.ToString()
+            },
+            new CategoryDisplayColorOption()
+            {
+                Id = CategoryDisplayColorOptionId.Purple,
+                HexCode = Colors.Purple.ToString()
+            },
+            new CategoryDisplayColorOption()
+            {
+                Id = CategoryDisplayColorOptionId.Custom,
+                HexCode = null
+            },
         };
         private string customDisplayColorOption;
 
@@ -166,18 +213,18 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
-        /// Set category view model's display color with the selected option.
+        /// Set category view model's DisplayColor with the selected option.
         /// </summary>
         private void SetDisplayColorFromSelectedOption()
         {
-            if (this.SelectedDisplayColorOption.HexCode == "")
+            if (this.SelectedDisplayColorOption.Id == CategoryDisplayColorOptionId.Custom)
                 this.DisplayColor = this.CustomDisplayColorOption;
             else
                 this.DisplayColor = this.SelectedDisplayColorOption.HexCode;
         }
 
         /// <summary>
-        /// Set currently selected option from DisplayColor property.
+        /// Set currently selected option from DisplayColor.
         /// </summary>
         private void SetSelectedOptionFromDisplayColor()
         {
@@ -185,7 +232,8 @@ namespace TienIchLich.ViewModels
                 .Where(i => i.HexCode == this.DisplayColor)
                 .DefaultIfEmpty(DisplayColorOptions[7])
                 .First();
-            if (this.SelectedDisplayColorOption.HexCode == "")
+
+            if (this.SelectedDisplayColorOption.Id == CategoryDisplayColorOptionId.Custom)
                 this.CustomDisplayColorOption = this.DisplayColor;
         }
 

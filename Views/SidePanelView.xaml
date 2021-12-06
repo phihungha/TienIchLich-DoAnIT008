@@ -8,13 +8,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <vm:CategoryDisplayColorOptionIdToStringConverter x:Key="CategoryDisplayColorOptionIdToStringConverter" />
+        
         <!-- Appearance of a preset category display color option item in a ComboBox -->
         <DataTemplate DataType="{x:Type vm:CategoryDisplayColorOption}" 
                       x:Key="StandardCategoryDisplayColorOptionTemplate">
             <StackPanel Orientation="Horizontal">
                 <Ellipse Width="9" Height="9" VerticalAlignment="Center"
                           Margin="3" Fill="{Binding HexCode}" />
-                <TextBlock VerticalAlignment="Center" Margin="3" Text="{Binding Name}" />
+                <TextBlock VerticalAlignment="Center" Margin="3" 
+                           Text="{Binding Id, Converter={StaticResource CategoryDisplayColorOptionIdToStringConverter}}" />
             </StackPanel>
         </DataTemplate>
         
@@ -22,19 +25,15 @@
         <DataTemplate DataType="{x:Type vm:CategoryDisplayColorOption}" 
                       x:Key="CustomCategoryDisplayColorOptionTemplate">
             <StackPanel Orientation="Horizontal">
-                <Ellipse Width="9" 
-                         Height="9" 
-                         VerticalAlignment="Center"
-                         Margin="3" 
-                         Fill="{Binding ElementName=DisplayColorComboBox, Path=DataContext.CustomDisplayColorOption}" />
+                <Ellipse Width="9" Height="9" VerticalAlignment="Center" Margin="3" 
+                         Fill="{Binding ElementName=DisplayColorComboBox, 
+                                        Path=DataContext.CustomDisplayColorOption}" />
                 <StackPanel Orientation="Vertical">
                     <TextBlock Margin="3">Tùy chọn</TextBlock>
                     <xctk:ColorPicker x:Name="ColorPicker" 
                                       SelectedColor="{Binding ElementName=DisplayColorComboBox,
                                                               Path=DataContext.CustomDisplayColorOption}"
-                                      Width="100"
-                                      Margin="3"
-                                      HorizontalAlignment="Center" />
+                                      Width="100" Margin="3" HorizontalAlignment="Center" />
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
@@ -76,12 +75,11 @@
 
             <DataGrid Grid.Row="1" 
                       ItemsSource="{Binding CalendarCategoryVMs}"
-                      AutoGenerateColumns="False" 
-                      Margin="0,10,0,0" HeadersVisibility="None" 
-                      Background="Transparent" GridLinesVisibility="None" 
-                      BorderThickness="0" FontSize="14"
-                      CanUserAddRows="False" CanUserDeleteRows="False"
-                      MinRowHeight="30">
+                      AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                      Margin="0,10,0,0" MinRowHeight="30"
+                      HeadersVisibility="None" GridLinesVisibility="None" 
+                      Background="Transparent" BorderThickness="0"
+                      FontSize="14">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
@@ -95,7 +93,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                     <Ellipse Width="9" Height="9" VerticalAlignment="Center"
-                                     Margin="3" Fill="{Binding DisplayColor}" />
+                                             Margin="3" Fill="{Binding DisplayColor}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>

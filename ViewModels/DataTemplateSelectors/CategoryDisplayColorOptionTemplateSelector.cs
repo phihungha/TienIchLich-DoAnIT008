@@ -7,13 +7,13 @@ namespace TienIchLich.ViewModels
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            FrameworkElement element = container as FrameworkElement;
+            var element = container as FrameworkElement;
 
             if (element != null && item != null && item is CategoryDisplayColorOption)
             {
                 var optionItem = (CategoryDisplayColorOption)item;
 
-                if (optionItem.HexCode == "")
+                if (optionItem.Id == CategoryDisplayColorOptionId.Custom)
                     return
                         element.FindResource("CustomCategoryDisplayColorOptionTemplate") as DataTemplate;
                 else
