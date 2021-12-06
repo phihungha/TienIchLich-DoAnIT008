@@ -4,15 +4,15 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels
 {
-    [ValueConversion(typeof(ReminderTimeOption), typeof(string))]
-    class ReminderTimeOptionToStringConverter : IValueConverter
+    [ValueConversion(typeof(ReminderTimeOptionId), typeof(string))]
+    class ReminderTimeOptionIdToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            ReminderTimeOption option;
+            ReminderTimeOptionId option;
             try
             {
-                option = (ReminderTimeOption)value;
+                option = (ReminderTimeOptionId)value;
             }
             catch (InvalidCastException)
             {
@@ -21,23 +21,23 @@ namespace TienIchLich.ViewModels
 
             switch (option)
             {
-                case ReminderTimeOption.Immediately:
+                case ReminderTimeOptionId.Immediately:
                     return "Ngay lập tức";
-                case ReminderTimeOption.Minutes5:
+                case ReminderTimeOptionId.Minutes5:
                     return "5 phút";
-                case ReminderTimeOption.Minutes15:
+                case ReminderTimeOptionId.Minutes15:
                     return "15 phút";
-                case ReminderTimeOption.Minutes30:
+                case ReminderTimeOptionId.Minutes30:
                     return "30 phút";
-                case ReminderTimeOption.Hour1:
+                case ReminderTimeOptionId.Hour1:
                     return "1 tiếng";
-                case ReminderTimeOption.Hour12:
+                case ReminderTimeOptionId.Hour12:
                     return "12 tiếng";
-                case ReminderTimeOption.Day1:
+                case ReminderTimeOptionId.Day1:
                     return "1 ngày";
-                case ReminderTimeOption.Week1:
+                case ReminderTimeOptionId.Week1:
                     return "1 tháng";
-                case ReminderTimeOption.Custom:
+                case ReminderTimeOptionId.Custom:
                     return "Tùy chọn";
             }
             return option.ToString();

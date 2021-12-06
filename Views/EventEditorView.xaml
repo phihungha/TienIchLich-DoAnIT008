@@ -7,25 +7,28 @@
              xmlns:vm="clr-namespace:TienIchLich.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Margin" Value="0,0,0,15" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+        
         <Style TargetType="DatePicker">
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
+        
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal" />
             <Setter Property="Margin" Value="0,0,0,15" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+        
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="14" />
         </Style>
-        <vm:ReminderTimeOptionToStringConverter x:Key="ReminderTimeOptionToStringConverter" />
+        
+        <vm:ReminderTimeOptionIdToStringConverter x:Key="ReminderTimeOptionIdToStringConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
 
@@ -90,10 +93,10 @@
             <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,15">
                 <ComboBox
                       ItemsSource="{Binding ReminderTimeOptions}"
-                      SelectedItem="{Binding ChosenReminderTimeOption}">
+                      SelectedItem="{Binding SelectedReminderTimeOption}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Converter={StaticResource ReminderTimeOptionToStringConverter}}" />
+                            <TextBlock Text="{Binding Id, Converter={StaticResource ReminderTimeOptionIdToStringConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -101,7 +104,7 @@
                                      Visibility="{Binding UseCustomReminderTime,
                                                   Converter={StaticResource BooleanToVisibilityConverter}}"
                                      Minimum="0"
-                                     Value="{Binding CustomReminderTime}" />
+                                     Value="{Binding CustomReminderTimeOption}" />
             </StackPanel>
 
             <TextBlock Grid.Row="6" Grid.Column="0">Loại lịch</TextBlock>
