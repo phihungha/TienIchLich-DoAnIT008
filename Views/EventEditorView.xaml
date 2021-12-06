@@ -18,6 +18,12 @@
         <Style TargetType="DatePicker">
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
+
+        <Style TargetType="xctk:DateTimePicker">
+            <Setter Property="Format" Value="Custom" />
+            <Setter Property="FormatString" Value="dddd, dd MMMM yyyy HH:mm" />
+            <Setter Property="ClipValueToMinMax" Value="True" />
+        </Style>
         
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal" />
@@ -28,8 +34,41 @@
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="14" />
         </Style>
-        
-        <vm:ReminderTimeOptionIdToStringConverter x:Key="ReminderTimeOptionIdToStringConverter" />
+
+        <DataTemplate DataType="{x:Type vm:CalendarEventDatetimePickerVM}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <xctk:DateTimePicker Grid.Row="0"
+                                     Margin="0,0,0,15"
+                                     Maximum="{Binding EndTime}"
+                                     Value="{Binding StartTime}" />
+                <xctk:DateTimePicker Grid.Row="1"
+                                     Minimum="{Binding StartTime}"
+                                     Value="{Binding EndTime}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:CalendarEventDatePickerVM}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <DatePicker Grid.Row="0" Margin="0,0,0,15" 
+                            DisplayDateEnd="{Binding EndTime}"
+                            SelectedDate="{Binding StartTime}"/>
+                <DatePicker Grid.Row="1"
+                            DisplayDateStart="{Binding StartTime}"
+                            SelectedDate="{Binding EndTime}"/>
+            </Grid>
+        </DataTemplate>
+
+        <vm:EventReminderTimeOptionIdToStringConverter x:Key="EventReminderTimeOptionIdToStringConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
 
@@ -62,24 +101,11 @@
             <TextBlock Grid.Row="2" Grid.Column="0">
                 Bắt đầu lúc
             </TextBlock>
-            <xctk:DateTimePicker Name="StartTimePicker" Grid.Row="2" Grid.Column="1" 
-                                 Margin="0,0,190,15" 
-                                 Format="Custom"
-                                 FormatString="dddd, dd MMMM yyyy HH:mm"
-                                 ClipValueToMinMax="True"
-                                 Maximum="{Binding EndTime}"
-                                 Value="{Binding StartTime}" />
-
             <TextBlock Grid.Row="3" Grid.Column="0">
                 Kết thúc lúc
             </TextBlock>
-            <xctk:DateTimePicker Name="EndTimePicker" Grid.Row="3" Grid.Column="1" 
-                                 Margin="0,0,190,15"
-                                 Format="Custom"
-                                 FormatString="dddd, dd MMMM yyyy HH:mm"
-                                 ClipValueToMinMax="True"
-                                 Minimum="{Binding StartTime}"
-                                 Value="{Binding EndTime}" />
+            <ContentControl Content="{Binding EventTimePickerVM}"
+                            Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Margin="0,0,350,15" />
 
             <TextBlock Grid.Row="4" Grid.Column="0">
                 Cả ngày
@@ -87,8 +113,7 @@
             <!-- Cannot use binding due to unknown bug -->
             <CheckBox Grid.Row="4" Grid.Column="1" 
                       VerticalAlignment="Center" Margin="0,0,0,15" 
-                      IsChecked="{Binding AllDay}" 
-                      Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+                      IsChecked="{Binding AllDay}" />
 
             <TextBlock Grid.Row="5" Grid.Column="0">Nhắc nhở trước</TextBlock>
             <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,15">
@@ -97,7 +122,7 @@
                       SelectedItem="{Binding SelectedReminderTimeOption}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Id, Converter={StaticResource ReminderTimeOptionIdToStringConverter}}" />
+                            <TextBlock Text="{Binding Id, Converter={StaticResource EventReminderTimeOptionIdToStringConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
