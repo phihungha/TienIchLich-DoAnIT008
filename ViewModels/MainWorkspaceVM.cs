@@ -8,8 +8,6 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class MainWorkspaceVM : ViewModelBase
     {
-        private CalendarVM calendarVM;
-
         ICommand addEventCommand;
 
         /// <summary>
@@ -20,11 +18,17 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// View model for calendar controls.
         /// </summary>
-        public CalendarVM CalendarVM => calendarVM; 
+        public CalendarVM CalendarVM { get; private set; }
+
+        /// <summary>
+        /// View model for calendar event list view.
+        /// </summary>
+        public EventListVM EventListVM { get; private set; }
         
-        public MainWorkspaceVM(CalendarEventVMManager calendarEventVMs, CalendarCategoryVMManager calendarCategoryVMManager, NavigationVM navigationVM)
+        public MainWorkspaceVM(CalendarEventVMManager calendarEventVMManager, CalendarCategoryVMManager calendarCategoryVMManager, NavigationVM navigationVM)
         {
-            this.calendarVM = new CalendarVM(calendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs, navigationVM);
+            this.CalendarVM = new CalendarVM(calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs, navigationVM);
+            this.EventListVM = new EventListVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs);
             this.addEventCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewOnAdd(CalendarVM.SelectedDate)
                 );

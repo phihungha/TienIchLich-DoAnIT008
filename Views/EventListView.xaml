@@ -3,19 +3,121 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TienIchLich.Views"
+             xmlns:vm="clr-namespace:TienIchLich.ViewModels"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:TimeSpanToStringConverter x:Key="TimespanToStringConverter" />
+    </UserControl.Resources>
+    
     <Grid>
-        <DataGrid ItemsSource="{Binding CalendarEventVMs}" AutoGenerateColumns="False"
-                  Grid.Row="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <DataGrid Grid.Row="0"
+                  ItemsSource="{Binding EventCollectionView}" 
+                  AutoGenerateColumns="False" CanUserAddRows="False" 
+                  CanUserDeleteRows="False" IsReadOnly="True"
+                  GridLinesVisibility="None" 
+                  Background="Transparent" BorderThickness="0"
+                  FontSize="14">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Tiêu đề" Binding="{Binding Subject}" />
-                <DataGridTextColumn Header="Loại lịch" Binding="{Binding CalendarCategoryVM}" />
+                <DataGridTemplateColumn Header="Loại lịch">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="9" Height="9" VerticalAlignment="Center"
+                                             Margin="3" Fill="{Binding CalendarCategoryVM.DisplayColor}" />
+                                <TextBlock Margin="3" Foreground="{Binding CalendarCategoryVM.DisplayColor}" 
+                                               Text="{Binding CalendarCategoryVM.Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn> 
                 <DataGridTextColumn Header="Bắt đầu" Binding="{Binding StartTime}" />
                 <DataGridTextColumn Header="Kết thúc" Binding="{Binding EndTime}" />
-                <DataGridTextColumn Header="Nhắc nhở trước" Binding="{Binding ReminderTime}" />
+                <DataGridTextColumn Header="Nhắc nhở trước" 
+                                    Binding="{Binding ReminderTime, 
+                                              Converter={StaticResource TimespanToStringConverter}}" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <Expander Grid.Row="1" Background="Beige" Header="Lọc">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Height" Value="20" />
+                    </Style>
+
+                    <Style TargetType="xctk:DateTimePicker">
+                        <Setter Property="Format" Value="Custom" />
+                        <Setter Property="FormatString" Value="dd MMMM yyyy HH:mm" />
+                        <Setter Property="ClipValueToMinMax" Value="True" />
+                    </Style>
+                </Grid.Resources>
+
+                <TextBlock Grid.Row="0" Grid.Column="0">Chủ đề</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+                     Margin="15,0,100,15" Text="{Binding SubjectFilter, UpdateSourceTrigger=PropertyChanged}" />
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                    <CheckBox Margin="0,0,10,0" IsChecked="{Binding StartTimeFilter.Enable}" />
+                    <TextBlock>Ngày bắt đầu</TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="1" 
+                        Margin="15,0,0,15" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0">Min</TextBlock>
+                    <xctk:DateTimePicker IsEnabled="{Binding StartTimeFilter.Enable}"
+                                         Value="{Binding StartTimeFilter.Low}" 
+                                         Maximum="{Binding StartTimeFilter.High}" />
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="2" 
+                        Margin="15,0,0,15" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0">Max</TextBlock>
+                    <xctk:DateTimePicker IsEnabled="{Binding StartTimeFilter.Enable}"
+                                         Value="{Binding StartTimeFilter.High}"
+                                         Minimum="{Binding StartTimeFilter.Low}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                    <CheckBox Margin="0,0,10,0" IsChecked="{Binding EndTimeFilter.Enable}" />
+                    <TextBlock>Ngày kết thúc</TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Grid.Column="1" 
+                        Margin="15,0,0,15" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0">Min</TextBlock>
+                    <xctk:DateTimePicker IsEnabled="{Binding EndTimeFilter.Enable}"
+                                         Value="{Binding EndTimeFilter.Low}"
+                                         Maximum="{Binding EndTimeFilter.High}" />
+                </StackPanel>
+                <StackPanel Grid.Row="2" Grid.Column="2" 
+                        Margin="15,0,0,15" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,10,0">Max</TextBlock>
+                    <xctk:DateTimePicker IsEnabled="{Binding EndTimeFilter.Enable}"
+                                         Value="{Binding EndTimeFilter.High}"
+                                         Minimum="{Binding EndTimeFilter.Low}" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="3" Grid.Column="0">Mô tả</TextBlock>
+                <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" 
+                     Margin="15,0,100,15" Text="{Binding DescriptionFilter, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </Expander>
     </Grid>
 </UserControl>

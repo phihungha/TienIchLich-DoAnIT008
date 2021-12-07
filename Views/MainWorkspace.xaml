@@ -54,7 +54,7 @@
                 <TabItem.Header>
                     <TextBlock>Sự kiện</TextBlock>
                 </TabItem.Header>
-                <views:EventListView DataContext="{Binding CalendarVM}" />
+                <views:EventListView DataContext="{Binding EventListVM}" />
             </TabItem>
         </TabControl>
     </Grid>
