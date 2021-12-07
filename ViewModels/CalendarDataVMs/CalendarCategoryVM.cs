@@ -79,10 +79,10 @@ namespace TienIchLich.ViewModels
             new CategoryDisplayColorOption()
             {
                 Id = CategoryDisplayColorOptionId.Custom,
-                HexCode = null
+                HexCode = "#ffffff"
             },
         };
-        private string customDisplayColorOption;
+        private string customDisplayColorOption = "#ffffff";
 
         private ICommand deleteCommand;
 
