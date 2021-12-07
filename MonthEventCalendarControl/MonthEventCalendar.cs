@@ -89,9 +89,9 @@ namespace TienIchLich.MonthEventCalendarControl
         /// </summary>
         private void CalendarCategories_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.NewItems != null)
+            if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                CalendarCategoryVM newCategory = (CalendarCategoryVM)(e.NewItems[0]);
+                CalendarCategoryVM newCategory = (CalendarCategoryVM)e.NewItems[0];
                 newCategory.PropertyChanged += CategoryVM_PropertyChanged;
             }
         }
