@@ -162,7 +162,7 @@ namespace TienIchLich.ViewModels
 
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                CalendarCategoryVM newCategory = (CalendarCategoryVM)e.NewItems[0];
+                CalendarCategoryVM newCategory = (CalendarCategoryVM)e.OldItems[0];
                 newCategory.PropertyChanged -= CategoryVM_PropertyChanged;
             }
         }
