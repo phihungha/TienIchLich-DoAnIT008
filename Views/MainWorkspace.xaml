@@ -29,7 +29,7 @@
                 <TabItem.Header>
                     <TextBlock>Tóm tắt</TextBlock>
                 </TabItem.Header>
-                <views:UpcomingOverviewView />
+                <views:UpcomingOverviewView DataContext="{Binding UpcomingOverviewVM}" />
             </TabItem>
 
             <!-- Calendar month view -->

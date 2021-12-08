@@ -7,6 +7,72 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,15" HorizontalAlignment="Right" Orientation="Horizontal">
+            <TextBlock Margin="0,0,15,0">Hiển thị</TextBlock>
+            <ComboBox SelectedIndex="0">
+                <ComboBoxItem>1 tuần</ComboBoxItem>
+                <ComboBoxItem>2 tuần</ComboBoxItem>
+                <ComboBoxItem>1 tháng</ComboBoxItem>
+                <ComboBoxItem>6 tháng</ComboBoxItem>
+                <ComboBoxItem>1 năm</ComboBoxItem>
+                <ComboBoxItem>Tất cả</ComboBoxItem>
+                <ComboBoxItem>Tùy chọn</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+
+        <DataGrid Grid.Row="1"  AutoGenerateColumns="False"
+                  ItemsSource="{Binding EventCollectionView}"
+                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
+                  Margin="5" Background="Transparent" BorderThickness="0" FontSize="12" 
+                  GridLinesVisibility="None" HeadersVisibility="None">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DataTemplate.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="Margin" Value="3" />
+                                </Style>
+                            </DataTemplate.Resources>
+                            <Border Background="{Binding CalendarCategoryVM.DisplayColor}" CornerRadius="3" Margin="5,5,10,5">
+                                <StackPanel>
+                                    <TextBlock FontWeight="Bold" Text="{Binding Subject}" />
+                                    <TextBlock Text="{Binding StartTime, StringFormat=t}" />
+                                    <TextBlock Text="{Binding Description}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="GroupItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander IsExpanded="True" Margin="0,5,0,5">
+                                            <Expander.Header>
+                                                <TextBlock FontSize="14" Text="{Binding Name, StringFormat=D}" />
+                                            </Expander.Header>
+                                            <ItemsPresenter Margin="0,5,0,5" />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+        </DataGrid>
+                  
     </Grid>
 </UserControl>
