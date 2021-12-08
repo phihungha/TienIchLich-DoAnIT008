@@ -30,7 +30,8 @@ namespace TienIchLich.ViewModels
         public UpcomingOverviewVM(ObservableCollection<CalendarEventVM> eventVMs, ObservableCollection<CalendarCategoryVM> categoryVMs)
         {
             this.eventCollectionViewSource = new CollectionViewSource() 
-            {   Source = eventVMs, 
+            {   
+                Source = eventVMs, 
                 IsLiveFilteringRequested = true, 
                 IsLiveSortingRequested = true, 
                 IsLiveGroupingRequested = true 

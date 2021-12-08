@@ -24,7 +24,9 @@ namespace TienIchLich.ViewModels
                 timeSpanString += $"{timeSpan.Minutes} phút ";
             if (timeSpan.Seconds != 0)
                 timeSpanString += $"{timeSpan.Seconds} giây ";
-            return timeSpanString;
+            if (timeSpan.TotalSeconds == 0)
+                timeSpanString = "Ngay lập tức";
+             return timeSpanString;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
