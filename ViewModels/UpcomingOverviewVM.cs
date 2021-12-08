@@ -27,7 +27,7 @@ namespace TienIchLich.ViewModels
 
         public ICollectionView EventCollectionView => eventCollectionViewSource.View;
 
-        public UpcomingOverviewVM(ObservableCollection<CalendarEventVM> eventVMs, ObservableCollection<CalendarCategoryVM> categoryVMs)
+        public UpcomingOverviewVM(ObservableCollection<CalendarEventVM> eventVMs)
         {
             this.eventCollectionViewSource = new CollectionViewSource() 
             {   
@@ -36,6 +36,7 @@ namespace TienIchLich.ViewModels
                 IsLiveSortingRequested = true, 
                 IsLiveGroupingRequested = true 
             };
+            AttachEventHandlersToCalendarEventVMs(eventVMs);
             this.eventCollectionViewSource.Filter += EventCollectionViewSource_Filter;
             this.eventCollectionViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartTime", new DatetimeToDateConverter()));
             this.eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
@@ -72,10 +73,13 @@ namespace TienIchLich.ViewModels
                 eventVM.PropertyChanged -= DataVMChanged;
             }
 
+            this.EventCollectionView.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
+
         }
 
         private void DataVMChanged(object sender, PropertyChangedEventArgs e)
         {
+            this.eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
         }
     }
 }
