@@ -81,6 +81,8 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private CollectionViewSource eventCollectionViewSource;
+
         private string subjectFilter = "";
         private string descriptionFilter = "";
         private TimeFilter startTimeFilter;
@@ -89,8 +91,8 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Collection view for calendar event DataGrid.
         /// </summary>
-        public ICollectionView EventCollectionView { get; private set; }
-        
+        public ICollectionView EventCollectionView => eventCollectionViewSource.View;
+
         /// <summary>
         /// Event's subject filter words.
         /// </summary>
@@ -136,50 +138,27 @@ namespace TienIchLich.ViewModels
         public TimeFilter EndTimeFilter => endTimeFilter;
 
 
-        public EventListVM(ObservableCollection<CalendarEventVM> eventVMs, ObservableCollection<CalendarCategoryVM> categoryVMs)
+        public EventListVM(ObservableCollection<CalendarEventVM> eventVMs)
         {
-            this.EventCollectionView = CollectionViewSource.GetDefaultView(eventVMs);
+            this.eventCollectionViewSource = new CollectionViewSource()
+            {
+                Source = eventVMs,
+                IsLiveFilteringRequested = true
+            };
             this.startTimeFilter = new TimeFilter(this.EventCollectionView.Refresh);
             this.endTimeFilter = new TimeFilter(this.EventCollectionView.Refresh);
-            this.AttachEventHandlersToCalendarCategoryVMs(categoryVMs);
-            this.EventCollectionView.Filter = this.CollectionView_Filter;
+            this.eventCollectionViewSource.Filter += EventCollectionViewSource_Filter;
+            this.eventCollectionViewSource.LiveFilteringProperties.Add("CalendarCategoryVM.IsDisplayed");
         }
 
-        private void AttachEventHandlersToCalendarCategoryVMs(ObservableCollection<CalendarCategoryVM> categoryVMs)
+        private void EventCollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
-            categoryVMs.CollectionChanged += CategoryVMs_CollectionChanged;
-            foreach (CalendarCategoryVM categoryVM in categoryVMs)
-                categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
-        }
-
-        private void CategoryVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                CalendarCategoryVM newCategory = (CalendarCategoryVM)e.NewItems[0];
-                newCategory.PropertyChanged += CategoryVM_PropertyChanged;
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                CalendarCategoryVM newCategory = (CalendarCategoryVM)e.OldItems[0];
-                newCategory.PropertyChanged -= CategoryVM_PropertyChanged;
-            }
-        }
-
-        private void CategoryVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            this.EventCollectionView.Refresh();
-        }
-
-        private bool CollectionView_Filter(object item)
-        {
-            var eventVM = (CalendarEventVM)item;
-            return eventVM.Subject.Contains(this.SubjectFilter)
-                && eventVM.Description.Contains(this.DescriptionFilter)
-                && this.StartTimeFilter.Filter(eventVM.StartTime)
-                && this.EndTimeFilter.Filter(eventVM.EndTime)
-                && eventVM.CalendarCategoryVM.IsDisplayed;
+            var eventVM = (CalendarEventVM)e.Item;
+            e.Accepted = eventVM.Subject.Contains(this.SubjectFilter)
+                         && eventVM.Description.Contains(this.DescriptionFilter)
+                         && this.StartTimeFilter.Filter(eventVM.StartTime)
+                         && this.EndTimeFilter.Filter(eventVM.EndTime)
+                         && eventVM.CalendarCategoryVM.IsDisplayed;
         }
     }
 }
