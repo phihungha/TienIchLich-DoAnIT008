@@ -63,14 +63,6 @@ namespace TienIchLich.ViewModels
         // Backup data values to recover when cancel editing
         private Data backupData;
 
-        // Can this category be deleted.
-        private bool canDelete = true;
-
-        /// <summary>
-        /// Command to delete this category.
-        /// </summary>
-        public ICommand DeleteCommand { get; private set; }
-
         /// <summary>
         /// Id of this category in database for searching.
         /// </summary>
@@ -78,11 +70,11 @@ namespace TienIchLich.ViewModels
         {
             get
             {
-                return this.data.id;
+                return data.id;
             }
             set
             {
-                this.data.id = value;
+                data.id = value;
                 NotifyPropertyChanged();
             }
         }
@@ -94,11 +86,11 @@ namespace TienIchLich.ViewModels
         {
             get
             {
-                return this.data.name;
+                return data.name;
             }
             set
             {
-                this.data.name = value;
+                data.name = value;
                 NotifyPropertyChanged();
             }
         }
@@ -110,12 +102,12 @@ namespace TienIchLich.ViewModels
         {
             get
             {
-                return this.data.displayColor;
+                return data.displayColor;
             }
             set
             {
-                this.data.displayColor = value;
-                this.SetSelectedOptionFromDisplayColor();
+                data.displayColor = value;
+                SetSelectedOptionFromDisplayColor();
                 NotifyPropertyChanged();
             }
         }
@@ -127,11 +119,11 @@ namespace TienIchLich.ViewModels
         {
             get
             {
-                return this.data.isDisplayed;
+                return data.isDisplayed;
             }
             set
             {
-                this.data.isDisplayed = value;
+                data.isDisplayed = value;
                 NotifyPropertyChanged();
             }
         }
@@ -146,17 +138,25 @@ namespace TienIchLich.ViewModels
                 string result = null;
                 if (columnName == "Name")
                 {
-                    if (this.Name == "")
+                    if (Name == "")
                     {
                         result = "Tên không được rỗng!";
-                        this.canDelete = false;
+                        canDelete = false;
                     }
                     else
-                        this.canDelete = true;
+                        canDelete = true;
                 }
                 return result;
             }
         }
+
+        // Can this category be deleted.
+        private bool canDelete = true;
+
+        /// <summary>
+        /// Command to delete this category.
+        /// </summary>
+        public ICommand DeleteCommand { get; private set; }
 
         private static CategoryDisplayColorOption[] displayColorOptions =
         {
@@ -247,14 +247,14 @@ namespace TienIchLich.ViewModels
         {
             this.calendarCategoryVMManager = calendarCategoryVMManager;
             this.dialogService = dialogService;
-            this.DeleteCommand = new RelayCommand(i => this.DeleteCategory(),
-                                                  i => this.canDelete);
+            DeleteCommand = new RelayCommand(i => DeleteCategory(),
+                                                  i => canDelete);
 
             // Default values for a new category created on a DataGrid.
-            this.Id = -1;
-            this.Name = "(Tên trống)";
-            this.DisplayColor = DisplayColorOptions[0].HexCode;
-            this.IsDisplayed = true;
+            Id = -1;
+            Name = "(Tên trống)";
+            DisplayColor = DisplayColorOptions[0].HexCode;
+            IsDisplayed = true;
         }
 
         /// <summary>
@@ -262,10 +262,10 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void SetDisplayColorFromSelectedOption()
         {
-            if (this.SelectedDisplayColorOption.Id == CategoryDisplayColorOptionId.Custom)
-                this.DisplayColor = this.CustomDisplayColorOption;
+            if (SelectedDisplayColorOption.Id == CategoryDisplayColorOptionId.Custom)
+                DisplayColor = CustomDisplayColorOption;
             else
-                this.DisplayColor = this.SelectedDisplayColorOption.HexCode;
+                DisplayColor = SelectedDisplayColorOption.HexCode;
         }
 
         /// <summary>
@@ -273,13 +273,13 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void SetSelectedOptionFromDisplayColor()
         {
-            this.SelectedDisplayColorOption = DisplayColorOptions
-                .Where(i => i.HexCode == this.DisplayColor)
+            SelectedDisplayColorOption = DisplayColorOptions
+                .Where(i => i.HexCode == DisplayColor)
                 .DefaultIfEmpty(DisplayColorOptions[7])
                 .First();
 
-            if (this.SelectedDisplayColorOption.Id == CategoryDisplayColorOptionId.Custom)
-                this.CustomDisplayColorOption = this.DisplayColor;
+            if (SelectedDisplayColorOption.Id == CategoryDisplayColorOptionId.Custom)
+                CustomDisplayColorOption = DisplayColor;
         }
 
         /// <summary>
@@ -287,26 +287,26 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void DeleteCategory()
         {
-            if (this.dialogService.ShowConfirmation("Bạn có muốn xóa loại lịch này?"))
-                this.calendarCategoryVMManager.DeleteCalendarCategory(this);
+            if (dialogService.ShowConfirmation("Bạn có muốn xóa loại lịch này?"))
+                calendarCategoryVMManager.DeleteCalendarCategory(this);
         }
 
         // DataGrid editing helper methods.
         public void BeginEdit()
         {
-            this.backupData = data;
+            backupData = data;
         }
 
         public void CancelEdit()
         {
-            this.Name = this.backupData.name;
-            this.DisplayColor = this.backupData.displayColor;
+            Name = backupData.name;
+            DisplayColor = backupData.displayColor;
         }
 
         public void EndEdit()
         {
-            this.SetDisplayColorFromSelectedOption();
-            this.calendarCategoryVMManager.EditCalendarCategory(this);
+            SetDisplayColorFromSelectedOption();
+            calendarCategoryVMManager.EditCalendarCategory(this);
         }
     }
 }
