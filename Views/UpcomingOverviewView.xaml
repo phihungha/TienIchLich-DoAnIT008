@@ -3,25 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:vm="clr-namespace:TienIchLich.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <vm:StartTimeFilterOptionToString x:Key="StartTimeFilterOptionToString" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="0,0,0,15" HorizontalAlignment="Right" Orientation="Horizontal">
-            <TextBlock Margin="0,0,15,0">Hiển thị</TextBlock>
-            <ComboBox SelectedIndex="0">
-                <ComboBoxItem>1 tuần</ComboBoxItem>
-                <ComboBoxItem>2 tuần</ComboBoxItem>
-                <ComboBoxItem>1 tháng</ComboBoxItem>
-                <ComboBoxItem>6 tháng</ComboBoxItem>
-                <ComboBoxItem>1 năm</ComboBoxItem>
-                <ComboBoxItem>Tất cả</ComboBoxItem>
-                <ComboBoxItem>Tùy chọn</ComboBoxItem>
+        <StackPanel Grid.Row="0" Margin="15" HorizontalAlignment="Right" Orientation="Horizontal">
+            <TextBlock VerticalAlignment="Center" Margin="0,0,15,0">Hiển thị</TextBlock>
+            <ComboBox ItemsSource="{Binding StartTimeFilterOptions}" 
+                      SelectedItem="{Binding SelectedStartTimeFilterOption}" 
+                      Margin="0,0,15,0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Id, Converter={StaticResource StartTimeFilterOptionToString}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
+            <xctk:TimeSpanUpDown Value="{Binding StartTimeFilterValue}" Minimum="0" 
+                                 VerticalAlignment="Center" Margin="0,0,15,0"
+                                 Visibility="{Binding UseCustomStartTimeFilter, 
+                                              Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </StackPanel>
 
         <DataGrid Grid.Row="1"  AutoGenerateColumns="False"
@@ -39,9 +49,9 @@
                                     <Setter Property="Margin" Value="3" />
                                 </Style>
                             </DataTemplate.Resources>
-                            <Border Background="{Binding CalendarCategoryVM.DisplayColor}" CornerRadius="3" Margin="5,5,10,5">
+                            <Border HorizontalAlignment="Stretch" Background="{Binding CalendarCategoryVM.DisplayColor}" CornerRadius="3" Margin="5,5,10,5">
                                 <StackPanel>
-                                    <TextBlock FontWeight="Bold" Text="{Binding Subject}" />
+                                    <TextBlock FontSize="13" FontWeight="Bold" Text="{Binding Subject}" />
                                     <TextBlock Text="{Binding StartTime, StringFormat=t}" />
                                     <TextBlock Text="{Binding Description}" />
                                 </StackPanel>
