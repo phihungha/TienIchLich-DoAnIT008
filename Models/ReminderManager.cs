@@ -27,7 +27,7 @@ namespace TienIchLich.Models
         /// <param name="calendarEventId">Calendar event Id associated with this timer for later access</param>
         /// <param name="startTime">Start time of calendar event</param>
         /// <param name="reminderTime">Reminder time of calendar event</param>
-        /// <param name="elapsedEventHandler">Function that does work to remind users</param>
+        /// <param name="elapsedEventHandler">Method that does work to remind users</param>
         public void Add(long calendarEventId, DateTime startTime, TimeSpan reminderTime, ElapsedEventHandler elapsedEventHandler)
         {
             double timerInterval = GetReminderInterval(startTime, reminderTime);
