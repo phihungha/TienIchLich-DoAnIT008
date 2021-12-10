@@ -11,34 +11,34 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class CalendarCategoryVMManager : ViewModelBase
     {
-        private ObservableCollection<CalendarCategoryVM> calendarCategoryVMs = new();
         private DialogService dialogService;
 
         /// <summary>
         /// Calendar category view models.
         /// </summary>
-        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs => calendarCategoryVMs; 
+        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs { get; private set; }
 
         public CalendarCategoryVMManager(DialogService dialogService)
         {
             this.dialogService = dialogService;
+            CalendarCategoryVMs = new ObservableCollection<CalendarCategoryVM>();
 
-            // Build view models from all calendar categories in database
+            // Build view models for all calendar categories in database
             using (var db = new CalendarDbContext())
             {
                 foreach (CalendarCategory categoryModel in db.CalendarCategories)
-                    this.calendarCategoryVMs.Add(GetVMFromCalendarCategoryModel(categoryModel));
+                    CalendarCategoryVMs.Add(GetVMFromCalendarCategoryModel(categoryModel));
             }
         }
 
         /// <summary>
-        /// Build view model of calendar category.
+        /// Get view model of a calendar category from model data.
         /// </summary>
-        /// <param name="calendarCategory">Calendar category model object.</param>
+        /// <param name="calendarCategory">Calendar category model object</param>
         /// <returns></returns>
         private CalendarCategoryVM GetVMFromCalendarCategoryModel(CalendarCategory calendarCategory)
         {
-            return new CalendarCategoryVM(this, this.dialogService)
+            return new CalendarCategoryVM(this, dialogService)
             {
                 Id = calendarCategory.CalendarCategoryId,
                 Name = calendarCategory.Name,
@@ -47,9 +47,9 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
-        /// Add new calendar category into database from provided calendar category view model.
+        /// Add a new calendar category into database.
         /// </summary>
-        /// <param name="categoryVM">View model of calendar category to add.</param>
+        /// <param name="categoryVM">View model of calendar category to add</param>
         public void AddCalendarCategory(CalendarCategoryVM categoryVM)
         {
             using (var db = new CalendarDbContext())
@@ -65,14 +65,13 @@ namespace TienIchLich.ViewModels
                 categoryVM.Id = newCategory.CalendarCategoryId;
             }
 
-            // Add to view model collection to update displayed ItemControls
-            this.CalendarCategoryVMs.Add(categoryVM);
+            CalendarCategoryVMs.Add(categoryVM);
         }
 
         /// <summary>
-        /// Edit calendar category of provided calendar category view model in database.
+        /// Edit a calendar category in database.
         /// </summary>
-        /// <param name="categoryVM">View model of calendar category to edit.</param>
+        /// <param name="categoryVM">View model of calendar category to edit</param>
         public void EditCalendarCategory(CalendarCategoryVM categoryVM)
         {
             using (var db = new CalendarDbContext())
@@ -86,9 +85,9 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
-        /// Delete calendar category of provided calendar category view model from database.
+        /// Delete a calendar category from database.
         /// </summary>
-        /// <param name="categoryVM">View model of calendar category to delete.</param>
+        /// <param name="categoryVM">View model of calendar category to delete</param>
         public void DeleteCalendarCategory(CalendarCategoryVM categoryVM)
         {
             using (var db = new CalendarDbContext())
@@ -98,8 +97,7 @@ namespace TienIchLich.ViewModels
                 db.SaveChanges();
             }
 
-            // Remove from view model collection to update displayed ItemControls
-            this.CalendarCategoryVMs.Remove(categoryVM);
+            CalendarCategoryVMs.Remove(categoryVM);
         }
     }
 }
