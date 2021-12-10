@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace TienIchLich.ViewModels
 {
     /// <summary>
-    /// Base class for view models. Contains property notification code.
+    /// Base class for view models. Contains property change notification code.
     /// </summary>
     public class ViewModelBase : INotifyPropertyChanged
     {

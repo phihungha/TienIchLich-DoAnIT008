@@ -7,30 +7,29 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class MainWindowVM : ViewModelBase
     {
-        CategoryPanelVM categoryPanelVM;
-        NavigationVM navigationVM;
+        /// <summary>
+        /// View model for navigation purposes.
+        /// </summary>
+        public NavigationVM NavigationVM { get; private set; }
 
         /// <summary>
-        /// Current view model to display
+        /// View model for category panel.
         /// </summary>
-        public NavigationVM NavigationVM => navigationVM;
-
-        public CategoryPanelVM CategoryPanelVM => categoryPanelVM;
+        public CategoryPanelVM CategoryPanelVM { get; private set; }
 
         public MainWindowVM(DialogService dialogService)
         {
-            this.navigationVM = new NavigationVM();
+            NavigationVM = new NavigationVM();
+
             var calendarCategoryVMManager = new CalendarCategoryVMManager(dialogService);
-            var calendarEventVMManager = new CalendarEventVMManager(this.navigationVM, calendarCategoryVMManager);
+            var calendarEventVMManager = new CalendarEventVMManager(NavigationVM, calendarCategoryVMManager);
 
-            this.categoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
-
-            var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager, calendarCategoryVMManager, this.navigationVM);
-            var eventEditorVM = new EventEditorVM(this.navigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
-
-            this.navigationVM.EventEditorVM = eventEditorVM;
-            this.navigationVM.MainWorkspaceVM = mainWorkspaceVM;
-            this.navigationVM.DisplayedVM = mainWorkspaceVM;
+            CategoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
+            var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager, calendarCategoryVMManager, NavigationVM);
+            var eventEditorVM = new EventEditorVM(NavigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
+            NavigationVM.EventEditorVM = eventEditorVM;
+            NavigationVM.MainWorkspaceVM = mainWorkspaceVM;
+            NavigationVM.DisplayedVM = mainWorkspaceVM;
         }
     }
 }

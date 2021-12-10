@@ -9,7 +9,9 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class RelayCommand : ICommand
     {
+        // Method that provides logic for this command
         private Action<object> execute;
+        // Method that decides if this command can be executed
         private Predicate<object> canExecute;
 
         public event EventHandler CanExecuteChanged
@@ -24,14 +26,23 @@ namespace TienIchLich.ViewModels
             this.canExecute = canExecute;
         }
 
+        /// <summary>
+        /// Can this command be executed.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
         public bool CanExecute(object parameter)
         {
-            return this.canExecute == null || this.canExecute(parameter);
+            return canExecute == null || canExecute(parameter);
         }
 
+        /// <summary>
+        /// Execute the logic of this command.
+        /// </summary>
+        /// <param name="parameter">Parameter for this command</param>
         public void Execute(object parameter)
         {
-            this.execute(parameter);
+            execute(parameter);
         }
     }
 }

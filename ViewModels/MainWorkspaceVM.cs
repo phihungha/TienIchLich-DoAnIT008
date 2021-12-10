@@ -1,22 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace TienIchLich.ViewModels
 {
     /// <summary>
-    /// View model of the main workspace.
+    /// View model of the main workspace view.
     /// </summary>
     public class MainWorkspaceVM : ViewModelBase
     {
-        ICommand addEventCommand;
-
         /// <summary>
         /// Command to add a new event.
         /// </summary>
-        public ICommand AddEventCommand => addEventCommand;
+        public ICommand AddEventCommand { get; private set; }
 
         /// <summary>
-        /// View model for calendar controls.
+        /// View model for calendar view.
         /// </summary>
         public CalendarVM CalendarVM { get; private set; }
 
@@ -32,11 +29,11 @@ namespace TienIchLich.ViewModels
 
         public MainWorkspaceVM(CalendarEventVMManager calendarEventVMManager, CalendarCategoryVMManager calendarCategoryVMManager, NavigationVM navigationVM)
         {
-            this.CalendarVM = new CalendarVM(calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs, navigationVM);
-            this.EventListVM = new EventListVM(calendarEventVMManager.CalendarEventVMs);
-            this.UpcomingOverviewVM = new UpcomingOverviewVM(calendarEventVMManager.CalendarEventVMs);
-            this.addEventCommand = new RelayCommand(
-                i => navigationVM.NavigateToEventEditorViewOnAdd(CalendarVM.SelectedDate)
+            CalendarVM = new CalendarVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs, navigationVM);
+            EventListVM = new EventListVM(calendarEventVMManager.CalendarEventVMs);
+            UpcomingOverviewVM = new UpcomingOverviewVM(calendarEventVMManager.CalendarEventVMs);
+            AddEventCommand = new RelayCommand(
+                i => navigationVM.NavigateToEventEditorViewToAdd(CalendarVM.SelectedDate)
                 );
         }
     }

@@ -7,12 +7,10 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class NavigationVM : ViewModelBase
     {
-        private MainWorkspaceVM mainWorkspaceVM;
-        private EventEditorVM eventEditorVM;
         private ViewModelBase displayedVM;
 
         /// <summary>
-        /// Currently displayed view model.
+        /// Currently displayed view.
         /// </summary>
         public ViewModelBase DisplayedVM
         {
@@ -27,6 +25,11 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private MainWorkspaceVM mainWorkspaceVM;
+
+        /// <summary>
+        /// Main workspace view
+        /// </summary>
         public MainWorkspaceVM MainWorkspaceVM
         {
             set
@@ -36,6 +39,11 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private EventEditorVM eventEditorVM;
+
+        /// <summary>
+        /// Event editor view.
+        /// </summary>
         public EventEditorVM EventEditorVM
         {
             set
@@ -50,29 +58,27 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public void NavigateToMainWorkspaceView()
         {
-            this.DisplayedVM = this.mainWorkspaceVM;
+            DisplayedVM = mainWorkspaceVM;
         }
 
         /// <summary>
-        /// Navigate to event editor view. 
-        /// Begin editing on provided calendar event view model.
+        /// Navigate to event editor view to edit a calendar event.
         /// </summary>
-        /// <param name="calendarEventVM">View model of calendar event to edit.</param>
-        public void NavigateToEventEditorViewOnEdit(CalendarEventVM calendarEventVM)
+        /// <param name="calendarEventVM">View model of calendar event to edit</param>
+        public void NavigateToEventEditorViewToEdit(CalendarEventVM calendarEventVM)
         {
-            this.eventEditorVM.BeginEdit(calendarEventVM);
-            this.DisplayedVM = this.eventEditorVM;
+            eventEditorVM.BeginEdit(calendarEventVM);
+            DisplayedVM = eventEditorVM;
         }
 
         /// <summary>
-        /// Navigate to event editor view. 
-        /// Begin adding calendar event with provided start time.
+        /// Navigate to event editor view to add a new calendar event.
         /// </summary>
-        /// <param name="startTime">View model of calendar event to edit.</param>
-        public void NavigateToEventEditorViewOnAdd(DateTime? startTime)
+        /// <param name="startTime">Start time of new calendar event</param>
+        public void NavigateToEventEditorViewToAdd(DateTime? startTime)
         {
-            this.eventEditorVM.BeginAdd(startTime);
-            this.DisplayedVM = this.eventEditorVM;
+            eventEditorVM.BeginAdd(startTime);
+            DisplayedVM = eventEditorVM;
         }
     }
 }

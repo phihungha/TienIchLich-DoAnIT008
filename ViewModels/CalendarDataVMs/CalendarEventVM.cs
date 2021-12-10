@@ -167,7 +167,7 @@ namespace TienIchLich.ViewModels
             }
             
             this.OpenEditorCommand = new RelayCommand(
-                i => navigationVM.NavigateToEventEditorViewOnEdit(this),
+                i => navigationVM.NavigateToEventEditorViewToEdit(this),
                 i => true);
             this.DeleteCommand = new RelayCommand(
                 i => eventVMManager.DeleteCalendarEvent(this));
