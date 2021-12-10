@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Linq;
 using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {
     /// <summary>
-    /// Category display color option identifiers.
+    /// Identifiers for category display color option.
     /// </summary>
     public enum CategoryDisplayColorOptionId
     {
@@ -22,31 +22,148 @@ namespace TienIchLich.ViewModels
     }
 
     /// <summary>
-    /// Info of each category display option.
+    /// Info of each category display color option.
     /// </summary>
     public struct CategoryDisplayColorOption
     {
+        /// <summary>
+        /// Identifier of this option.
+        /// </summary>
         public CategoryDisplayColorOptionId Id { get; set; }
+
+        /// <summary>
+        /// Color hex code of this option.
+        /// </summary>
         public string HexCode { get; set; }
     }
 
     /// <summary>
-    /// View model of a calendar category for
-    /// displaying in ItemsControl and passing around.
-    /// Provides support for editing directly on this object in the view.
+    /// View model of a calendar category for displaying in ItemsControl.
+    /// Provides support for editing in a DataGrid.
     /// </summary>
     public class CalendarCategoryVM : ViewModelBase, IEditableObject, IDataErrorInfo
     {
         private CalendarCategoryVMManager calendarCategoryVMManager;
         private DialogService dialogService;
 
-        private CategoryDisplayColorOption selectedDisplayColorOption;
+        /// <summary>
+        /// Data values of this category.
+        /// </summary>
+        private struct Data
+        {
+            public int id;
+            public string name;
+            public string displayColor;
+            public bool isDisplayed;
+        }
+
+        // Current data values
+        private Data data;
+
+        // Backup data values to recover when cancel editing
+        private Data backupData;
+
+        // Can this category be deleted.
+        private bool canDelete = true;
+
+        /// <summary>
+        /// Command to delete this category.
+        /// </summary>
+        public ICommand DeleteCommand { get; private set; }
+
+        /// <summary>
+        /// Id of this category in database for searching.
+        /// </summary>
+        public int Id
+        {
+            get
+            {
+                return this.data.id;
+            }
+            set
+            {
+                this.data.id = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Name of this category.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.data.name;
+            }
+            set
+            {
+                this.data.name = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Display color of this category.
+        /// </summary>
+        public string DisplayColor
+        {
+            get
+            {
+                return this.data.displayColor;
+            }
+            set
+            {
+                this.data.displayColor = value;
+                this.SetSelectedOptionFromDisplayColor();
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// True if events belong to this category is displayed.
+        /// </summary>
+        public bool IsDisplayed
+        {
+            get
+            {
+                return this.data.isDisplayed;
+            }
+            set
+            {
+                this.data.isDisplayed = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // Data validation
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = null;
+                if (columnName == "Name")
+                {
+                    if (this.Name == "")
+                    {
+                        result = "Tên không được rỗng!";
+                        this.canDelete = false;
+                    }
+                    else
+                        this.canDelete = true;
+                }
+                return result;
+            }
+        }
+
         private static CategoryDisplayColorOption[] displayColorOptions =
         {
-            new CategoryDisplayColorOption() 
-            {   
-                Id = CategoryDisplayColorOptionId.Black, 
-                HexCode = Colors.Black.ToString() 
+            new CategoryDisplayColorOption()
+            {
+                Id = CategoryDisplayColorOptionId.Black,
+                HexCode = Colors.Black.ToString()
             },
             new CategoryDisplayColorOption()
             {
@@ -84,28 +201,16 @@ namespace TienIchLich.ViewModels
                 HexCode = "#ffffff"
             },
         };
-        private string customDisplayColorOption = "#ffffff";
-
-        private bool canDelete = true; // Can this category be deleted.
-
-        struct Data
-        {
-            public int id;
-            public string name;
-            public string displayColor;
-            public bool isDisplayed;
-        }
-
-        private Data data; // Current data values
-        private Data backupData; // Backup data values to recover when cancel editing
 
         /// <summary>
-        /// Options for category display color.
+        /// Options for display color.
         /// </summary>
         public static CategoryDisplayColorOption[] DisplayColorOptions => displayColorOptions;
 
+        private CategoryDisplayColorOption selectedDisplayColorOption;
+
         /// <summary>
-        /// Selected category display color.
+        /// Selected display color option.
         /// </summary>
         public CategoryDisplayColorOption SelectedDisplayColorOption
         {
@@ -119,9 +224,11 @@ namespace TienIchLich.ViewModels
                 NotifyPropertyChanged();
             }
         }
-        
+
+        private string customDisplayColorOption = "#ffffff";
+
         /// <summary>
-        /// Chosen custom display color.
+        /// Selected custom display color.
         /// </summary>
         public string CustomDisplayColorOption
         {
@@ -136,101 +243,14 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        /// <summary>
-        /// Command to delete this calendar category.
-        /// </summary>
-        public ICommand DeleteCommand { get; private set; }
-
-        /// <summary>
-        /// Id of category in the model for searching.
-        /// </summary>
-        public int Id
-        {
-            get
-            {
-                return this.data.id;
-            }
-            set
-            {
-                this.data.id = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Category name.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.data.name;
-            }
-            set
-            {
-                this.data.name = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Category display color.
-        /// </summary>
-        public string DisplayColor
-        {
-            get
-            {
-                return this.data.displayColor;
-            }
-            set
-            {
-                this.data.displayColor = value;
-                this.SetSelectedOptionFromDisplayColor();
-                NotifyPropertyChanged();
-            }
-        }
-
-        public bool IsDisplayed
-        {
-            get
-            {
-                return this.data.isDisplayed;
-            }
-            set
-            {
-                this.data.isDisplayed = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public string Error => null;
-
-        public string this[string columnName]
-        {
-            get
-            {
-                string result = null;
-                if (columnName == "Name")
-                {
-                    if (this.Name == "")
-                    {
-                        result = "Tên không được rỗng!";
-                        this.canDelete = false;
-                    }
-                    else
-                        this.canDelete = true;
-                }
-                return result;
-            }
-        }
-
         public CalendarCategoryVM(CalendarCategoryVMManager calendarCategoryVMManager, DialogService dialogService)
         {
             this.calendarCategoryVMManager = calendarCategoryVMManager;
             this.dialogService = dialogService;
-            this.DeleteCommand = new RelayCommand(i => this.DeleteCategory(), 
+            this.DeleteCommand = new RelayCommand(i => this.DeleteCategory(),
                                                   i => this.canDelete);
 
+            // Default values for a new category created on a DataGrid.
             this.Id = -1;
             this.Name = "(Tên trống)";
             this.DisplayColor = DisplayColorOptions[0].HexCode;
@@ -238,7 +258,7 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
-        /// Set category view model's DisplayColor with the selected option.
+        /// Set DisplayColor value from the selected display color option.
         /// </summary>
         private void SetDisplayColorFromSelectedOption()
         {
@@ -249,7 +269,7 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
-        /// Set currently selected option from DisplayColor.
+        /// Set selected display color option from DisplayColor value.
         /// </summary>
         private void SetSelectedOptionFromDisplayColor()
         {
@@ -262,12 +282,16 @@ namespace TienIchLich.ViewModels
                 this.CustomDisplayColorOption = this.DisplayColor;
         }
 
+        /// <summary>
+        /// Delete this category.
+        /// </summary>
         private void DeleteCategory()
         {
             if (this.dialogService.ShowConfirmation("Bạn có muốn xóa loại lịch này?"))
                 this.calendarCategoryVMManager.DeleteCalendarCategory(this);
         }
 
+        // DataGrid editing helper methods.
         public void BeginEdit()
         {
             this.backupData = data;
@@ -281,8 +305,8 @@ namespace TienIchLich.ViewModels
 
         public void EndEdit()
         {
-           this.SetDisplayColorFromSelectedOption();
-           this.calendarCategoryVMManager.EditCalendarCategory(this);
+            this.SetDisplayColorFromSelectedOption();
+            this.calendarCategoryVMManager.EditCalendarCategory(this);
         }
     }
 }

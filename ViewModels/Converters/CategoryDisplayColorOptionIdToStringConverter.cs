@@ -23,18 +23,25 @@ namespace TienIchLich.ViewModels
             {
                 case CategoryDisplayColorOptionId.Black:
                     return "Đen";
+
                 case CategoryDisplayColorOptionId.Red:
                     return "Đỏ";
+
                 case CategoryDisplayColorOptionId.Yellow:
                     return "Vàng";
+
                 case CategoryDisplayColorOptionId.Green:
                     return "Xanh lá";
+
                 case CategoryDisplayColorOptionId.Blue:
                     return "Xanh nước biển";
+
                 case CategoryDisplayColorOptionId.Cyan:
                     return "Xanh nhạt";
+
                 case CategoryDisplayColorOptionId.Purple:
                     return "Tím";
+
                 default:
                     return optionId.ToString();
             }
