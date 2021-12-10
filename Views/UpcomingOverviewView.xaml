@@ -79,6 +79,11 @@
                             </Setter>
                         </Style>
                     </GroupStyle.ContainerStyle>
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <DataGridRowsPresenter />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
                 </GroupStyle>
             </DataGrid.GroupStyle>
         </DataGrid>
