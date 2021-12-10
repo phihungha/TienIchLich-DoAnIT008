@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {
@@ -104,12 +106,13 @@ namespace TienIchLich.ViewModels
         public TimeSpan Timespan { get; set; }
     }
 
-    public class EventEditorVM : ViewModelBase
+    public class EventEditorVM : ViewModelBase, IDataErrorInfo
     {
         private NavigationVM navigationVM;
         private CalendarEventVM calendarEventVM;
         private ObservableCollection<CalendarCategoryVM> categoryVMs;
         private CalendarEventVMManager eventVMManager;
+        private DialogService dialogService;
 
         private static EventReminderTimeOption[] reminderTimeOptions =
         {
@@ -127,7 +130,8 @@ namespace TienIchLich.ViewModels
         private ICommand cancelCommand;
         private ICommand saveCommand;
         private ICommand deleteCommand;
-        private bool editMode = false;
+        private bool editMode = false; // In edit mode, the provided calendar event view model is edited/deleted.
+        private bool canSave = true; // Can what is in the editor be saved as a calendar event.
 
         private CalendarEventTime eventTime = new();
         private CalendarEventDatetimePickerVM eventDatetimePickerVM;
@@ -353,15 +357,36 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        public string Error => null;
 
-        public EventEditorVM(NavigationVM navigationVM, CalendarEventVMManager calendarEventVMs, ObservableCollection<CalendarCategoryVM> calendarCategoryVMs)
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = null;
+                if (columnName == "Subject")
+                {
+                    if (this.Subject == "")
+                    {
+                        result = "Chủ đề không được rỗng!";
+                        this.canSave = false;
+                    }
+                    else
+                        this.canSave = true;
+                }
+                return result;
+            }
+        }
+
+        public EventEditorVM(NavigationVM navigationVM, DialogService dialogService, CalendarEventVMManager calendarEventVMs, ObservableCollection<CalendarCategoryVM> calendarCategoryVMs)
         {
             this.navigationVM = navigationVM;
+            this.dialogService = dialogService;
             this.categoryVMs = calendarCategoryVMs;
             this.eventVMManager = calendarEventVMs;
 
             this.cancelCommand = new RelayCommand(i => this.HideView(), i => true);
-            this.saveCommand = new RelayCommand(i => this.SaveEvent(), i => true);
+            this.saveCommand = new RelayCommand(i => this.SaveEvent(), i => this.canSave);
             this.deleteCommand = new RelayCommand(i => this.DeleteEvent(), i => this.editMode);
 
             this.eventDatePickerVM = new CalendarEventDatePickerVM(this.eventTime);
@@ -384,7 +409,7 @@ namespace TienIchLich.ViewModels
         {
             if (startTime == null)
             {
-                this.CalendarEventVM = new CalendarEventVM(this.navigationVM)
+                this.CalendarEventVM = new CalendarEventVM(this.navigationVM, this.eventVMManager)
                 {
                     CalendarCategoryVM = this.CalendarCategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
@@ -392,7 +417,7 @@ namespace TienIchLich.ViewModels
             }
             else
             {
-                this.CalendarEventVM = new CalendarEventVM(this.navigationVM, startTime)
+                this.CalendarEventVM = new CalendarEventVM(this.navigationVM, this.eventVMManager, startTime)
                 {
                     CalendarCategoryVM = this.CalendarCategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
@@ -495,9 +520,12 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void DeleteEvent()
         {
-            this.eventVMManager.DeleteCalendarEvent(this.calendarEventVM);
-            this.editMode = false;
-            this.navigationVM.NavigateToMainWorkspaceView();
+            if (this.dialogService.ShowConfirmation("Bạn có muốn xóa sự kiện này?"))
+            {
+                this.eventVMManager.DeleteCalendarEvent(this.calendarEventVM);
+                this.editMode = false;
+                this.navigationVM.NavigateToMainWorkspaceView();
+            }
         }
 
         private void HideView()

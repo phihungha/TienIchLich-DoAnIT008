@@ -37,7 +37,21 @@
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
-        
+
+        <Style TargetType="ToolTip">
+            <Setter Property="Foreground" Value="Red" />
+            <Setter Property="IsOpen" Value="True" />
+        </Style>
+
+        <Style x:Key="DataGridTextBoxStyle" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
+                                                       Path=(Validation.Errors)/ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <vm:CategoryDisplayColorOptionTemplateSelector x:Key="CategoryDisplayColorOptionTemplateSelector" />
     </UserControl.Resources>
     
@@ -73,7 +87,7 @@
                         Padding="7,4,7,4" Content="Thêm" />
             </Grid>
 
-            <DataGrid Grid.Row="1" 
+            <DataGrid Name="CalendarCategoryDataGrid" Grid.Row="1" 
                       ItemsSource="{Binding CalendarCategoryVMs}"
                       AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
                       Margin="0,10,0,0" MinRowHeight="30"
@@ -107,8 +121,9 @@
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTextColumn Binding="{Binding Name}" Width="*" />
-                    
+                    <DataGridTextColumn Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                                        EditingElementStyle="{StaticResource DataGridTextBoxStyle}"  Width="*" />
+
                     <DataGridTemplateColumn Width="50">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

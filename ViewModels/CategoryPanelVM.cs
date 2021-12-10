@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {
-
     public class CategoryPanelVM : ViewModelBase
     {
         private CalendarCategoryVMManager calendarCategoryVMManager;
@@ -21,11 +21,11 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand AddCommand => addCommand;
 
-        public CategoryPanelVM(CalendarCategoryVMManager calendarCategoryVMManager)
+        public CategoryPanelVM(CalendarCategoryVMManager calendarCategoryVMManager, DialogService dialogService)
         {
             this.calendarCategoryVMManager = calendarCategoryVMManager;
             this.addCommand = new RelayCommand(
-                i => calendarCategoryVMManager.AddCalendarCategory(new CalendarCategoryVM(calendarCategoryVMManager)), 
+                i => calendarCategoryVMManager.AddCalendarCategory(new CalendarCategoryVM(calendarCategoryVMManager, dialogService)), 
                 i => true);
         }
     }

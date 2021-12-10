@@ -16,13 +16,16 @@
         </Style>
         
         <Style TargetType="DatePicker">
+            <Setter Property="SelectedDateFormat" Value="Long" />
+            <Setter Property="Padding" Value="10,2,0,2" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
         </Style>
 
         <Style TargetType="xctk:DateTimePicker">
-            <Setter Property="Format" Value="Custom" />
-            <Setter Property="FormatString" Value="dddd, dd MMMM yyyy HH:mm" />
+            <Setter Property="Padding" Value="10,2,0,2" />
             <Setter Property="ClipValueToMinMax" Value="True" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
         </Style>
         
         <Style TargetType="StackPanel">
@@ -68,6 +71,14 @@
             </Grid>
         </DataTemplate>
 
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel Orientation="Horizontal">
+                <AdornedElementPlaceholder/>
+                <TextBlock VerticalAlignment="Center" Foreground="Red" Margin="10,0,10,0" 
+                           FontSize="14" Text="{Binding ErrorContent}" />
+            </StackPanel>
+        </ControlTemplate>
+
         <vm:EventReminderTimeOptionIdToStringConverter x:Key="EventReminderTimeOptionIdToStringConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
@@ -95,8 +106,10 @@
                        Margin="0,0,0,20" FontSize="24" >Chỉnh sửa sự kiện</TextBlock>
 
             <TextBlock Grid.Row="1" Grid.Column="0" FontSize="15">Chủ đề</TextBlock>
-            <TextBox Text="{Binding Subject}" Grid.Row="1" Grid.Column="1" 
-                     HorizontalAlignment="Stretch" Margin="0,0,30,15" FontSize="20" />
+            <TextBox Text="{Binding Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  
+                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                     Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" 
+                     Margin="0,0,250,15" FontSize="25" />
 
             <TextBlock Grid.Row="2" Grid.Column="0">
                 Bắt đầu lúc
@@ -150,7 +163,7 @@
             
             <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Top">Mô tả</TextBlock>
             <TextBox Grid.Row="7" Grid.Column="1" 
-                     Margin="0,0,150,15" TextWrapping="Wrap"
+                     Margin="0,0,250,100" TextWrapping="Wrap"
                      Text="{Binding Description}" />
 
             <Grid Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Margin="10">

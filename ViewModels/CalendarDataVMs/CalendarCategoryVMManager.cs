@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using TienIchLich.Models;
+using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {
@@ -11,14 +12,17 @@ namespace TienIchLich.ViewModels
     public class CalendarCategoryVMManager : ViewModelBase
     {
         private ObservableCollection<CalendarCategoryVM> calendarCategoryVMs = new();
+        private DialogService dialogService;
 
         /// <summary>
         /// Calendar category view models.
         /// </summary>
         public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs => calendarCategoryVMs; 
 
-        public CalendarCategoryVMManager()
+        public CalendarCategoryVMManager(DialogService dialogService)
         {
+            this.dialogService = dialogService;
+
             // Build view models from all calendar categories in database
             using (var db = new CalendarDbContext())
             {
@@ -34,7 +38,7 @@ namespace TienIchLich.ViewModels
         /// <returns></returns>
         private CalendarCategoryVM GetVMFromCalendarCategoryModel(CalendarCategory calendarCategory)
         {
-            return new CalendarCategoryVM(this)
+            return new CalendarCategoryVM(this, this.dialogService)
             {
                 Id = calendarCategory.CalendarCategoryId,
                 Name = calendarCategory.Name,

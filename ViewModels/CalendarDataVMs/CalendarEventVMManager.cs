@@ -43,7 +43,7 @@ namespace TienIchLich.ViewModels
             CalendarCategoryVM categoryVM = this.categoryVMs.CalendarCategoryVMs
                 .Where(i => i.Id == calendarEvent.CalendarCategoryId)
                 .FirstOrDefault();
-            var eventVM = new CalendarEventVM(this.navigationVM)
+            var eventVM = new CalendarEventVM(this.navigationVM, this)
             {
                 Id = calendarEvent.CalendarEventId,
                 Subject = calendarEvent.Subject,

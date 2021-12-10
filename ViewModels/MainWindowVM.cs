@@ -1,4 +1,6 @@
-﻿namespace TienIchLich.ViewModels
+﻿using TienIchLich.Services;
+
+namespace TienIchLich.ViewModels
 {
     /// <summary>
     /// View model of the main window.
@@ -15,16 +17,16 @@
 
         public CategoryPanelVM CategoryPanelVM => categoryPanelVM;
 
-        public MainWindowVM()
+        public MainWindowVM(DialogService dialogService)
         {
             this.navigationVM = new NavigationVM();
-            var calendarCategoryVMManager = new CalendarCategoryVMManager();
+            var calendarCategoryVMManager = new CalendarCategoryVMManager(dialogService);
             var calendarEventVMManager = new CalendarEventVMManager(this.navigationVM, calendarCategoryVMManager);
 
-            this.categoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager);
+            this.categoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
 
             var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager, calendarCategoryVMManager, this.navigationVM);
-            var eventEditorVM = new EventEditorVM(this.navigationVM, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
+            var eventEditorVM = new EventEditorVM(this.navigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
 
             this.navigationVM.EventEditorVM = eventEditorVM;
             this.navigationVM.MainWorkspaceVM = mainWorkspaceVM;

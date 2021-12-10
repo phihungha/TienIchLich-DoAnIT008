@@ -10,8 +10,6 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class CalendarEventVM : ViewModelBase
     {
-        private ICommand openEditorCommand;
-
         private int id = 0;
         private string subject = "(Tên rỗng)";
         private DateTime startTime = DateTime.Now.Date.AddDays(1);
@@ -24,13 +22,12 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Command to open event editor in edit mode for this event.
         /// </summary>
-        public ICommand OpenEditorCommand
-        {
-            get
-            {
-                return openEditorCommand;
-            }
-        }
+        public ICommand OpenEditorCommand { get; private set; }
+
+        /// <summary>
+        /// Command to delete event.
+        /// </summary>
+        public ICommand DeleteCommand { get; private set; }
 
         /// <summary>
         /// Id of event in the model for searching.
@@ -161,7 +158,7 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public CalendarEventVM(NavigationVM navigationVM, DateTime? startTime = null)
+        public CalendarEventVM(NavigationVM navigationVM, CalendarEventVMManager eventVMManager, DateTime? startTime = null)
         {
             if (startTime != null)
             {
@@ -169,9 +166,11 @@ namespace TienIchLich.ViewModels
                 this.EndTime = this.StartTime.AddDays(1);
             }
             
-            this.openEditorCommand = new RelayCommand(
+            this.OpenEditorCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewOnEdit(this),
                 i => true);
+            this.DeleteCommand = new RelayCommand(
+                i => eventVMManager.DeleteCalendarEvent(this));
         }
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)

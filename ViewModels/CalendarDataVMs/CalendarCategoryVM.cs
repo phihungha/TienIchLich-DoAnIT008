@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Linq;
+using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {
@@ -34,9 +35,10 @@ namespace TienIchLich.ViewModels
     /// displaying in ItemsControl and passing around.
     /// Provides support for editing directly on this object in the view.
     /// </summary>
-    public class CalendarCategoryVM : ViewModelBase, IEditableObject
+    public class CalendarCategoryVM : ViewModelBase, IEditableObject, IDataErrorInfo
     {
         private CalendarCategoryVMManager calendarCategoryVMManager;
+        private DialogService dialogService;
 
         private CategoryDisplayColorOption selectedDisplayColorOption;
         private static CategoryDisplayColorOption[] displayColorOptions =
@@ -84,7 +86,7 @@ namespace TienIchLich.ViewModels
         };
         private string customDisplayColorOption = "#ffffff";
 
-        private ICommand deleteCommand;
+        private bool canDelete = true; // Can this category be deleted.
 
         struct Data
         {
@@ -137,7 +139,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Command to delete this calendar category.
         /// </summary>
-        public ICommand DeleteCommand => deleteCommand;
+        public ICommand DeleteCommand { get; private set; }
 
         /// <summary>
         /// Id of category in the model for searching.
@@ -201,10 +203,33 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public CalendarCategoryVM(CalendarCategoryVMManager calendarCategoryVMs)
+        public string Error => null;
+
+        public string this[string columnName]
         {
-            this.calendarCategoryVMManager = calendarCategoryVMs;
-            this.deleteCommand = new RelayCommand(i => calendarCategoryVMs.DeleteCalendarCategory(this));
+            get
+            {
+                string result = null;
+                if (columnName == "Name")
+                {
+                    if (this.Name == "")
+                    {
+                        result = "Tên không được rỗng!";
+                        this.canDelete = false;
+                    }
+                    else
+                        this.canDelete = true;
+                }
+                return result;
+            }
+        }
+
+        public CalendarCategoryVM(CalendarCategoryVMManager calendarCategoryVMManager, DialogService dialogService)
+        {
+            this.calendarCategoryVMManager = calendarCategoryVMManager;
+            this.dialogService = dialogService;
+            this.DeleteCommand = new RelayCommand(i => this.DeleteCategory(), 
+                                                  i => this.canDelete);
 
             this.Id = -1;
             this.Name = "(Tên trống)";
@@ -237,6 +262,12 @@ namespace TienIchLich.ViewModels
                 this.CustomDisplayColorOption = this.DisplayColor;
         }
 
+        private void DeleteCategory()
+        {
+            if (this.dialogService.ShowConfirmation("Bạn có muốn xóa loại lịch này?"))
+                this.calendarCategoryVMManager.DeleteCalendarCategory(this);
+        }
+
         public void BeginEdit()
         {
             this.backupData = data;
@@ -244,13 +275,14 @@ namespace TienIchLich.ViewModels
 
         public void CancelEdit()
         {
-            this.data = this.backupData;
+            this.Name = this.backupData.name;
+            this.DisplayColor = this.backupData.displayColor;
         }
 
         public void EndEdit()
         {
-            this.SetDisplayColorFromSelectedOption();
-            this.calendarCategoryVMManager.EditCalendarCategory(this);
+           this.SetDisplayColorFromSelectedOption();
+           this.calendarCategoryVMManager.EditCalendarCategory(this);
         }
     }
 }
