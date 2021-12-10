@@ -3,7 +3,7 @@
 namespace TienIchLich.Models
 {
     /// <summary>
-    /// Database context for calendar events.
+    /// Database access context for calendar event data.
     /// </summary>
     public class CalendarDbContext : DbContext
     {

@@ -14,8 +14,8 @@ namespace TienIchLich.Models
         /// <summary>
         /// Get interval until reminding for timers.
         /// </summary>
-        /// <param name="startTime">Calendar event start time</param>
-        /// <param name="reminderTime">Reminder time</param>
+        /// <param name="startTime">Start time of calendar event</param>
+        /// <param name="reminderTime">Reminder time of calendar event</param>
         /// <returns></returns>
         private double GetReminderInterval(DateTime startTime, TimeSpan reminderTime)
             => (startTime - reminderTime - DateTime.Now).TotalMilliseconds;
@@ -24,13 +24,13 @@ namespace TienIchLich.Models
         /// Add a new reminder timer. 
         /// Start the timer if there is still time until reminding.
         /// </summary>
-        /// <param name="calendarEventId">Calendar event Id associated with this timer for later access.</param>
-        /// <param name="startTime">Calendar event start time</param>
-        /// <param name="reminderTime">Reminder time</param>
-        /// <param name="elapsedEventHandler">Timer elapsed event handler. Put the function that does work to remind users here</param>
+        /// <param name="calendarEventId">Calendar event Id associated with this timer for later access</param>
+        /// <param name="startTime">Start time of calendar event</param>
+        /// <param name="reminderTime">Reminder time of calendar event</param>
+        /// <param name="elapsedEventHandler">Function that does work to remind users</param>
         public void Add(long calendarEventId, DateTime startTime, TimeSpan reminderTime, ElapsedEventHandler elapsedEventHandler)
         {
-            double timerInterval = this.GetReminderInterval(startTime, reminderTime);
+            double timerInterval = GetReminderInterval(startTime, reminderTime);
 
             var timer = new Timer();
             timer.AutoReset = false;
@@ -49,12 +49,12 @@ namespace TienIchLich.Models
         /// Start the timer if there is still time until reminding.
         /// Stop the timer if reminding time has passed.
         /// </summary>
-        /// <param name="calendarEventId">Calendar event Id of timer to edit.</param>
-        /// <param name="startTime">Calendar event start time</param>
-        /// <param name="reminderTime">Reminder time</param>
+        /// <param name="calendarEventId">Calendar event Id of timer to edit</param>
+        /// <param name="startTime">Start time of calendar event</param>
+        /// <param name="reminderTime">Reminder time of calendar event</param>
         public void Edit(long calendarEventId, DateTime startTime, TimeSpan reminderTime)
         {
-            double timerInterval = this.GetReminderInterval(startTime, reminderTime);
+            double timerInterval = GetReminderInterval(startTime, reminderTime);
             if (timerInterval > 0)
             {
                 reminderTimers[calendarEventId].Interval = timerInterval;

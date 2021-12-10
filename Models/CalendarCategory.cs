@@ -3,27 +3,27 @@
 namespace TienIchLich.Models
 {
     /// <summary>
-    /// A calendar category to group events.
+    /// Data model for a calendar category.
     /// </summary>
     public class CalendarCategory
     {
         /// <summary>
-        /// Id of the category in database. Primary key.
+        /// Id of this category in database. Primary key.
         /// </summary>
         public int CalendarCategoryId { get; set; }
 
         /// <summary>
-        /// Category name.
+        /// Name of this category.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Display color of events associate with this category.
+        /// Display color of events belong to this category.
         /// </summary>
         public string DisplayColor { get; set; }
 
         /// <summary>
-        /// Events associate with this category.
+        /// Events belong to this category.
         /// </summary>
         public List<CalendarEvent> Events { get; set; }
     }

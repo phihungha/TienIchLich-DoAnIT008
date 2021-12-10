@@ -6,7 +6,7 @@ using TienIchLich.ViewModels;
 namespace TienIchLich.MonthEventCalendarControl
 {
     /// <summary>
-    /// Get events for the current CalendarDayButton.
+    /// Get calendar events for the current CalendarDayButton.
     /// </summary>
     [ValueConversion(typeof(ObservableCollection<CalendarEventVM>), typeof(ObservableCollection<CalendarEventVM>))]
     public class CalendarEventConverter : IMultiValueConverter
