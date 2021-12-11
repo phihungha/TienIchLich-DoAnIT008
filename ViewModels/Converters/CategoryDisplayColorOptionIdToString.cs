@@ -2,10 +2,10 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace TienIchLich.ViewModels
+namespace TienIchLich.ViewModels.Converters
 {
     [ValueConversion(typeof(CategoryDisplayColorOptionId), typeof(string))]
-    public class CategoryDisplayColorOptionIdToStringConverter : IValueConverter
+    public class CategoryDisplayColorOptionIdToString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

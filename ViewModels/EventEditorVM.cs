@@ -113,7 +113,7 @@ namespace TienIchLich.ViewModels
     public struct CalendarEventReminderTimeOption
     {
         public CalendarEventReminderTimeOptionId Id { get; set; }
-        public TimeSpan Timespan { get; set; }
+        public TimeSpan Time { get; set; }
     }
 
     /// <summary>
@@ -210,14 +210,14 @@ namespace TienIchLich.ViewModels
 
         private static CalendarEventReminderTimeOption[] reminderTimeOptions =
         {
-            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Immediately, Timespan = new TimeSpan(0) },
-            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Minutes5, Timespan = new TimeSpan(0, 5, 0) },
-            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Minutes30, Timespan = new TimeSpan(0, 30, 0) },
-            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Hour1, Timespan = new TimeSpan(1, 0, 0) },
-            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Hour12, Timespan = new TimeSpan(12, 0, 0) },
-            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Day1, Timespan = new TimeSpan(1, 0, 0, 0) },
-            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Week1, Timespan = new TimeSpan(7, 0, 0, 0) },
-            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Custom, Timespan = new TimeSpan() }
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Immediately, Time = new TimeSpan(0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Minutes5, Time = new TimeSpan(0, 5, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Minutes30, Time = new TimeSpan(0, 30, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Hour1, Time = new TimeSpan(1, 0, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Hour12, Time = new TimeSpan(12, 0, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Day1, Time = new TimeSpan(1, 0, 0, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Week1, Time = new TimeSpan(7, 0, 0, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Custom, Time = new TimeSpan() }
         };
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace TienIchLich.ViewModels
         private void SetSelectedReminderTimeOptionFromEventVM()
         {
             SelectedReminderTimeOption = ReminderTimeOptions
-                .Where(i => i.Timespan == calendarEventVM.ReminderTime)
+                .Where(i => i.Time == calendarEventVM.ReminderTime)
                 .DefaultIfEmpty(ReminderTimeOptions[7])
                 .First();
         }
@@ -492,7 +492,7 @@ namespace TienIchLich.ViewModels
             if (SelectedReminderTimeOption.Id == CalendarEventReminderTimeOptionId.Custom)
                 calendarEventVM.ReminderTime = CustomReminderTimeOption;
             else
-                calendarEventVM.ReminderTime = SelectedReminderTimeOption.Timespan;
+                calendarEventVM.ReminderTime = SelectedReminderTimeOption.Time;
         }
 
         /// <summary>

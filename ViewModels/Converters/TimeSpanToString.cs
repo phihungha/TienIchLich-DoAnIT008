@@ -2,10 +2,10 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace TienIchLich.ViewModels
+namespace TienIchLich.ViewModels.Converters
 {
     [ValueConversion(typeof(TimeSpan), typeof(string))]
-    public class TimeSpanToStringConverter : IValueConverter
+    public class TimeSpanToString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

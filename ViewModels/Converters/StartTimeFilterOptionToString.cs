@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace TienIchLich.ViewModels
+namespace TienIchLich.ViewModels.Converters
 {
     /// <summary>
     /// Convert start time filter options of upcoming event overview to strings for ComboBox.
