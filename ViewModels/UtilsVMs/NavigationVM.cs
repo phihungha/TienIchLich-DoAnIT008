@@ -53,6 +53,20 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private ReminderVM reminderVM;
+
+        /// <summary>
+        /// Reminder view.
+        /// </summary>
+        public ReminderVM ReminderVM
+        {
+            set
+            {
+                reminderVM = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Navigate to main workspace view
         /// </summary>
@@ -65,9 +79,9 @@ namespace TienIchLich.ViewModels
         /// Navigate to event editor view to edit a calendar event.
         /// </summary>
         /// <param name="calendarEventVM">View model of calendar event to edit</param>
-        public void NavigateToEventEditorViewToEdit(CalendarEventVM calendarEventVM)
+        public void NavigateToEventEditorViewToEdit(CalendarEventVM eventVM)
         {
-            eventEditorVM.BeginEdit(calendarEventVM);
+            eventEditorVM.BeginEdit(eventVM);
             DisplayedVM = eventEditorVM;
         }
 
@@ -79,6 +93,12 @@ namespace TienIchLich.ViewModels
         {
             eventEditorVM.BeginAdd(startTime);
             DisplayedVM = eventEditorVM;
+        }
+
+        public void NavigateToReminderView(CalendarEventVM eventVM)
+        {
+            reminderVM.EventVM = eventVM;
+            DisplayedVM = reminderVM;
         }
     }
 }

@@ -14,6 +14,9 @@
         <DataTemplate DataType="{x:Type vm:EventEditorVM}">
             <views:EventEditorView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ReminderVM}">
+            <views:ReminderView />
+        </DataTemplate>
     </Window.Resources>
     
     <!-- Main UI grid -->

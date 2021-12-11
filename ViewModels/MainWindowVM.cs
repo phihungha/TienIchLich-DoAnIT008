@@ -27,9 +27,11 @@ namespace TienIchLich.ViewModels
             CategoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
             var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager, calendarCategoryVMManager, NavigationVM);
             var eventEditorVM = new EventEditorVM(NavigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
+            var reminderVM = new ReminderVM(NavigationVM);
             NavigationVM.EventEditorVM = eventEditorVM;
             NavigationVM.MainWorkspaceVM = mainWorkspaceVM;
-            NavigationVM.DisplayedVM = mainWorkspaceVM;
+            NavigationVM.DisplayedVM = reminderVM;
+            reminderVM.EventVM = calendarEventVMManager.CalendarEventVMs[0];
         }
     }
 }
