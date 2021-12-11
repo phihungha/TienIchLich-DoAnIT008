@@ -94,10 +94,14 @@ namespace TienIchLich.ViewModels
             eventEditorVM.BeginAdd(startTime);
             DisplayedVM = eventEditorVM;
         }
-
+        
+        /// <summary>
+        /// Navigate to reminder view.
+        /// </summary>
+        /// <param name="eventVM">Calendar event view model to display</param>
         public void NavigateToReminderView(CalendarEventVM eventVM)
         {
-            reminderVM.EventVM = eventVM;
+            reminderVM.Remind(eventVM);
             DisplayedVM = reminderVM;
         }
     }

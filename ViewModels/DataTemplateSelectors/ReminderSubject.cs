@@ -8,6 +8,9 @@ using System.Windows.Controls;
 
 namespace TienIchLich.ViewModels.DataTemplateSelectors
 {
+    /// <summary>
+    /// Select appropriate reminder title based on reminder time.
+    /// </summary>
     public class ReminderSubject : DataTemplateSelector
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)

@@ -10,6 +10,8 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class CalendarEventVM : ViewModelBase
     {
+        NavigationVM navigationVM;
+
         private int id = 0;
 
         /// <summary>
@@ -166,6 +168,8 @@ namespace TienIchLich.ViewModels
 
         public CalendarEventVM(CalendarEventVMManager eventVMManager, NavigationVM navigationVM, DateTime? startTime = null)
         {
+            this.navigationVM = navigationVM;
+
             if (startTime != null)
             {
                 StartTime = (DateTime)startTime;
@@ -180,6 +184,8 @@ namespace TienIchLich.ViewModels
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            navigationVM.NavigateToReminderView(this);
+
             string title;
             if (ReminderTime.Ticks == 0)
                 title = $"Sự kiện \"{Subject}\" đã bắt đầu!";

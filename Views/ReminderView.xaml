@@ -9,6 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:TimeSpanToString x:Key="TimeSpanToString" />
+        <converters:RemindAgainTimeOptionIdToString x:Key="RemindAgainTimeOptionIdToStringConverter" />
 
         <DataTemplate x:Key="SubjectWithReminderTimeTemplate">
             <DataTemplate.Resources>
@@ -87,10 +88,13 @@
 
             <StackPanel Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
                 <TextBlock Margin="0,0,15,0">Báo lại trong</TextBlock>
-                <ComboBox>
-                    <ComboBoxItem>5 phút</ComboBoxItem>
-                    <ComboBoxItem>10 phút</ComboBoxItem>
-                    <ComboBoxItem>15 phút</ComboBoxItem>
+                <ComboBox ItemsSource="{Binding RemindAgainTimeOptions}" 
+                          SelectedItem="{Binding SelectedRemindAgainTimeOption}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Id, Converter={StaticResource RemindAgainTimeOptionIdToStringConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
         </Grid>

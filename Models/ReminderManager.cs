@@ -65,6 +65,17 @@ namespace TienIchLich.Models
         }
 
         /// <summary>
+        /// Edit the interval of a reminder timer.
+        /// </summary>
+        /// <param name="calendarEventId">Calendar event Id of timer to edit</param>
+        /// <param name="interval">Interval of timer</param>
+        public void EditInterval(long calendarEventId, TimeSpan interval)
+        {
+            reminderTimers[calendarEventId].Interval = interval.TotalMilliseconds;
+            reminderTimers[calendarEventId].Enabled = true;
+        }
+
+        /// <summary>
         /// Stop and remove a reminder timer.
         /// </summary>
         /// <param name="calendarEventId">Calendar event Id of timer to remove.</param>

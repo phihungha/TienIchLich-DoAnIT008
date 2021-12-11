@@ -13,17 +13,18 @@ namespace TienIchLich.ViewModels
     {
         private CalendarCategoryVMManager categoryVMs;
         private NavigationVM navigationVM;
-        private ReminderManager reminderManager = new();
+        private ReminderManager reminderManager;
 
         /// <summary>
         /// Calendar event view model collection.
         /// </summary>
         public ObservableCollection<CalendarEventVM> CalendarEventVMs { get; private set; }
 
-        public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs)
+        public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs, ReminderManager reminderManager)
         {
             this.navigationVM = navigationVM;
             this.categoryVMs = categoryVMs;
+            this.reminderManager = reminderManager;
             CalendarEventVMs = new ObservableCollection<CalendarEventVM>();
 
             // Build view models for all calendar events in database

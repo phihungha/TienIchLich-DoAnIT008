@@ -1,4 +1,5 @@
-﻿using TienIchLich.Services;
+﻿using TienIchLich.Models;
+using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {
@@ -22,16 +23,18 @@ namespace TienIchLich.ViewModels
             NavigationVM = new NavigationVM();
 
             var calendarCategoryVMManager = new CalendarCategoryVMManager(dialogService);
-            var calendarEventVMManager = new CalendarEventVMManager(NavigationVM, calendarCategoryVMManager);
+            var reminderManager = new ReminderManager();
+            var calendarEventVMManager = new CalendarEventVMManager(NavigationVM, calendarCategoryVMManager, reminderManager);
 
             CategoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
             var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager, calendarCategoryVMManager, NavigationVM);
             var eventEditorVM = new EventEditorVM(NavigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
-            var reminderVM = new ReminderVM(NavigationVM);
+            var reminderVM = new ReminderVM(NavigationVM, reminderManager);
+
             NavigationVM.EventEditorVM = eventEditorVM;
             NavigationVM.MainWorkspaceVM = mainWorkspaceVM;
-            NavigationVM.DisplayedVM = reminderVM;
-            reminderVM.EventVM = calendarEventVMManager.CalendarEventVMs[0];
+            NavigationVM.ReminderVM = reminderVM;
+            NavigationVM.DisplayedVM = mainWorkspaceVM;
         }
     }
 }
