@@ -4,15 +4,15 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels
 {
-    [ValueConversion(typeof(EventReminderTimeOptionId), typeof(string))]
+    [ValueConversion(typeof(CalendarEventReminderTimeOptionId), typeof(string))]
     class EventReminderTimeOptionIdToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            EventReminderTimeOptionId option;
+            CalendarEventReminderTimeOptionId option;
             try
             {
-                option = (EventReminderTimeOptionId)value;
+                option = (CalendarEventReminderTimeOptionId)value;
             }
             catch (InvalidCastException)
             {
@@ -21,23 +21,23 @@ namespace TienIchLich.ViewModels
 
             switch (option)
             {
-                case EventReminderTimeOptionId.Immediately:
+                case CalendarEventReminderTimeOptionId.Immediately:
                     return "Ngay lập tức";
-                case EventReminderTimeOptionId.Minutes5:
+                case CalendarEventReminderTimeOptionId.Minutes5:
                     return "5 phút";
-                case EventReminderTimeOptionId.Minutes15:
+                case CalendarEventReminderTimeOptionId.Minutes15:
                     return "15 phút";
-                case EventReminderTimeOptionId.Minutes30:
+                case CalendarEventReminderTimeOptionId.Minutes30:
                     return "30 phút";
-                case EventReminderTimeOptionId.Hour1:
+                case CalendarEventReminderTimeOptionId.Hour1:
                     return "1 tiếng";
-                case EventReminderTimeOptionId.Hour12:
+                case CalendarEventReminderTimeOptionId.Hour12:
                     return "12 tiếng";
-                case EventReminderTimeOptionId.Day1:
+                case CalendarEventReminderTimeOptionId.Day1:
                     return "1 ngày";
-                case EventReminderTimeOptionId.Week1:
+                case CalendarEventReminderTimeOptionId.Week1:
                     return "1 tháng";
-                case EventReminderTimeOptionId.Custom:
+                case CalendarEventReminderTimeOptionId.Custom:
                     return "Tùy chọn";
             }
             return option.ToString();

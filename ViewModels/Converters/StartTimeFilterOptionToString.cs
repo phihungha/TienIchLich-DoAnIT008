@@ -7,38 +7,38 @@ namespace TienIchLich.ViewModels
     /// <summary>
     /// Convert start time filter options of upcoming event overview to strings for ComboBox.
     /// </summary>
-    [ValueConversion(typeof(UpcomingOverviewVM.StartTimeFilterOptionId), typeof(string))]
+    [ValueConversion(typeof(UpcomingOverviewStartTimeFilterOptionId), typeof(string))]
     public class StartTimeFilterOptionToString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            UpcomingOverviewVM.StartTimeFilterOptionId optionId;
-            if (value != null && value is UpcomingOverviewVM.StartTimeFilterOptionId)
-                optionId = (UpcomingOverviewVM.StartTimeFilterOptionId)value;
+            UpcomingOverviewStartTimeFilterOptionId optionId;
+            if (value != null && value is UpcomingOverviewStartTimeFilterOptionId)
+                optionId = (UpcomingOverviewStartTimeFilterOptionId)value;
             else
                 return "";
 
             switch (optionId)
             {
-                case UpcomingOverviewVM.StartTimeFilterOptionId.Week1:
+                case UpcomingOverviewStartTimeFilterOptionId.Week1:
                     return "1 tuần";
 
-                case UpcomingOverviewVM.StartTimeFilterOptionId.Week2:
+                case UpcomingOverviewStartTimeFilterOptionId.Week2:
                     return "2 tuần";
 
-                case UpcomingOverviewVM.StartTimeFilterOptionId.Month1:
+                case UpcomingOverviewStartTimeFilterOptionId.Month1:
                     return "1 tháng";
 
-                case UpcomingOverviewVM.StartTimeFilterOptionId.Month6:
+                case UpcomingOverviewStartTimeFilterOptionId.Month6:
                     return "6 tháng";
 
-                case UpcomingOverviewVM.StartTimeFilterOptionId.Year1:
+                case UpcomingOverviewStartTimeFilterOptionId.Year1:
                     return "1 năm";
 
-                case UpcomingOverviewVM.StartTimeFilterOptionId.All:
+                case UpcomingOverviewStartTimeFilterOptionId.All:
                     return "Tất cả";
 
-                case UpcomingOverviewVM.StartTimeFilterOptionId.Custom:
+                case UpcomingOverviewStartTimeFilterOptionId.Custom:
                     return "Tùy chọn";
 
                 default:

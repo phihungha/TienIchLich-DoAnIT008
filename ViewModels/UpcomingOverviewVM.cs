@@ -7,40 +7,40 @@ using System.Windows.Data;
 namespace TienIchLich.ViewModels
 {
     /// <summary>
+    /// Identifiers for start time filter options.
+    /// </summary>
+    public enum UpcomingOverviewStartTimeFilterOptionId
+    {
+        Week1,
+        Week2,
+        Month1,
+        Month6,
+        Year1,
+        All,
+        Custom
+    }
+
+    /// <summary>
+    /// Info of a start time filter option.
+    /// </summary>
+    public struct UpcomingOverviewStartTimeFilterOption
+    {
+        /// <summary>
+        /// Identifier of this option.
+        /// </summary>
+        public UpcomingOverviewStartTimeFilterOptionId Id { get; set; }
+
+        /// <summary>
+        /// Time filter value of this option.
+        /// </summary>
+        public TimeSpan Time { get; set; }
+    }
+
+    /// <summary>
     /// View model for the upcoming event overview.
     /// </summary>
     public class UpcomingOverviewVM : ViewModelBase
     {
-        /// <summary>
-        /// Identifiers for start time filter options.
-        /// </summary>
-        public enum StartTimeFilterOptionId
-        {
-            Week1,
-            Week2,
-            Month1,
-            Month6,
-            Year1,
-            All,
-            Custom
-        }
-
-        /// <summary>
-        /// Info of a start time filter option.
-        /// </summary>
-        public struct StartTimeFilterOption
-        {
-            /// <summary>
-            /// Identifier of this option.
-            /// </summary>
-            public StartTimeFilterOptionId Id { get; set; }
-
-            /// <summary>
-            /// Time filter value of this option.
-            /// </summary>
-            public TimeSpan Time { get; set; }
-        }
-
         private CollectionViewSource eventCollectionViewSource;
 
         /// <summary>
@@ -48,21 +48,21 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICollectionView EventCollectionView => eventCollectionViewSource.View;
 
-        private static StartTimeFilterOption[] startTimeFilterOptions =
+        private static UpcomingOverviewStartTimeFilterOption[] startTimeFilterOptions =
         {
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Week1, Time = new TimeSpan(7, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Week2, Time = new TimeSpan(14, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Month1, Time = new TimeSpan(31, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Month6, Time = new TimeSpan(186, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Year1, Time = new TimeSpan(366, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.All },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Custom, Time = new TimeSpan(1, 0, 0, 0) }
+            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Week1, Time = new TimeSpan(7, 0, 0, 0) },
+            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Week2, Time = new TimeSpan(14, 0, 0, 0) },
+            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Month1, Time = new TimeSpan(31, 0, 0, 0) },
+            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Month6, Time = new TimeSpan(186, 0, 0, 0) },
+            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Year1, Time = new TimeSpan(366, 0, 0, 0) },
+            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.All },
+            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Custom, Time = new TimeSpan(1, 0, 0, 0) }
         };
 
         /// <summary>
         /// Start time filter options.
         /// </summary>
-        public StartTimeFilterOption[] StartTimeFilterOptions => startTimeFilterOptions;
+        public UpcomingOverviewStartTimeFilterOption[] StartTimeFilterOptions => startTimeFilterOptions;
 
         private bool useCustomStartTimeFilter;
 
@@ -101,12 +101,12 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        private StartTimeFilterOption selectedStartTimeFilterOption;
+        private UpcomingOverviewStartTimeFilterOption selectedStartTimeFilterOption;
 
         /// <summary>
         /// Selected tart time filter option.
         /// </summary>
-        public StartTimeFilterOption SelectedStartTimeFilterOption
+        public UpcomingOverviewStartTimeFilterOption SelectedStartTimeFilterOption
         {
             get
             {
@@ -115,7 +115,7 @@ namespace TienIchLich.ViewModels
             set
             {
                 selectedStartTimeFilterOption = value;
-                if (value.Id == StartTimeFilterOptionId.Custom)
+                if (value.Id == UpcomingOverviewStartTimeFilterOptionId.Custom)
                     UseCustomStartTimeFilter = true;
                 else
                     UseCustomStartTimeFilter = false;
@@ -152,11 +152,14 @@ namespace TienIchLich.ViewModels
         private void EventCollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
             var eventVM = (CalendarEventVM)e.Item;
-            bool startTimeAccepted = SelectedStartTimeFilterOption.Id == StartTimeFilterOptionId.All ||
+            bool startTimeAccepted = SelectedStartTimeFilterOption.Id == UpcomingOverviewStartTimeFilterOptionId.All ||
                                      (eventVM.StartTime < (DateTime.Now + StartTimeFilterValue)
                                       && eventVM.StartTime > DateTime.Now);
             e.Accepted = eventVM.CategoryVM.IsDisplayed && startTimeAccepted;
         }
+
+        // All of the code below is to add the sort description to the collection view again because it changes
+        // when we enter the event editor to add/edit event.
 
         private void AttachEventHandlersToCalendarEventVMs(ObservableCollection<CalendarEventVM> eventVMs)
         {

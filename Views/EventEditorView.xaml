@@ -123,7 +123,6 @@
             <TextBlock Grid.Row="4" Grid.Column="0">
                 Cả ngày
             </TextBlock>
-            <!-- Cannot use binding due to unknown bug -->
             <CheckBox Grid.Row="4" Grid.Column="1" 
                       VerticalAlignment="Center" Margin="0,0,0,15" 
                       IsChecked="{Binding AllDay}" />
@@ -147,8 +146,8 @@
             </StackPanel>
 
             <TextBlock Grid.Row="6" Grid.Column="0">Loại lịch</TextBlock>
-            <ComboBox  ItemsSource="{Binding CalendarCategoryVMs}" 
-                       SelectedItem="{Binding CalendarCategoryVM}"
+            <ComboBox  ItemsSource="{Binding CategoryVMs}" 
+                       SelectedItem="{Binding CategoryVM}"
                        Grid.Row="6" Grid.Column="1" Margin="0,0,300,15">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>

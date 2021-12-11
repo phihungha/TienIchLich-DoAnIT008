@@ -31,6 +31,9 @@ namespace TienIchLich.ViewModels
     {
         private CalendarEventTime eventTime;
 
+        /// <summary>
+        /// Event's start time.
+        /// </summary>
         public DateTime StartTime
         {
             get
@@ -44,6 +47,9 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        /// <summary>
+        /// Event's end time.
+        /// </summary>
         public DateTime EndTime
         {
             get
@@ -71,23 +77,24 @@ namespace TienIchLich.ViewModels
         public CalendarEventDatetimePickerVM(CalendarEventTime eventTime)
             : base(eventTime)
         {
-
         }
     }
 
     /// <summary>
-    /// View model for calendar event date picker view.
+    /// View model for calendar event date-only picker view.
     /// </summary>
     public class CalendarEventDatePickerVM : CalendarEventTimePickerVM
     {
         public CalendarEventDatePickerVM(CalendarEventTime eventTime)
             : base(eventTime)
         {
-
         }
     }
 
-    public enum EventReminderTimeOptionId
+    /// <summary>
+    /// Identifiers for calendar event reminder time options.
+    /// </summary>
+    public enum CalendarEventReminderTimeOptionId
     {
         Immediately,
         Minutes5,
@@ -100,50 +107,25 @@ namespace TienIchLich.ViewModels
         Custom
     }
 
-    public struct EventReminderTimeOption
+    /// <summary>
+    /// Info of a calendar event reminder time option.
+    /// </summary>
+    public struct CalendarEventReminderTimeOption
     {
-        public EventReminderTimeOptionId Id { get; set; }
+        public CalendarEventReminderTimeOptionId Id { get; set; }
         public TimeSpan Timespan { get; set; }
     }
 
+    /// <summary>
+    /// View model for the event editor view.
+    /// </summary>
     public class EventEditorVM : ViewModelBase, IDataErrorInfo
     {
         private NavigationVM navigationVM;
-        private CalendarEventVM calendarEventVM;
-        private ObservableCollection<CalendarCategoryVM> categoryVMs;
-        private CalendarEventVMManager eventVMManager;
         private DialogService dialogService;
+        private CalendarEventVMManager eventVMManager;
 
-        private static EventReminderTimeOption[] reminderTimeOptions =
-        {
-            new EventReminderTimeOption() { Id = EventReminderTimeOptionId.Immediately, Timespan = new TimeSpan(0) },
-            new EventReminderTimeOption() { Id = EventReminderTimeOptionId.Minutes5, Timespan = new TimeSpan(0, 5, 0) },
-            new EventReminderTimeOption() { Id = EventReminderTimeOptionId.Minutes30, Timespan = new TimeSpan(0, 30, 0) },
-            new EventReminderTimeOption() { Id = EventReminderTimeOptionId.Hour1, Timespan = new TimeSpan(1, 0, 0) },
-            new EventReminderTimeOption() { Id = EventReminderTimeOptionId.Hour12, Timespan = new TimeSpan(12, 0, 0) },
-            new EventReminderTimeOption() { Id = EventReminderTimeOptionId.Day1, Timespan = new TimeSpan(1, 0, 0, 0) },
-            new EventReminderTimeOption() { Id = EventReminderTimeOptionId.Week1, Timespan = new TimeSpan(7, 0, 0, 0) },
-            new EventReminderTimeOption() { Id = EventReminderTimeOptionId.Custom, Timespan = new TimeSpan() }
-        };
-        private bool useCustomReminderTime;
-
-        private ICommand cancelCommand;
-        private ICommand saveCommand;
-        private ICommand deleteCommand;
-        private bool editMode = false; // In edit mode, the provided calendar event view model is edited/deleted.
-        private bool canSave = true; // Can what is in the editor be saved as a calendar event.
-
-        private CalendarEventTime eventTime = new();
-        private CalendarEventDatetimePickerVM eventDatetimePickerVM;
-        private CalendarEventDatePickerVM eventDatePickerVM;
-        private CalendarEventTimePickerVM eventTimePickerVM;
-
-        private string subject;
-        private bool allDay;
-        private EventReminderTimeOption selectedReminderTimeOption;
-        private TimeSpan customReminderTimeOption;
-        private CalendarCategoryVM calendarCategoryVM;
-        private string description;
+        private CalendarEventVM calendarEventVM;
 
         /// <summary>
         /// View model of currently edited calendar event.
@@ -157,18 +139,93 @@ namespace TienIchLich.ViewModels
             set
             {
                 calendarEventVM = value;
-                this.SetEditorFieldsFromEventVM();
+                SetEditorFieldsFromEventVM();
                 NotifyPropertyChanged();
             }
         }
 
-        /// <summary>
-        /// View models of calendar categories to select.
-        /// </summary>
-        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs
-        { get => categoryVMs; }
+        private CalendarEventTime eventTime = new(); // Event's start and end time values
+        private CalendarEventDatetimePickerVM eventDatetimePickerVM; // Datetime picker view model
+        private CalendarEventDatePickerVM eventDatePickerVM; // Date picker view model
+        private CalendarEventTimePickerVM eventTimePickerVM;
 
-        public static EventReminderTimeOption[] ReminderTimeOptions => reminderTimeOptions;
+        /// <summary>
+        /// View model of the time picker to display (DatetimePicker or DatePicker).
+        /// </summary>
+        public CalendarEventTimePickerVM EventTimePickerVM
+        {
+            get
+            {
+                return eventTimePickerVM;
+            }
+            set
+            {
+                eventTimePickerVM = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string description;
+
+        private string subject;
+
+        /// <summary>
+        /// Subject of this event.
+        /// </summary>
+        public string Subject
+        {
+            get
+            {
+                return subject;
+            }
+            set
+            {
+                subject = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool allDay;
+
+        /// <summary>
+        /// True of this event happens in an entire day.
+        /// Use datetime picker if False. Use date-only picker if true.
+        /// </summary>
+        public bool AllDay
+        {
+            get
+            {
+                return allDay;
+            }
+            set
+            {
+                allDay = value;
+                if (allDay)
+                    EventTimePickerVM = eventDatePickerVM;
+                else
+                    EventTimePickerVM = eventDatetimePickerVM;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private static CalendarEventReminderTimeOption[] reminderTimeOptions =
+        {
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Immediately, Timespan = new TimeSpan(0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Minutes5, Timespan = new TimeSpan(0, 5, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Minutes30, Timespan = new TimeSpan(0, 30, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Hour1, Timespan = new TimeSpan(1, 0, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Hour12, Timespan = new TimeSpan(12, 0, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Day1, Timespan = new TimeSpan(1, 0, 0, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Week1, Timespan = new TimeSpan(7, 0, 0, 0) },
+            new CalendarEventReminderTimeOption() { Id = CalendarEventReminderTimeOptionId.Custom, Timespan = new TimeSpan() }
+        };
+
+        /// <summary>
+        /// Reminder time options.
+        /// </summary>
+        public static CalendarEventReminderTimeOption[] ReminderTimeOptions => reminderTimeOptions;
+
+        private bool useCustomReminderTime;
 
         /// <summary>
         /// Display custom reminder time picker if true.
@@ -186,113 +243,12 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        /// <summary>
-        /// Discard changes. Go to main workspace view.
-        /// </summary>
-        public ICommand CancelCommand
-        {
-            get
-            {
-                return cancelCommand;
-            }
-        }
+        private CalendarEventReminderTimeOption selectedReminderTimeOption;
 
         /// <summary>
-        /// Save event and go back to main workspace view.
+        /// Selected reminder time option.
         /// </summary>
-        public ICommand SaveCommand
-        {
-            get
-            {
-                return saveCommand;
-            }
-        }
-
-        /// <summary>
-        /// Delete event and go back to main workspace view.
-        /// </summary>
-        public ICommand DeleteCommand
-        {
-            get
-            {
-                return deleteCommand;
-            }
-        }
-
-        /// <summary>
-        /// If edit mode is true, directly edit the provided event VM.
-        /// Otherwise, create a new event VM.
-        /// </summary>
-        public bool EditMode
-        {
-            get
-            {
-                return editMode;
-            }
-            set
-            {
-                editMode = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Decides what time picker will display (DatetimePicker or DatePicker).
-        /// </summary>
-        public CalendarEventTimePickerVM EventTimePickerVM
-        {
-            get
-            {
-                return this.eventTimePickerVM;
-            }
-            set
-            {
-                this.eventTimePickerVM = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-
-        /// <summary>
-        /// Subject of event.
-        /// </summary>
-        public string Subject
-        {
-            get
-            {
-                return subject;
-            }
-            set
-            {
-                subject = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        
-
-        /// <summary>
-        /// Event happens in an entire day. 
-        /// </summary>
-        public bool AllDay
-        {
-            get
-            {
-                return allDay;
-            }
-            set
-            {
-                allDay = value;
-                this.SetTimePickerVM();
-                NotifyPropertyChanged();
-            }
-        }
-
-
-        /// <summary>
-        /// Chosen reminder time option.
-        /// </summary>
-        public EventReminderTimeOption SelectedReminderTimeOption
+        public CalendarEventReminderTimeOption SelectedReminderTimeOption
         {
             get
             {
@@ -301,16 +257,18 @@ namespace TienIchLich.ViewModels
             set
             {
                 selectedReminderTimeOption = value;
-                if (value.Id == EventReminderTimeOptionId.Custom)
-                    this.UseCustomReminderTime = true;
+                if (value.Id == CalendarEventReminderTimeOptionId.Custom)
+                    UseCustomReminderTime = true;
                 else
-                    this.UseCustomReminderTime = false;
+                    UseCustomReminderTime = false;
                 NotifyPropertyChanged();
             }
         }
 
+        private TimeSpan customReminderTimeOption;
+
         /// <summary>
-        /// Custom reminder time.
+        /// Selected custom reminder time option.
         /// </summary>
         public TimeSpan CustomReminderTimeOption
         {
@@ -326,7 +284,30 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
-        /// Description of event.
+        /// View models of calendar categories to select.
+        /// </summary>
+        public ObservableCollection<CalendarCategoryVM> CategoryVMs { get; private set; }
+
+        private CalendarCategoryVM categoryVM;
+
+        /// <summary>
+        /// Calendar category of this event.
+        /// </summary>
+        public CalendarCategoryVM CategoryVM
+        {
+            get
+            {
+                return categoryVM;
+            }
+            set
+            {
+                categoryVM = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Description of this event.
         /// </summary>
         public string Description
         {
@@ -341,22 +322,7 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        /// <summary>
-        /// Calendar category of event.
-        /// </summary>
-        public CalendarCategoryVM CalendarCategoryVM
-        {
-            get
-            {
-                return calendarCategoryVM;
-            }
-            set
-            {
-                calendarCategoryVM = value;
-                NotifyPropertyChanged();
-            }
-        }
-
+        // Data validation
         public string Error => null;
 
         public string this[string columnName]
@@ -364,100 +330,115 @@ namespace TienIchLich.ViewModels
             get
             {
                 string result = null;
+
                 if (columnName == "Subject")
                 {
-                    if (this.Subject == "")
+                    if (Subject == "")
                     {
                         result = "Chủ đề không được rỗng!";
-                        this.canSave = false;
+                        canSave = false;
                     }
-                    else
-                        this.canSave = true;
                 }
+
+                if (result == null)
+                    canSave = true;
                 return result;
             }
         }
+
+        // True if this event can be saved.
+        private bool canSave = true;
+
+        /// <summary>
+        /// Discard changes and go back to main workspace view.
+        /// </summary>
+        public ICommand CancelCommand { get; private set; }
+
+        /// <summary>
+        /// Save event and go back to main workspace view.
+        /// </summary>
+        public ICommand SaveCommand { get; private set; }
+
+        /// <summary>
+        /// Delete event and go back to main workspace view.
+        /// </summary>
+        public ICommand DeleteCommand { get; private set; }
+
+        // If edit mode is true, edit the provided event view model. Otherwise, create a new event view model.
+        private bool editMode = false;
 
         public EventEditorVM(NavigationVM navigationVM, DialogService dialogService, CalendarEventVMManager calendarEventVMs, ObservableCollection<CalendarCategoryVM> calendarCategoryVMs)
         {
             this.navigationVM = navigationVM;
             this.dialogService = dialogService;
-            this.categoryVMs = calendarCategoryVMs;
-            this.eventVMManager = calendarEventVMs;
+            CategoryVMs = calendarCategoryVMs;
+            eventVMManager = calendarEventVMs;
 
-            this.cancelCommand = new RelayCommand(i => this.HideView(), i => true);
-            this.saveCommand = new RelayCommand(i => this.SaveEvent(), i => this.canSave);
-            this.deleteCommand = new RelayCommand(i => this.DeleteEvent(), i => this.editMode);
+            CancelCommand = new RelayCommand(i => HideView());
+            SaveCommand = new RelayCommand(i => SaveEvent(), i => canSave);
+            DeleteCommand = new RelayCommand(i => DeleteEvent(), i => editMode);
 
-            this.eventDatePickerVM = new CalendarEventDatePickerVM(this.eventTime);
-            this.eventDatetimePickerVM = new CalendarEventDatetimePickerVM(this.eventTime);
-        }
-
-        private void SetTimePickerVM()
-        {
-            if (allDay)
-                this.EventTimePickerVM = this.eventDatePickerVM;
-            else
-                this.EventTimePickerVM = this.eventDatetimePickerVM;
+            eventDatePickerVM = new CalendarEventDatePickerVM(eventTime);
+            eventDatetimePickerVM = new CalendarEventDatetimePickerVM(eventTime);
         }
 
         /// <summary>
-        /// Begin add mode. Add a new event with the provided start time.
+        /// Enter add mode. Add a new calendar event with the provided start time.
         /// </summary>
         /// <param name="startTime">Start time</param>
         public void BeginAdd(DateTime? startTime)
         {
             if (startTime == null)
             {
-                this.CalendarEventVM = new CalendarEventVM(this.eventVMManager, this.navigationVM)
+                CalendarEventVM = new CalendarEventVM(eventVMManager, navigationVM)
                 {
-                    CategoryVM = this.CalendarCategoryVMs[0],
+                    CategoryVM = CategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
                 };
             }
             else
             {
-                this.CalendarEventVM = new CalendarEventVM(this.eventVMManager, this.navigationVM, startTime)
+                CalendarEventVM = new CalendarEventVM(eventVMManager, navigationVM, startTime)
                 {
-                    CategoryVM = this.CalendarCategoryVMs[0],
+                    CategoryVM = CategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
                 };
             }
         }
 
         /// <summary>
-        /// Begin edit mode. Edit directly on the provided calendar event view model.
+        /// Enter edit mode. Edit the provided calendar event view model.
         /// </summary>
-        /// <param name="calendarEventVM">View model of calendar event to edit.</param>
+        /// <param name="calendarEventVM">View model of calendar event to edit</param>
         public void BeginEdit(CalendarEventVM calendarEventVM)
         {
-            this.editMode = true;
-            this.CalendarEventVM = calendarEventVM;
+            editMode = true;
+            CalendarEventVM = calendarEventVM;
         }
 
         /// <summary>
-        /// Set all displayed properties to the provided calendar event view model.
+        /// Set all displayed properties to the provided calendar event view model's values.
         /// </summary>
         private void SetEditorFieldsFromEventVM()
         {
-            this.Subject = this.calendarEventVM.Subject;
-            this.AllDay = this.calendarEventVM.AllDay;
-            this.eventTime.StartTime = this.calendarEventVM.StartTime;
-            this.eventTime.EndTime = this.calendarEventVM.EndTime;
+            Subject = calendarEventVM.Subject;
+            AllDay = calendarEventVM.AllDay;
+            eventTime.StartTime = calendarEventVM.StartTime;
+            eventTime.EndTime = calendarEventVM.EndTime;
             SetSelectedReminderTimeOptionFromEventVM();
-            this.CustomReminderTimeOption = this.calendarEventVM.ReminderTime;
-            this.CalendarCategoryVM = this.calendarEventVM.CategoryVM;
-            this.Description = this.calendarEventVM.Description;
+            CustomReminderTimeOption = calendarEventVM.ReminderTime;
+            CategoryVM = calendarEventVM.CategoryVM;
+            Description = calendarEventVM.Description;
         }
 
         /// <summary>
-        /// Set chosen reminder time option from
-        /// provided calendar event view model's reminder time.
+        /// Set selected reminder time option from
+        /// calendar event view model's reminder time value.
         /// </summary>
         private void SetSelectedReminderTimeOptionFromEventVM()
         {
-            this.SelectedReminderTimeOption = ReminderTimeOptions
-                .Where(i => i.Timespan == this.calendarEventVM.ReminderTime)
+            SelectedReminderTimeOption = ReminderTimeOptions
+                .Where(i => i.Timespan == calendarEventVM.ReminderTime)
                 .DefaultIfEmpty(ReminderTimeOptions[7])
                 .First();
         }
@@ -467,22 +448,22 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void SaveEvent()
         {
-            this.calendarEventVM.Subject = this.Subject;
-            this.calendarEventVM.StartTime = this.eventTime.StartTime;
-            this.calendarEventVM.EndTime = this.eventTime.EndTime;
+            calendarEventVM.Subject = Subject;
+            calendarEventVM.StartTime = eventTime.StartTime;
+            calendarEventVM.EndTime = eventTime.EndTime;
             SetStartEndTimeOnEventVM();
             SetReminderTimeOnEventVM();
-            this.calendarEventVM.AllDay = this.AllDay;
-            this.calendarEventVM.CategoryVM = this.CalendarCategoryVM;
-            this.calendarEventVM.Description = this.Description;
+            calendarEventVM.AllDay = AllDay;
+            calendarEventVM.CategoryVM = CategoryVM;
+            calendarEventVM.Description = Description;
 
-            if (this.editMode)
-                this.eventVMManager.Edit(this.calendarEventVM);
+            if (editMode)
+                eventVMManager.Edit(calendarEventVM);
             else
-                this.eventVMManager.Add(this.calendarEventVM);
+                eventVMManager.Add(calendarEventVM);
 
-            this.editMode = false;
-            this.navigationVM.NavigateToMainWorkspaceView();
+            editMode = false;
+            navigationVM.NavigateToMainWorkspaceView();
         }
 
         /// <summary>
@@ -491,28 +472,27 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void SetStartEndTimeOnEventVM()
         {
-            if (this.AllDay)
+            if (AllDay)
             {
-                this.calendarEventVM.StartTime = this.eventTime.StartTime.Date;
-                this.calendarEventVM.EndTime = this.eventTime.EndTime.Date;
+                calendarEventVM.StartTime = eventTime.StartTime.Date;
+                calendarEventVM.EndTime = eventTime.EndTime.Date;
             }
             else
             {
-                this.calendarEventVM.StartTime = this.eventTime.StartTime;
-                this.calendarEventVM.EndTime = this.eventTime.EndTime;
+                calendarEventVM.StartTime = eventTime.StartTime;
+                calendarEventVM.EndTime = eventTime.EndTime;
             }
         }
 
         /// <summary>
-        /// Set reminder time on calendar event view model
-        /// from chosen reminder time option.
+        /// Set reminder time on calendar event view model from selected reminder time option.
         /// </summary>
         private void SetReminderTimeOnEventVM()
         {
-            if (this.SelectedReminderTimeOption.Id == EventReminderTimeOptionId.Custom)
-                this.calendarEventVM.ReminderTime = this.CustomReminderTimeOption;
+            if (SelectedReminderTimeOption.Id == CalendarEventReminderTimeOptionId.Custom)
+                calendarEventVM.ReminderTime = CustomReminderTimeOption;
             else
-                this.calendarEventVM.ReminderTime = this.SelectedReminderTimeOption.Timespan;
+                calendarEventVM.ReminderTime = SelectedReminderTimeOption.Timespan;
         }
 
         /// <summary>
@@ -520,18 +500,21 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void DeleteEvent()
         {
-            if (this.dialogService.ShowConfirmation("Bạn có muốn xóa sự kiện này?"))
+            if (dialogService.ShowConfirmation("Bạn có muốn xóa sự kiện này?"))
             {
-                this.eventVMManager.Delete(this.calendarEventVM);
-                this.editMode = false;
-                this.navigationVM.NavigateToMainWorkspaceView();
+                eventVMManager.Delete(calendarEventVM);
+                editMode = false;
+                navigationVM.NavigateToMainWorkspaceView();
             }
         }
 
+        /// <summary>
+        /// Return to main workspace view.
+        /// </summary>
         private void HideView()
         {
-            this.editMode = false;
-            this.navigationVM.NavigateToMainWorkspaceView();
+            editMode = false;
+            navigationVM.NavigateToMainWorkspaceView();
         }
     }
 }

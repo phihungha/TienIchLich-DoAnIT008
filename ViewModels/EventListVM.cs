@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels
 {
+    /// <summary>
+    /// View model for calendar event list view.
+    /// </summary>
     public class EventListVM : ViewModelBase
     {
         /// <summary>
