@@ -27,7 +27,7 @@ namespace TienIchLich.ViewModels
             using (var db = new CalendarDbContext())
             {
                 foreach (CalendarCategory categoryModel in db.CalendarCategories)
-                    CalendarCategoryVMs.Add(GetVMFromCalendarCategoryModel(categoryModel));
+                    CalendarCategoryVMs.Add(GetVMFromModel(categoryModel));
             }
         }
 
@@ -36,7 +36,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         /// <param name="calendarCategory">Calendar category model object</param>
         /// <returns></returns>
-        private CalendarCategoryVM GetVMFromCalendarCategoryModel(CalendarCategory calendarCategory)
+        private CalendarCategoryVM GetVMFromModel(CalendarCategory calendarCategory)
         {
             return new CalendarCategoryVM(this, dialogService)
             {
@@ -50,7 +50,7 @@ namespace TienIchLich.ViewModels
         /// Add a new calendar category into database.
         /// </summary>
         /// <param name="categoryVM">View model of calendar category to add</param>
-        public void AddCalendarCategory(CalendarCategoryVM categoryVM)
+        public void Add(CalendarCategoryVM categoryVM)
         {
             using (var db = new CalendarDbContext())
             {
@@ -72,7 +72,7 @@ namespace TienIchLich.ViewModels
         /// Edit a calendar category in database.
         /// </summary>
         /// <param name="categoryVM">View model of calendar category to edit</param>
-        public void EditCalendarCategory(CalendarCategoryVM categoryVM)
+        public void Edit(CalendarCategoryVM categoryVM)
         {
             using (var db = new CalendarDbContext())
             {
@@ -88,7 +88,7 @@ namespace TienIchLich.ViewModels
         /// Delete a calendar category from database.
         /// </summary>
         /// <param name="categoryVM">View model of calendar category to delete</param>
-        public void DeleteCalendarCategory(CalendarCategoryVM categoryVM)
+        public void Delete(CalendarCategoryVM categoryVM)
         {
             using (var db = new CalendarDbContext())
             {

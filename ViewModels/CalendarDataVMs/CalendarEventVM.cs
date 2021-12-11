@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Input;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Timers;
-using Microsoft.Toolkit.Uwp.Notifications;
+using System.Windows.Input;
 
 namespace TienIchLich.ViewModels
 {
@@ -11,26 +11,9 @@ namespace TienIchLich.ViewModels
     public class CalendarEventVM : ViewModelBase
     {
         private int id = 0;
-        private string subject = "(Tên rỗng)";
-        private DateTime startTime = DateTime.Now.Date.AddDays(1);
-        private DateTime endTime = DateTime.Now.Date.AddDays(2);
-        private bool allDay = true;
-        private TimeSpan reminderTime = new TimeSpan(0, 30, 0);
-        private CalendarCategoryVM calendarCategoryVM;
-        private string description = "";
 
         /// <summary>
-        /// Command to open event editor in edit mode for this event.
-        /// </summary>
-        public ICommand OpenEditorCommand { get; private set; }
-
-        /// <summary>
-        /// Command to delete event.
-        /// </summary>
-        public ICommand DeleteCommand { get; private set; }
-
-        /// <summary>
-        /// Id of event in the model for searching.
+        /// Id of this event in database for searching.
         /// </summary>
         public int Id
         {
@@ -45,8 +28,10 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private string subject = "(Tên rỗng)";
+
         /// <summary>
-        /// Subject of event.
+        /// Subject of this event.
         /// </summary>
         public string Subject
         {
@@ -61,8 +46,10 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private DateTime startTime = DateTime.Now.Date.AddDays(1);
+
         /// <summary>
-        /// Event start time.
+        /// This event's start time.
         /// </summary>
         public DateTime StartTime
         {
@@ -77,8 +64,10 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private DateTime endTime = DateTime.Now.Date.AddDays(2);
+
         /// <summary>
-        /// Event end time.
+        /// This event's end time.
         /// </summary>
         public DateTime EndTime
         {
@@ -93,9 +82,10 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private bool allDay = true;
+
         /// <summary>
-        /// Event happens in an entire day.
-        /// Used for hiding hour:minutes textbox.
+        /// True if this event happens in an entire day.
         /// </summary>
         public bool AllDay
         {
@@ -110,8 +100,10 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private TimeSpan reminderTime = new TimeSpan(0, 30, 0);
+
         /// <summary>
-        /// Time to remind users before event starts.
+        /// Time to remind the user before this event starts.
         /// </summary>
         public TimeSpan ReminderTime
         {
@@ -126,8 +118,10 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private string description = "";
+
         /// <summary>
-        /// Description of event.
+        /// Description of this event.
         /// </summary>
         public string Description
         {
@@ -142,47 +136,58 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private CalendarCategoryVM categoryVM;
+
         /// <summary>
-        /// View model for the calendar category of event.
+        /// View model for the calendar category of this event.
         /// </summary>
-        public CalendarCategoryVM CalendarCategoryVM 
+        public CalendarCategoryVM CategoryVM
         {
             get
             {
-                return calendarCategoryVM;
+                return categoryVM;
             }
             set
             {
-                calendarCategoryVM = value;
+                categoryVM = value;
                 NotifyPropertyChanged();
             }
         }
 
-        public CalendarEventVM(NavigationVM navigationVM, CalendarEventVMManager eventVMManager, DateTime? startTime = null)
+        /// <summary>
+        /// Command to open event editor in edit mode for this event.
+        /// </summary>
+        public ICommand EditCommand { get; private set; }
+
+        /// <summary>
+        /// Command to delete this event.
+        /// </summary>
+        public ICommand DeleteCommand { get; private set; }
+
+        public CalendarEventVM(CalendarEventVMManager eventVMManager, NavigationVM navigationVM, DateTime? startTime = null)
         {
             if (startTime != null)
             {
-                this.StartTime = (DateTime)startTime;
-                this.EndTime = this.StartTime.AddDays(1);
+                StartTime = (DateTime)startTime;
+                EndTime = StartTime.AddDays(1);
             }
-            
-            this.OpenEditorCommand = new RelayCommand(
-                i => navigationVM.NavigateToEventEditorViewToEdit(this),
-                i => true);
-            this.DeleteCommand = new RelayCommand(
-                i => eventVMManager.DeleteCalendarEvent(this));
+
+            EditCommand = new RelayCommand(
+                i => navigationVM.NavigateToEventEditorViewToEdit(this));
+            DeleteCommand = new RelayCommand(
+                i => eventVMManager.Delete(this));
         }
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             string title;
-            if (this.ReminderTime.Ticks == 0)
-                title = $"Sự kiện \"{this.Subject}\" đã bắt đầu!";
+            if (ReminderTime.Ticks == 0)
+                title = $"Sự kiện \"{Subject}\" đã bắt đầu!";
             else
-                title = $"Sự kiện \"{this.Subject}\" sắp diễn ra trong {this.ReminderTime} nữa!";
+                title = $"Sự kiện \"{Subject}\" sắp diễn ra trong {ReminderTime} nữa!";
 
-            string subtitle = $"Bắt đầu: {this.StartTime.ToString("F")}\nKết thúc: {this.EndTime.ToString("F")}";
-            new ToastContentBuilder().AddText(title).AddText(subtitle).AddText(this.Description).Show();
+            string subtitle = $"Bắt đầu: {StartTime.ToString("F")}\nKết thúc: {EndTime.ToString("F")}";
+            new ToastContentBuilder().AddText(title).AddText(subtitle).AddText(Description).Show();
         }
     }
 }

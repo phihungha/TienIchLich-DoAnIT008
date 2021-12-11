@@ -48,8 +48,7 @@ namespace TienIchLich.ViewModels
             CalendarEventVMs = eventVMs;
             CalendarCategoryVMs = categoryVMs;
             AddEventCommand = new RelayCommand(
-                i => navigationVM.NavigateToEventEditorViewToAdd(this.SelectedDate)
-                );
+                i => navigationVM.NavigateToEventEditorViewToAdd(this.SelectedDate));
         }
     }
 }

@@ -50,7 +50,7 @@
                                     <Setter Property="Margin" Value="3" />
                                 </Style>
                             </DataTemplate.Resources>
-                            <Border HorizontalAlignment="Stretch" Background="{Binding CalendarCategoryVM.DisplayColor}" CornerRadius="3" Margin="5,5,10,5">
+                            <Border HorizontalAlignment="Stretch" Background="{Binding CategoryVM.DisplayColor}" CornerRadius="3" Margin="5,5,10,5">
                                 <StackPanel>
                                     <TextBlock FontSize="13" FontWeight="Bold" Text="{Binding Subject}" />
                                     <TextBlock Text="{Binding StartTime, StringFormat=t}" />

@@ -33,8 +33,7 @@ namespace TienIchLich.ViewModels
             EventListVM = new EventListVM(calendarEventVMManager.CalendarEventVMs);
             UpcomingOverviewVM = new UpcomingOverviewVM(calendarEventVMManager.CalendarEventVMs);
             AddEventCommand = new RelayCommand(
-                i => navigationVM.NavigateToEventEditorViewToAdd(CalendarVM.SelectedDate)
-                );
+                i => navigationVM.NavigateToEventEditorViewToAdd(CalendarVM.SelectedDate));
         }
     }
 }

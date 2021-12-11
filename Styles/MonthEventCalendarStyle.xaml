@@ -421,12 +421,12 @@
                                 <!-- Template for calendar event list item -->
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Background="{Binding CalendarCategoryVM.DisplayColor}" 
+                                        <Button Background="{Binding CategoryVM.DisplayColor}" 
                                                 HorizontalContentAlignment="Left"
                                                 Margin="2"
                                                 Padding="2">
                                             <Button.InputBindings>
-                                                <MouseBinding Gesture="LeftClick" Command="{Binding OpenEditorCommand}" />
+                                                <MouseBinding Gesture="LeftClick" Command="{Binding EditCommand}" />
                                             </Button.InputBindings>
                                             <Button.Resources>
                                                 <Style TargetType="Border">

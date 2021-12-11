@@ -4,29 +4,26 @@ using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {
+    /// <summary>
+    /// View model for the category panel.
+    /// </summary>
     public class CategoryPanelVM : ViewModelBase
     {
-        private CalendarCategoryVMManager calendarCategoryVMManager;
-
-        private ICommand addCommand;
-
         /// <summary>
-        /// Calendar category view models to display in ItemsControl.
+        /// Calendar category view models to display in a DataGrid.
         /// </summary>
-        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs 
-        { get => calendarCategoryVMManager.CalendarCategoryVMs; }
+        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs { get; set; }
 
         /// <summary>
         /// Command to add a new category.
         /// </summary>
-        public ICommand AddCommand => addCommand;
+        public ICommand AddCommand { get; private set; }
 
-        public CategoryPanelVM(CalendarCategoryVMManager calendarCategoryVMManager, DialogService dialogService)
+        public CategoryPanelVM(CalendarCategoryVMManager categoryVMManager, DialogService dialogService)
         {
-            this.calendarCategoryVMManager = calendarCategoryVMManager;
-            this.addCommand = new RelayCommand(
-                i => calendarCategoryVMManager.AddCalendarCategory(new CalendarCategoryVM(calendarCategoryVMManager, dialogService)), 
-                i => true);
+            CalendarCategoryVMs = categoryVMManager.CalendarCategoryVMs;
+            AddCommand = new RelayCommand(
+                i => categoryVMManager.Add(new CalendarCategoryVM(categoryVMManager, dialogService)));
         }
     }
 }

@@ -409,17 +409,17 @@ namespace TienIchLich.ViewModels
         {
             if (startTime == null)
             {
-                this.CalendarEventVM = new CalendarEventVM(this.navigationVM, this.eventVMManager)
+                this.CalendarEventVM = new CalendarEventVM(this.eventVMManager, this.navigationVM)
                 {
-                    CalendarCategoryVM = this.CalendarCategoryVMs[0],
+                    CategoryVM = this.CalendarCategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
                 };
             }
             else
             {
-                this.CalendarEventVM = new CalendarEventVM(this.navigationVM, this.eventVMManager, startTime)
+                this.CalendarEventVM = new CalendarEventVM(this.eventVMManager, this.navigationVM, startTime)
                 {
-                    CalendarCategoryVM = this.CalendarCategoryVMs[0],
+                    CategoryVM = this.CalendarCategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
                 };
             }
@@ -446,7 +446,7 @@ namespace TienIchLich.ViewModels
             this.eventTime.EndTime = this.calendarEventVM.EndTime;
             SetSelectedReminderTimeOptionFromEventVM();
             this.CustomReminderTimeOption = this.calendarEventVM.ReminderTime;
-            this.CalendarCategoryVM = this.calendarEventVM.CalendarCategoryVM;
+            this.CalendarCategoryVM = this.calendarEventVM.CategoryVM;
             this.Description = this.calendarEventVM.Description;
         }
 
@@ -473,13 +473,13 @@ namespace TienIchLich.ViewModels
             SetStartEndTimeOnEventVM();
             SetReminderTimeOnEventVM();
             this.calendarEventVM.AllDay = this.AllDay;
-            this.calendarEventVM.CalendarCategoryVM = this.CalendarCategoryVM;
+            this.calendarEventVM.CategoryVM = this.CalendarCategoryVM;
             this.calendarEventVM.Description = this.Description;
 
             if (this.editMode)
-                this.eventVMManager.EditCalendarEvent(this.calendarEventVM);
+                this.eventVMManager.Edit(this.calendarEventVM);
             else
-                this.eventVMManager.AddCalendarEvent(this.calendarEventVM);
+                this.eventVMManager.Add(this.calendarEventVM);
 
             this.editMode = false;
             this.navigationVM.NavigateToMainWorkspaceView();
@@ -522,7 +522,7 @@ namespace TienIchLich.ViewModels
         {
             if (this.dialogService.ShowConfirmation("Bạn có muốn xóa sự kiện này?"))
             {
-                this.eventVMManager.DeleteCalendarEvent(this.calendarEventVM);
+                this.eventVMManager.Delete(this.calendarEventVM);
                 this.editMode = false;
                 this.navigationVM.NavigateToMainWorkspaceView();
             }

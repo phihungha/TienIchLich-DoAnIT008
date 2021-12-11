@@ -31,9 +31,9 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Ellipse Width="9" Height="9" VerticalAlignment="Center"
-                                             Margin="3" Fill="{Binding CalendarCategoryVM.DisplayColor}" />
-                                <TextBlock Margin="3" Foreground="{Binding CalendarCategoryVM.DisplayColor}" 
-                                               Text="{Binding CalendarCategoryVM.Name}" />
+                                             Margin="3" Fill="{Binding CategoryVM.DisplayColor}" />
+                                <TextBlock Margin="3" Foreground="{Binding CategoryVM.DisplayColor}" 
+                                               Text="{Binding CategoryVM.Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -60,7 +60,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </StackPanel.Resources>
-                                <Button Command="{Binding OpenEditorCommand}" Padding="3,1,3,1" Content="Sửa" />
+                                <Button Command="{Binding EditCommand}" Padding="3,1,3,1" Content="Sửa" />
                                 <Button Command="{Binding DeleteCommand}" Padding="3,1,3,1" Content="Xóa" />
                             </StackPanel>
                         </DataTemplate>

@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
-using System.Collections.Specialized;
 
 namespace TienIchLich.ViewModels
 {
@@ -13,11 +12,12 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public class TimeFilter : ViewModelBase
         {
-            private DateTime low = DateTime.Now;
-            private DateTime high = DateTime.Now.AddDays(1);
             private bool enable = false;
 
-            private Action Refresh;  // The function to refresh the CollectionView on property update.
+            // Method to refresh the CollectionView on property update.
+            private Action Refresh;
+
+            private DateTime low = DateTime.Now;
 
             /// <summary>
             /// Lower bound of the filter.
@@ -26,15 +26,17 @@ namespace TienIchLich.ViewModels
             {
                 get
                 {
-                    return this.low;
+                    return low;
                 }
                 set
                 {
-                    this.low = value;
-                    this.Refresh();
+                    low = value;
+                    Refresh();
                     NotifyPropertyChanged();
                 }
             }
+
+            private DateTime high = DateTime.Now.AddDays(1);
 
             /// <summary>
             /// Higher bound of the filter.
@@ -43,55 +45,57 @@ namespace TienIchLich.ViewModels
             {
                 get
                 {
-                    return this.high;
+                    return high;
                 }
                 set
                 {
-                    this.high = value;
-                    this.Refresh();
+                    high = value;
+                    Refresh();
                     NotifyPropertyChanged();
                 }
             }
 
             /// <summary>
-            /// Enable the filter or not.
+            /// True if filter is enabled.
             /// </summary>
             public bool Enable
             {
                 get
                 {
-                    return this.enable;
+                    return enable;
                 }
                 set
                 {
-                    this.enable = value;
-                    this.Refresh();
+                    enable = value;
+                    Refresh();
                     NotifyPropertyChanged();
                 }
             }
 
             public TimeFilter(Action refresh)
             {
-                this.Refresh = refresh;
+                Refresh = refresh;
             }
 
+            /// <summary>
+            /// Get filter result.
+            /// </summary>
+            /// <param name="timeValue">Time value to filter</param>
+            /// <returns></returns>
             public bool Filter(DateTime timeValue)
             {
-                return !this.Enable ||  (timeValue > this.Low && timeValue < this.High);
+                return !Enable || (timeValue > Low && timeValue < High);
             }
         }
 
         private CollectionViewSource eventCollectionViewSource;
 
-        private string subjectFilter = "";
-        private string descriptionFilter = "";
-        private TimeFilter startTimeFilter;
-        private TimeFilter endTimeFilter;
-
         /// <summary>
-        /// Collection view for calendar event DataGrid.
+        /// Collection view for the event list DataGrid.
         /// </summary>
         public ICollectionView EventCollectionView => eventCollectionViewSource.View;
+
+        private string subjectFilter = "";
 
         /// <summary>
         /// Event's subject filter words.
@@ -100,15 +104,17 @@ namespace TienIchLich.ViewModels
         {
             get
             {
-                return this.subjectFilter;
+                return subjectFilter;
             }
             set
             {
-                this.subjectFilter = value;
-                this.EventCollectionView.Refresh();
+                subjectFilter = value;
+                EventCollectionView.Refresh();
                 NotifyPropertyChanged();
             }
         }
+
+        private string descriptionFilter = "";
 
         /// <summary>
         /// Event's description filter words.
@@ -117,12 +123,12 @@ namespace TienIchLich.ViewModels
         {
             get
             {
-                return this.descriptionFilter;
+                return descriptionFilter;
             }
             set
             {
-                this.descriptionFilter = value;
-                this.EventCollectionView.Refresh();
+                descriptionFilter = value;
+                EventCollectionView.Refresh();
                 NotifyPropertyChanged();
             }
         }
@@ -130,35 +136,38 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Event's start time filter values.
         /// </summary>
-        public TimeFilter StartTimeFilter => startTimeFilter;
+        public TimeFilter StartTimeFilter { get; private set; }
 
         /// <summary>
         /// Event's end time filter values.
         /// </summary>
-        public TimeFilter EndTimeFilter => endTimeFilter;
-
+        public TimeFilter EndTimeFilter { get; private set; }
 
         public EventListVM(ObservableCollection<CalendarEventVM> eventVMs)
         {
-            this.eventCollectionViewSource = new CollectionViewSource()
+            eventCollectionViewSource = new CollectionViewSource()
             {
                 Source = eventVMs,
                 IsLiveFilteringRequested = true
             };
-            this.startTimeFilter = new TimeFilter(this.EventCollectionView.Refresh);
-            this.endTimeFilter = new TimeFilter(this.EventCollectionView.Refresh);
-            this.eventCollectionViewSource.Filter += EventCollectionViewSource_Filter;
-            this.eventCollectionViewSource.LiveFilteringProperties.Add("CalendarCategoryVM.IsDisplayed");
+            StartTimeFilter = new TimeFilter(EventCollectionView.Refresh);
+            EndTimeFilter = new TimeFilter(EventCollectionView.Refresh);
+            eventCollectionViewSource.Filter += EventCollectionViewSource_Filter;
+            // Update collection view on calendar category display status changed.
+            eventCollectionViewSource.LiveFilteringProperties.Add("CategoryVM.IsDisplayed");
         }
 
+        /// <summary>
+        /// Do the filtering of events.
+        /// </summary>
         private void EventCollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
             var eventVM = (CalendarEventVM)e.Item;
-            e.Accepted = eventVM.Subject.Contains(this.SubjectFilter)
-                         && eventVM.Description.Contains(this.DescriptionFilter)
-                         && this.StartTimeFilter.Filter(eventVM.StartTime)
-                         && this.EndTimeFilter.Filter(eventVM.EndTime)
-                         && eventVM.CalendarCategoryVM.IsDisplayed;
+            e.Accepted = eventVM.Subject.Contains(SubjectFilter)
+                         && eventVM.Description.Contains(DescriptionFilter)
+                         && StartTimeFilter.Filter(eventVM.StartTime)
+                         && EndTimeFilter.Filter(eventVM.EndTime)
+                         && eventVM.CategoryVM.IsDisplayed;
         }
     }
 }

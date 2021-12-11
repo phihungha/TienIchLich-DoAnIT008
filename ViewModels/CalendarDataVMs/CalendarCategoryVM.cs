@@ -288,7 +288,7 @@ namespace TienIchLich.ViewModels
         private void DeleteCategory()
         {
             if (dialogService.ShowConfirmation("Bạn có muốn xóa loại lịch này?"))
-                calendarCategoryVMManager.DeleteCalendarCategory(this);
+                calendarCategoryVMManager.Delete(this);
         }
 
         // DataGrid editing helper methods.
@@ -306,7 +306,7 @@ namespace TienIchLich.ViewModels
         public void EndEdit()
         {
             SetDisplayColorFromSelectedOption();
-            calendarCategoryVMManager.EditCalendarCategory(this);
+            calendarCategoryVMManager.Edit(this);
         }
     }
 }

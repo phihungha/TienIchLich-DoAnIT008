@@ -2,27 +2,18 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Globalization;
 using System.Windows.Data;
 
 namespace TienIchLich.ViewModels
 {
+    /// <summary>
+    /// View model for the upcoming event overview.
+    /// </summary>
     public class UpcomingOverviewVM : ViewModelBase
     {
-        public class DatetimeToDateConverter : IValueConverter
-        {
-            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                var datetime = (DateTime)value;
-                return datetime.Date;
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        /// <summary>
+        /// Identifiers for start time filter options.
+        /// </summary>
         public enum StartTimeFilterOptionId
         {
             Week1,
@@ -34,32 +25,50 @@ namespace TienIchLich.ViewModels
             Custom
         }
 
+        /// <summary>
+        /// Info of a start time filter option.
+        /// </summary>
         public struct StartTimeFilterOption
         {
+            /// <summary>
+            /// Identifier of this option.
+            /// </summary>
             public StartTimeFilterOptionId Id { get; set; }
-            public TimeSpan Timespan { get; set; }
+
+            /// <summary>
+            /// Time filter value of this option.
+            /// </summary>
+            public TimeSpan Time { get; set; }
         }
 
         private CollectionViewSource eventCollectionViewSource;
-        private static StartTimeFilterOption[] startTimeFilterOptions =
-        {
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Week1, Timespan = new TimeSpan(7, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Week2, Timespan = new TimeSpan(14, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Month1, Timespan = new TimeSpan(31, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Month6, Timespan = new TimeSpan(186, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Year1, Timespan = new TimeSpan(366, 0, 0, 0) },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.All },
-            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Custom, Timespan = new TimeSpan(1, 0, 0, 0) }
-        };
-        private bool useCustomStartTimeFilter;
-        private StartTimeFilterOption selectedStartTimeFilterOption;
-        private TimeSpan startTimeFilterValue;
 
-
+        /// <summary>
+        /// Collection view for the upcoming event DataGrid.
+        /// </summary>
         public ICollectionView EventCollectionView => eventCollectionViewSource.View;
 
+        private static StartTimeFilterOption[] startTimeFilterOptions =
+        {
+            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Week1, Time = new TimeSpan(7, 0, 0, 0) },
+            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Week2, Time = new TimeSpan(14, 0, 0, 0) },
+            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Month1, Time = new TimeSpan(31, 0, 0, 0) },
+            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Month6, Time = new TimeSpan(186, 0, 0, 0) },
+            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Year1, Time = new TimeSpan(366, 0, 0, 0) },
+            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.All },
+            new StartTimeFilterOption() { Id = StartTimeFilterOptionId.Custom, Time = new TimeSpan(1, 0, 0, 0) }
+        };
+
+        /// <summary>
+        /// Start time filter options.
+        /// </summary>
         public StartTimeFilterOption[] StartTimeFilterOptions => startTimeFilterOptions;
 
+        private bool useCustomStartTimeFilter;
+
+        /// <summary>
+        /// True if custom start time filter is used.
+        /// </summary>
         public bool UseCustomStartTimeFilter
         {
             get
@@ -73,6 +82,11 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private TimeSpan startTimeFilterValue;
+
+        /// <summary>
+        /// Current start time filter value.
+        /// </summary>
         public TimeSpan StartTimeFilterValue
         {
             get
@@ -82,11 +96,16 @@ namespace TienIchLich.ViewModels
             set
             {
                 startTimeFilterValue = value;
-                this.EventCollectionView.Refresh();
+                EventCollectionView.Refresh();
                 NotifyPropertyChanged();
             }
         }
 
+        private StartTimeFilterOption selectedStartTimeFilterOption;
+
+        /// <summary>
+        /// Selected tart time filter option.
+        /// </summary>
         public StartTimeFilterOption SelectedStartTimeFilterOption
         {
             get
@@ -100,40 +119,44 @@ namespace TienIchLich.ViewModels
                     UseCustomStartTimeFilter = true;
                 else
                     UseCustomStartTimeFilter = false;
-                StartTimeFilterValue = value.Timespan;
+                StartTimeFilterValue = value.Time;
                 NotifyPropertyChanged();
             }
         }
 
         public UpcomingOverviewVM(ObservableCollection<CalendarEventVM> eventVMs)
         {
-            this.eventCollectionViewSource = new CollectionViewSource() 
-            {   
-                Source = eventVMs, 
-                IsLiveFilteringRequested = true, 
-                IsLiveSortingRequested = true, 
-                IsLiveGroupingRequested = true 
+            eventCollectionViewSource = new CollectionViewSource()
+            {
+                Source = eventVMs,
+                IsLiveFilteringRequested = true,
+                IsLiveSortingRequested = true,
+                IsLiveGroupingRequested = true
             };
             AttachEventHandlersToCalendarEventVMs(eventVMs);
-            this.eventCollectionViewSource.Filter += EventCollectionViewSource_Filter;
-            this.eventCollectionViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartTime", new DatetimeToDateConverter()));
-            this.eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
-            this.eventCollectionViewSource.LiveFilteringProperties.Add("CalendarCategoryVM.IsDisplayed");
-            this.eventCollectionViewSource.LiveSortingProperties.Add("StartTime");
-            this.eventCollectionViewSource.LiveGroupingProperties.Add("StartTime");
+            eventCollectionViewSource.Filter += EventCollectionViewSource_Filter;
+            eventCollectionViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartTime.Date"));
+            eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
+            eventCollectionViewSource.LiveFilteringProperties.Add("CategoryVM.IsDisplayed");
+            eventCollectionViewSource.LiveSortingProperties.Add("StartTime");
+            eventCollectionViewSource.LiveGroupingProperties.Add("StartTime");
 
-            this.SelectedStartTimeFilterOption = this.StartTimeFilterOptions[0];
+            SelectedStartTimeFilterOption = StartTimeFilterOptions[0];
         }
 
+        /// <summary>
+        /// Get upcoming events that satisfy the filters.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EventCollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
             var eventVM = (CalendarEventVM)e.Item;
-            bool startTimeAccepted = this.SelectedStartTimeFilterOption.Id == StartTimeFilterOptionId.All ||
-                                     (eventVM.StartTime < (DateTime.Now + this.StartTimeFilterValue) 
+            bool startTimeAccepted = SelectedStartTimeFilterOption.Id == StartTimeFilterOptionId.All ||
+                                     (eventVM.StartTime < (DateTime.Now + StartTimeFilterValue)
                                       && eventVM.StartTime > DateTime.Now);
-            e.Accepted = eventVM.CalendarCategoryVM.IsDisplayed && startTimeAccepted;
+            e.Accepted = eventVM.CategoryVM.IsDisplayed && startTimeAccepted;
         }
-
 
         private void AttachEventHandlersToCalendarEventVMs(ObservableCollection<CalendarEventVM> eventVMs)
         {
@@ -156,13 +179,12 @@ namespace TienIchLich.ViewModels
                 eventVM.PropertyChanged -= DataVMChanged;
             }
 
-            this.EventCollectionView.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
-
+            EventCollectionView.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
         }
 
         private void DataVMChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
+            eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
         }
     }
 }
