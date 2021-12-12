@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Media;
 using TienIchLich.Models;
+using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {
@@ -31,7 +32,7 @@ namespace TienIchLich.ViewModels
     {
         private NavigationVM navigationVM;
         private ReminderManager reminderManager;
-        private MediaPlayer soundPlayer = new();
+        private AlarmSoundService alarmSoundService;
 
         private CalendarEventVM eventVM;
 
@@ -103,31 +104,23 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand RemindLaterCommand { get; private set; }
 
-        public ReminderVM(NavigationVM navigationVM, ReminderManager reminderManager)
+        public ReminderVM(NavigationVM navigationVM, ReminderManager reminderManager, AlarmSoundService alarmSoundService)
         {
             this.navigationVM = navigationVM;
             this.reminderManager = reminderManager;
+            this.alarmSoundService = alarmSoundService;
             AckCommand = new RelayCommand(i => Acknowledge());
             RemindLaterCommand = new RelayCommand(i => RemindAgain());
         }
 
         /// <summary>
-        /// Play alarm sound and display event.
+        /// Play alarm sound and display reminded event.
         /// </summary>
         /// <param name="eventVM"></param>
         public void Remind(CalendarEventVM eventVM)
         {
             EventVM = eventVM;
-            PlaySound();
-        }
-
-        /// <summary>
-        /// Play alarm sound.
-        /// </summary>
-        private void PlaySound()
-        {
-            soundPlayer.Dispatcher.Invoke(() => soundPlayer.Open(new Uri(@"D:\\test.flac")));
-            soundPlayer.Dispatcher.Invoke(() => soundPlayer.Play());
+            alarmSoundService.PlaySound(@"../../../Sounds/ringtone1.mp3", 100);
         }
 
         /// <summary>
@@ -144,7 +137,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void Acknowledge()
         {
-            soundPlayer.Stop();
+            alarmSoundService.StopSound();
             navigationVM.NavigateToMainWorkspaceView();
         }
     }

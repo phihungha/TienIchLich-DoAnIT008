@@ -20,7 +20,7 @@ namespace TienIchLich.ViewModels.DataTemplateSelectors
             if (element != null && item != null && item is CalendarEventVM)
             {
                 var eventVM = (CalendarEventVM)item;
-                if (eventVM.ReminderTime.Ticks == 0)
+                if (eventVM.RemainingTime.Ticks == 0)
                     return element.FindResource("SubjectWithNoReminderTimeTemplate") as DataTemplate;
                 return element.FindResource("SubjectWithReminderTimeTemplate") as DataTemplate;
             }

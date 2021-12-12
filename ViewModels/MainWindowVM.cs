@@ -18,7 +18,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public CategoryPanelVM CategoryPanelVM { get; private set; }
 
-        public MainWindowVM(DialogService dialogService)
+        public MainWindowVM(DialogService dialogService, AlarmSoundService alarmSoundService)
         {
             NavigationVM = new NavigationVM();
 
@@ -29,7 +29,7 @@ namespace TienIchLich.ViewModels
             CategoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
             var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager, calendarCategoryVMManager, NavigationVM);
             var eventEditorVM = new EventEditorVM(NavigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
-            var reminderVM = new ReminderVM(NavigationVM, reminderManager);
+            var reminderVM = new ReminderVM(NavigationVM, reminderManager, alarmSoundService);
 
             NavigationVM.EventEditorVM = eventEditorVM;
             NavigationVM.MainWorkspaceVM = mainWorkspaceVM;

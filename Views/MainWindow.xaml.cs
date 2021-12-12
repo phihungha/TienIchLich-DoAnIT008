@@ -12,11 +12,12 @@ namespace TienIchLich
     public partial class MainWindow : Window
     {
         private DialogService dialogService = new();
+        private AlarmSoundService alarmSoundService = new();
 
         public MainWindow()
         {
             CultureInfo.CurrentCulture = new CultureInfo("vi-VN");
-            DataContext = new MainWindowVM(this.dialogService);
+            DataContext = new MainWindowVM(dialogService, alarmSoundService);
             InitializeComponent();
         }
     }
