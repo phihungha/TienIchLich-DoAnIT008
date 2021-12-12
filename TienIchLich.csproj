@@ -7,9 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Image\back2.jfif" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dragablz" Version="0.0.3.223" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.2.0" />
+    <PackageReference Include="MaterialDesignColors" Version="2.0.4" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.12" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Image\back2.jfif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

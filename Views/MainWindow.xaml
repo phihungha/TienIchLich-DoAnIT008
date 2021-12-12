@@ -6,7 +6,7 @@
         xmlns:views="clr-namespace:TienIchLich.Views"
         xmlns:vm="clr-namespace:TienIchLich.ViewModels"
         mc:Ignorable="d"
-        Title="Lịch" Height="650" Width="1100">
+        Title="Lịch" Height="650" Width="1200">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:MainWorkspaceVM}">
             <views:MainWorkspace />
@@ -19,10 +19,14 @@
     <!-- Main UI grid -->
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="350" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-
+        <Image Source="/image/back2.jfif" Grid.ColumnSpan="2" Stretch="Fill">
+            <Image.Effect>
+                <BlurEffect Radius="25"/>
+            </Image.Effect>
+        </Image>
         <!-- Side panel -->
         <views:SidePanelView Grid.Column="0" DataContext="{Binding CategoryPanelVM}" />
 

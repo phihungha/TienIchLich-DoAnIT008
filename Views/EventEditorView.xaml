@@ -6,7 +6,8 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:vm="clr-namespace:TienIchLich.ViewModels"
              xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              d:DesignHeight="450" d:DesignWidth="800">
     <!-- Calendar event editor view -->
     <UserControl.Resources>
@@ -85,7 +86,7 @@
     </UserControl.Resources>
 
     <Border BorderThickness="10">
-        <Grid>
+        <Grid Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -110,7 +111,8 @@
             <TextBox Text="{Binding Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  
                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                      Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" 
-                     Margin="0,0,250,15" FontSize="25" />
+                     Margin="0,0,250,15" FontSize="25"
+                     Style="{StaticResource MaterialDesignTextBox}"/>
 
             <TextBlock Grid.Row="2" Grid.Column="0">
                 Bắt đầu lúc
@@ -164,7 +166,8 @@
             <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Top">Mô tả</TextBlock>
             <TextBox Grid.Row="7" Grid.Column="1" 
                      Margin="0,0,250,100" TextWrapping="Wrap"
-                     Text="{Binding Description}" />
+                     Text="{Binding Description}"
+                     Style="{StaticResource MaterialDesignTextBox}"/>
 
             <Grid Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Margin="10">
                 <Grid.ColumnDefinitions>

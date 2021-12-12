@@ -190,7 +190,7 @@
                                             Grid.Row="0" Grid.Column="2" 
                                             Template="{StaticResource HeaderButtonTemplate}" 
                                             HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                            FontWeight="Normal" FontSize="20" 
+                                            FontWeight="Normal" FontSize="16" 
                                             Focusable="False"
                                             />
                                     <!-- End: Header button content -->
