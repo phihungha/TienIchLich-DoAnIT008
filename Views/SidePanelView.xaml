@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TienIchLich.Views.SidePanelView"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,11 +6,12 @@
              xmlns:vm="clr-namespace:TienIchLich.ViewModels"
              xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="TienIchLich.Views.SidePanelView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="350">
     <UserControl.Resources>
         <converters:CategoryDisplayColorOptionIdToString x:Key="CategoryDisplayColorOptionIdToStringConverter" />
-        
+
         <!-- Appearance of a preset category display color option item in a ComboBox -->
         <DataTemplate DataType="{x:Type vm:CategoryDisplayColorOption}" 
                       x:Key="StandardCategoryDisplayColorOptionTemplate">
@@ -21,41 +22,38 @@
                            Text="{Binding Id, Converter={StaticResource CategoryDisplayColorOptionIdToStringConverter}}" />
             </StackPanel>
         </DataTemplate>
-        
+
         <!-- Appearance of the custom category display color option item in a ComboBox -->
         <DataTemplate DataType="{x:Type vm:CategoryDisplayColorOption}" 
                       x:Key="CustomCategoryDisplayColorOptionTemplate">
             <StackPanel Orientation="Horizontal">
                 <Ellipse Width="9" Height="9" VerticalAlignment="Center" Margin="3" 
-                         Fill="{Binding ElementName=DisplayColorComboBox, 
-                                        Path=DataContext.CustomDisplayColorOption}" />
+                         Fill="{Binding DataContext.CustomDisplayColorOption, ElementName=DisplayColorComboBox}" />
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="3">Tùy chọn</TextBlock>
+                    <TextBlock Margin="3"><Run Text="Tùy chọn"/></TextBlock>
                     <xctk:ColorPicker x:Name="ColorPicker" 
-                                      SelectedColor="{Binding ElementName=DisplayColorComboBox,
-                                                              Path=DataContext.CustomDisplayColorOption}"
+                                      SelectedColor="{Binding DataContext.CustomDisplayColorOption, ElementName=DisplayColorComboBox}"
                                       Width="100" Margin="3" HorizontalAlignment="Center" />
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
 
-        <Style TargetType="ToolTip">
+        <Style TargetType="{x:Type ToolTip}">
             <Setter Property="Foreground" Value="Red" />
             <Setter Property="IsOpen" Value="True" />
         </Style>
 
-        <Style x:Key="DataGridTextBoxStyle" TargetType="TextBox">
+        <Style x:Key="DataGridTextBoxStyle" TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
-                                                       Path=(Validation.Errors)/ErrorContent}" />
+                    <Setter Property="ToolTip" Value="{Binding (Validation.Errors)/ErrorContent, RelativeSource={RelativeSource Self}}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <vm:CategoryDisplayColorOptionTemplateSelector x:Key="CategoryDisplayColorOptionTemplateSelector" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="200" />
@@ -64,11 +62,9 @@
         <!-- Calendar category listbox -->
 
         <Border Grid.Row="0" BorderThickness="3">
-            <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="17">
-            Logo here
-            </TextBlock>
+            <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="17"><Run Text="Logo here"/></TextBlock>
         </Border>
-        
+
 
         <Grid Grid.Row="1" Margin="4">
             <Grid.RowDefinitions>
@@ -82,10 +78,11 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" FontSize="20" Text="Loại lịch" />
-                
+
                 <Button Grid.Column="1" Command="{Binding AddCommand}"
                         HorizontalAlignment="Right" 
-                        Padding="7,4,7,4" Content="Thêm" >
+                        Padding="7,4,7,4" >
+                    <materialDesign:PackIcon Kind="Add"/>
                     <Button.BorderBrush>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
                     </Button.BorderBrush>
@@ -93,9 +90,11 @@
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}"/>
                     </Button.Background>
                 </Button>
+              
             </Grid>
 
-            <DataGrid Name="CalendarCategoryDataGrid" Grid.Row="1" 
+            <DataGrid x:Name="CalendarCategoryDataGrid" Grid.Row="1" 
+                      VerticalScrollBarVisibility="Disabled"
                       ItemsSource="{Binding CalendarCategoryVMs}"
                       AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
                       Margin="0,10,0,0" MinRowHeight="30"
@@ -110,17 +109,17 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    
+
                     <DataGridTemplateColumn Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                    <Ellipse Width="9" Height="9" VerticalAlignment="Center"
+                                <Ellipse Width="9" Height="9" VerticalAlignment="Center"
                                              Margin="3" Fill="{Binding DisplayColor}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox Name="DisplayColorComboBox"
+                                <ComboBox x:Name="DisplayColorComboBox"
                                           ItemsSource="{Binding DisplayColorOptions}" 
                                           SelectedItem="{Binding SelectedDisplayColorOption}"
                                           ItemTemplateSelector="{StaticResource CategoryDisplayColorOptionTemplateSelector}"
@@ -132,17 +131,18 @@
                     <DataGridTextColumn Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                                         EditingElementStyle="{StaticResource DataGridTextBoxStyle}"  Width="150" />
 
-                    <DataGridTemplateColumn Width="85">
+                    <DataGridTemplateColumn Width="82">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding DeleteCommand}"
-                                        Padding="3,1,3,1" Margin="5,0,10,0" Content="Xóa">
+                                        Padding="3,1,3,1" Margin="5,0,10,0"
+                                        >
+                                    <materialDesign:PackIcon Kind="Delete"/>
                                     <Button.Style>
-                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
                                             <Setter Property="Visibility" Value="Hidden" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}},
-                                                                                                              Path=IsMouseOver}" 
+                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}, Mode=FindAncestor}}" 
                                                              Value="True">
                                                     <Setter Property="Visibility" Value="Visible" />
                                                 </DataTrigger>
@@ -155,7 +155,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            
+
         </Grid>
     </Grid>
 </UserControl>
