@@ -5,13 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
+             xmlns:selectors="clr-namespace:TienIchLich.ViewModels.DataTemplateSelectors"
              xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:StartTimeFilterOptionToString x:Key="StartTimeFilterOptionToString" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <DataTemplate x:Key="NoUpcomingEventTemplate">
+            <DataTemplate.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="15" />
+                </Style>
+            </DataTemplate.Resources>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" Margin="0,0,0,15">HÌNH</TextBlock>
+                <TextBlock>Có vẻ bạn rảnh trong thời gian này!</TextBlock>
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -35,7 +49,7 @@
                                               Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </StackPanel>
 
-        <DataGrid Grid.Row="1"  AutoGenerateColumns="False"
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False"
                   ItemsSource="{Binding EventCollectionView}"
                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
                   Margin="5" Background="Transparent" BorderThickness="0" FontSize="12" 
@@ -61,6 +75,25 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
+
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGrid">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Margin="0,0,0,15" HorizontalAlignment="Center">AN IMAGE HERE</TextBlock>
+                                            <TextBlock FontSize="20" HorizontalAlignment="Center">Có vẻ bạn đang rảnh trong thời gian này!</TextBlock>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
 
             <DataGrid.GroupStyle>
                 <GroupStyle>
@@ -88,6 +121,6 @@
                 </GroupStyle>
             </DataGrid.GroupStyle>
         </DataGrid>
-                  
+        
     </Grid>
 </UserControl>
