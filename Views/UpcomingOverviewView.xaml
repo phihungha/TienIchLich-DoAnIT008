@@ -12,18 +12,6 @@
     <UserControl.Resources>
         <converters:StartTimeFilterOptionToString x:Key="StartTimeFilterOptionToString" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-
-        <DataTemplate x:Key="NoUpcomingEventTemplate">
-            <DataTemplate.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="FontSize" Value="15" />
-                </Style>
-            </DataTemplate.Resources>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock HorizontalAlignment="Center" Margin="0,0,0,15">HÌNH</TextBlock>
-                <TextBlock>Có vẻ bạn rảnh trong thời gian này!</TextBlock>
-            </StackPanel>
-        </DataTemplate>
     </UserControl.Resources>
     
     <Grid>
@@ -53,7 +41,7 @@
                   ItemsSource="{Binding EventCollectionView}"
                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
                   Margin="5" Background="Transparent" BorderThickness="0" FontSize="12" 
-                  GridLinesVisibility="None" HeadersVisibility="None">
+                  GridLinesVisibility="None" HeadersVisibility="None" HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -61,14 +49,23 @@
                             <DataTemplate.Resources>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="White" />
-                                    <Setter Property="Margin" Value="3" />
                                 </Style>
                             </DataTemplate.Resources>
-                            <Border HorizontalAlignment="Stretch" Background="{Binding CategoryVM.DisplayColor}" CornerRadius="3" Margin="5,5,10,5">
+                            <Border HorizontalAlignment="Stretch" Background="{Binding CategoryVM.DisplayColor}" CornerRadius="6" Margin="5,5,10,5">
                                 <StackPanel>
-                                    <TextBlock FontSize="13" FontWeight="Bold" Text="{Binding Subject}" />
-                                    <TextBlock Text="{Binding StartTime, StringFormat=t}" />
-                                    <TextBlock Text="{Binding Description}" />
+                                    <TextBlock FontSize="14" FontWeight="Bold" Margin="6,6,0,2" Text="{Binding Subject}" />
+                                    <TextBlock Margin="6,0,0,7" Text="{Binding StartTime, StringFormat=t}" />
+                                    <TextBlock  FontSize="13" Margin="6,0,0,6" Foreground="White" Text="{Binding Description}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
