@@ -8,16 +8,6 @@ namespace TienIchLich.ViewModels
     public class MainWorkspaceVM : ViewModelBase
     {
         /// <summary>
-        /// Command to add a new event.
-        /// </summary>
-        public ICommand AddEventCommand { get; private set; }
-
-        /// <summary>
-        /// Command to open settings view.
-        /// </summary>
-        public ICommand SettingsCommand { get; private set; }
-
-        /// <summary>
         /// View model for calendar view.
         /// </summary>
         public CalendarVM CalendarVM { get; private set; }
@@ -32,15 +22,11 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public UpcomingOverviewVM UpcomingOverviewVM { get; private set; }
 
-        public MainWorkspaceVM(CalendarEventVMManager calendarEventVMManager, CalendarCategoryVMManager calendarCategoryVMManager, NavigationVM navigationVM)
+        public MainWorkspaceVM(CalendarVM calendarVM, EventListVM eventListVM, UpcomingOverviewVM upcomingOverviewVM)
         {
-            CalendarVM = new CalendarVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs, navigationVM);
-            EventListVM = new EventListVM(calendarEventVMManager.CalendarEventVMs);
-            UpcomingOverviewVM = new UpcomingOverviewVM(calendarEventVMManager.CalendarEventVMs);
-            AddEventCommand = new RelayCommand(
-                i => navigationVM.NavigateToEventEditorViewToAdd(CalendarVM.SelectedDate));
-            SettingsCommand = new RelayCommand(
-                i => navigationVM.NavigateToSettingsView());
+            CalendarVM = calendarVM;
+            EventListVM = eventListVM;
+            UpcomingOverviewVM = upcomingOverviewVM;
         }
     }
 }

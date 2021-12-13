@@ -420,8 +420,8 @@
                                     <DataTemplate>
                                         <Button Background="{Binding CategoryVM.DisplayColor}"
                                                 HorizontalContentAlignment="Left"
-                                                Margin="2"
-                                                Padding="2">
+                                                BorderThickness="0"
+                                                Margin="4" Padding="0">
                                             <Button.InputBindings>
                                                 <MouseBinding Gesture="LeftClick" Command="{Binding EditCommand}" />
                                             </Button.InputBindings>

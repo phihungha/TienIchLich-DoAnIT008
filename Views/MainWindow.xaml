@@ -25,7 +25,7 @@
     <!-- Main UI grid -->
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="275" />
+            <ColumnDefinition Width="280" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Image Source="/image/back2.jfif" Grid.ColumnSpan="2" Stretch="Fill">
@@ -34,7 +34,7 @@
             </Image.Effect>
         </Image>
         <!-- Side panel -->
-        <views:SidePanelView Grid.Column="0" DataContext="{Binding CategoryPanelVM}" />
+        <views:SidePanelView Grid.Column="0" DataContext="{Binding SidePanelVM}" />
 
         <!-- Main view -->
         <ContentControl Grid.Column="1" Content="{Binding NavigationVM.DisplayedVM}" />

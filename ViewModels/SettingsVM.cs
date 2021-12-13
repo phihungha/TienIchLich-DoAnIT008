@@ -9,6 +9,7 @@ namespace TienIchLich.ViewModels
     public class SettingsVM : ViewModelBase
     {
         private NavigationVM navigationVM;
+        private AlarmSoundService alarmSoundService;
         private DialogService dialogService;
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        private string reminderSoundFileName;
+        private string reminderSoundFileName = reminderSoundOptions[0].FilePath;
 
         public string ReminderSoundFileName
         {
@@ -141,11 +142,12 @@ namespace TienIchLich.ViewModels
 
         public SettingsVM(NavigationVM navigationVM, AlarmSoundService alarmSoundService, DialogService dialogService)
         {
+            this.alarmSoundService = alarmSoundService;
             this.navigationVM = navigationVM;
             this.dialogService = dialogService;
             SaveCommand = new RelayCommand(i => SaveSettings());
-            CancelCommand = new RelayCommand(i => navigationVM.NavigateToMainWorkspaceView());
-            PlaySoundCommand = new RelayCommand(i => alarmSoundService.PlaySoundOnce(ReminderSoundFileName, ReminderSoundVolume));
+            CancelCommand = new RelayCommand(i => CancelSettings());
+            PlaySoundCommand = new RelayCommand(i => TestReminderSound());
             OpenFileDialogCommand = new RelayCommand(i => OpenFileDialog());
         }
 
@@ -159,8 +161,20 @@ namespace TienIchLich.ViewModels
                 ReminderSoundFileName = fileName;
         }
 
+        private void TestReminderSound()
+        {
+            alarmSoundService.PlaySoundOnce(ReminderSoundFileName, ReminderSoundVolume);
+        }
+
         private void SaveSettings()
         {
+
+        }
+
+        private void CancelSettings()
+        {
+            alarmSoundService.StopSound();
+            navigationVM.NavigateToMainWorkspaceView();
         }
     }
 }

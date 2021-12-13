@@ -3,33 +3,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:TienIchLich.Views"
              xmlns:custom_controls="clr-namespace:TienIchLich.MonthEventCalendarControl"
              mc:Ignorable="d"
              xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz">
     <!-- Main workspace view -->
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0" HorizontalAlignment="Right">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Button Command="{Binding AddEventCommand}"
-                    Margin="0,25,30,10"
-                    Content="Thêm sự kiện" 
-                    Style="{StaticResource MaterialDesignRaisedLightButton}" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}">
-                <Button.Foreground>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
-                </Button.Foreground>
-            </Button>
-        </Grid>
-
-        <dragablz:TabablzControl Grid.Row="1" SelectedIndex="1">
+        <dragablz:TabablzControl Grid.Row="0" SelectedIndex="1">
             <dragablz:TabablzControl.BorderBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}"/>
             </dragablz:TabablzControl.BorderBrush>
@@ -67,7 +47,7 @@
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
                         </TextBlock.Foreground>Năm</TextBlock>
                 </TabItem.Header>
-                <views:UserControl1/>
+                <views:YearCalendarView/>
             </TabItem>
 
 

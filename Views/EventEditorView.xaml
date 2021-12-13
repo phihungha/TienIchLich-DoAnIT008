@@ -88,8 +88,8 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
 
-    <Border BorderThickness="10">
-        <Grid Background="White">
+    <Border Padding="15" Background="White">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -108,7 +108,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
-                       Margin="0,0,0,20" FontSize="24" >Chỉnh sửa sự kiện</TextBlock>
+                       Margin="0,0,0,20" FontSize="30" >Chỉnh sửa sự kiện</TextBlock>
 
             <TextBlock Grid.Row="1" Grid.Column="0" FontSize="15">Chủ đề</TextBlock>
             <TextBox Text="{Binding Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"

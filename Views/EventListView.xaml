@@ -26,6 +26,7 @@
                   FontSize="14">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Tiêu đề" Binding="{Binding Subject}" Width="*" />
+                
                 <DataGridTemplateColumn Header="Loại lịch" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -33,20 +34,25 @@
                                 <Ellipse Width="9" Height="9" VerticalAlignment="Center"
                                              Margin="3" Fill="{Binding CategoryVM.DisplayColor}" />
                                 <TextBlock Margin="3" Foreground="{Binding CategoryVM.DisplayColor}"
-                                               Text="{Binding CategoryVM.Name}" />
+                                           VerticalAlignment="Center"
+                                           Text="{Binding CategoryVM.Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Bắt đầu" Binding="{Binding StartTime}" />
-                <DataGridTextColumn Header="Kết thúc" Binding="{Binding EndTime}" />
-                <DataGridTextColumn Header="Nhắc nhở trước"
+
+                <DataGridTextColumn Header="Bắt đầu" Width="*" Binding="{Binding StartTime}" />
+
+                <DataGridTextColumn Header="Kết thúc" Width="*" Binding="{Binding EndTime}" />
+
+                <DataGridTextColumn Header="Nhắc nhở trước" Width="*"
                                     Binding="{Binding ReminderTime,
                                               Converter={StaticResource TimespanToStringConverter}}" />
-                <DataGridTemplateColumn Width="*">
+                
+                <DataGridTemplateColumn Width="130">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,0,10,0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <StackPanel.Resources>
                                     <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                         <Setter Property="Visibility" Value="Hidden" />
@@ -54,14 +60,14 @@
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}},
                                                                                                           Path=IsMouseOver}"
-                                                             Value="True">
+                                                         Value="True">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </StackPanel.Resources>
-                                <Button Command="{Binding EditCommand}" Padding="3,1,3,1" Content="Sửa" />
-                                <Button Command="{Binding DeleteCommand}" Padding="3,1,3,1" Content="Xóa" />
+                                <Button Command="{Binding EditCommand}" Padding="5,1,5,1" Content="Sửa" />
+                                <Button Command="{Binding DeleteCommand}" Padding="5,1,5,1" Content="Xóa" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

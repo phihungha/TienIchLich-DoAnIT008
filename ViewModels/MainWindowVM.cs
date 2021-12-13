@@ -16,7 +16,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// View model for category panel.
         /// </summary>
-        public CategoryPanelVM CategoryPanelVM { get; private set; }
+        public SidePanelVM SidePanelVM { get; private set; }
 
         public MainWindowVM(DialogService dialogService, AlarmSoundService alarmSoundService)
         {
@@ -28,11 +28,16 @@ namespace TienIchLich.ViewModels
             calendarCategoryVMManager.EventVMManager = calendarEventVMManager;
 
             var settingsVM = new SettingsVM(NavigationVM, alarmSoundService, dialogService);
+            var calendarVM = new CalendarVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs, NavigationVM);
+            var eventListVM = new EventListVM(calendarEventVMManager.CalendarEventVMs);
+            var upcomingOverviewVM = new UpcomingOverviewVM(calendarEventVMManager.CalendarEventVMs);
 
-            CategoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
-            var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager, calendarCategoryVMManager, NavigationVM);
+            var mainWorkspaceVM = new MainWorkspaceVM(calendarVM, eventListVM, upcomingOverviewVM);
             var eventEditorVM = new EventEditorVM(NavigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
             var reminderVM = new ReminderVM(NavigationVM, reminderManager, alarmSoundService);
+
+            var categoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
+            SidePanelVM = new SidePanelVM(NavigationVM, categoryPanelVM, calendarVM);
 
             NavigationVM.EventEditorVM = eventEditorVM;
             NavigationVM.MainWorkspaceVM = mainWorkspaceVM;
