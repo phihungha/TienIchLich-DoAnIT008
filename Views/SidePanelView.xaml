@@ -150,7 +150,7 @@
                     </DataGridTemplateColumn>
 
                     <DataGridTextColumn Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                                        EditingElementStyle="{StaticResource DataGridTextBoxStyle}"  Width="105" />
+                                        EditingElementStyle="{StaticResource DataGridTextBoxStyle}"  Width="105" FontSize="19"  />
 
                     <DataGridTemplateColumn Width="82">
                         <DataGridTemplateColumn.CellTemplate>

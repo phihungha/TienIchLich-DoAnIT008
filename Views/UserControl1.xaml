@@ -16,23 +16,27 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Calendar x:Name="Month1" Grid.Row="0" Grid.Column="0" DisplayDate="2021/01/11"/>
-        <Calendar x:Name="Month2" Grid.Row="0" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month1, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month3" Grid.Row="0" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month2, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month4" Grid.Row="0" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month3, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month5" Grid.Row="1" Grid.Column="0" DisplayDate="{Binding Path=DisplayDate, ElementName=Month4, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month6" Grid.Row="1" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month5, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month7" Grid.Row="1" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month6, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month8" Grid.Row="1" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month7, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month9" Grid.Row="2" Grid.Column="0" DisplayDate="{Binding Path=DisplayDate, ElementName=Month8, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month10" Grid.Row="2" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month9, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month11" Grid.Row="2" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month10, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month12" Grid.Row="2" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month11, Converter={StaticResource yearconv}}"/>
+        <Button Content="P" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="N" Grid.Column="5" Grid.Row="0" VerticalAlignment="Top" Click="Button1_Click"/>
+        <Calendar x:Name="Month1" Grid.Row="0" Grid.Column="1" DisplayDate="2021/01/11"/>
+        <Calendar x:Name="Month2" Grid.Row="0" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month1, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month3" Grid.Row="0" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month2, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month4" Grid.Row="0" Grid.Column="4" DisplayDate="{Binding Path=DisplayDate, ElementName=Month3, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month5" Grid.Row="1" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month4, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month6" Grid.Row="1" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month5, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month7" Grid.Row="1" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month6, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month8" Grid.Row="1" Grid.Column="4" DisplayDate="{Binding Path=DisplayDate, ElementName=Month7, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month9" Grid.Row="2" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month8, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month10" Grid.Row="2" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month9, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month11" Grid.Row="2" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month10, Converter={StaticResource yearconv}}"/>
+        <Calendar x:Name="Month12" Grid.Row="2" Grid.Column="4" DisplayDate="{Binding Path=DisplayDate, ElementName=Month11, Converter={StaticResource yearconv}}"/>
     </Grid>
 </UserControl>

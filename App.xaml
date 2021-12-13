@@ -10,13 +10,7 @@
                 <ResourceDictionary Source="Styles/MonthEventCalendarStyle.xaml" />
                 <ResourceDictionary Source="Styles/Others.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DatePicker.xaml" />
-                <ResourceDictionary
-                        Source="pack://application:,,,/MaterialDesignColors;component/Themes/materialdesigncolor.teal.xaml" />
-
-                <!--My resource-->
-                <ResourceDictionary>
-                    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource Primary700}"/>
-                </ResourceDictionary>
+                
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
 

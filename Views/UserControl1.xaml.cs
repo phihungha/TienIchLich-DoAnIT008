@@ -24,5 +24,15 @@ namespace TienIchLich.Views
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Month1.DisplayDate = Month1.DisplayDate.AddYears(-1);
+        }
+
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            this.Month1.DisplayDate = Month1.DisplayDate.AddYears(1);
+        }
     }
 }

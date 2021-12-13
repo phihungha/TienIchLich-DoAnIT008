@@ -50,7 +50,8 @@
                 <xctk:DateTimePicker Grid.Row="0"
                                      Margin="0,0,0,15"
                                      Maximum="{Binding EndTime}"
-                                     Value="{Binding StartTime}" />
+                                     Value="{Binding StartTime}"
+                                    />
                 <xctk:DateTimePicker Grid.Row="1"
                                      Minimum="{Binding StartTime}"
                                      Value="{Binding EndTime}" />
@@ -66,10 +67,13 @@
 
                 <DatePicker Grid.Row="0" Margin="0,0,0,15" 
                             DisplayDateEnd="{Binding EndTime}"
-                            SelectedDate="{Binding StartTime}"/>
+                            SelectedDate="{Binding StartTime}"
+                            Style="{StaticResource MaterialDesignDatePicker}"/>
                 <DatePicker Grid.Row="1"
                             DisplayDateStart="{Binding StartTime}"
-                            SelectedDate="{Binding EndTime}"/>
+                            SelectedDate="{Binding EndTime}"
+                            Style="{StaticResource MaterialDesignDatePicker}"/>
+                            
             </Grid>
         </DataTemplate>
 
