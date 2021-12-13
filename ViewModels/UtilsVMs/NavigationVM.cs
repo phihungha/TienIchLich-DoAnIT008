@@ -108,7 +108,7 @@ namespace TienIchLich.ViewModels
             eventEditorVM.BeginAdd(startTime);
             DisplayedVM = eventEditorVM;
         }
-        
+
         /// <summary>
         /// Navigate to reminder view.
         /// </summary>

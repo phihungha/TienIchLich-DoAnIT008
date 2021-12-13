@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using TienIchLich.ViewModels;
-using System.Globalization;
+﻿using System.Globalization;
+using System.Windows;
 using TienIchLich.Services;
+using TienIchLich.ViewModels;
 
 namespace TienIchLich
 {

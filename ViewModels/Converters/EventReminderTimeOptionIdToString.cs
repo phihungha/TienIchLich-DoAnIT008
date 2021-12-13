@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace TienIchLich.ViewModels.Converters
 {
     [ValueConversion(typeof(CalendarEventReminderTimeOptionId), typeof(string))]
-    class EventReminderTimeOptionIdToString : IValueConverter
+    internal class EventReminderTimeOptionIdToString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -23,20 +23,28 @@ namespace TienIchLich.ViewModels.Converters
             {
                 case CalendarEventReminderTimeOptionId.Immediately:
                     return "Ngay lập tức";
+
                 case CalendarEventReminderTimeOptionId.Minutes5:
                     return "5 phút";
+
                 case CalendarEventReminderTimeOptionId.Minutes15:
                     return "15 phút";
+
                 case CalendarEventReminderTimeOptionId.Minutes30:
                     return "30 phút";
+
                 case CalendarEventReminderTimeOptionId.Hour1:
                     return "1 tiếng";
+
                 case CalendarEventReminderTimeOptionId.Hour12:
                     return "12 tiếng";
+
                 case CalendarEventReminderTimeOptionId.Day1:
                     return "1 ngày";
+
                 case CalendarEventReminderTimeOptionId.Week1:
                     return "1 tháng";
+
                 case CalendarEventReminderTimeOptionId.Custom:
                     return "Tùy chọn";
             }

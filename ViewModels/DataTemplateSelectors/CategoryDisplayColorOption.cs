@@ -1,17 +1,17 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace TienIchLich.ViewModels
+namespace TienIchLich.ViewModels.DataTemplateSelectors
 {
-    public class CategoryDisplayColorOptionTemplateSelector : DataTemplateSelector
+    public class CategoryDisplayColorOption : DataTemplateSelector
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             var element = container as FrameworkElement;
 
-            if (element != null && item != null && item is CategoryDisplayColorOption)
+            if (element != null && item != null && item is ViewModels.CategoryDisplayColorOption)
             {
-                var optionItem = (CategoryDisplayColorOption)item;
+                var optionItem = (ViewModels.CategoryDisplayColorOption)item;
 
                 if (optionItem.Id == CategoryDisplayColorOptionId.Custom)
                     return

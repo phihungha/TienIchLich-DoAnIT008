@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using TienIchLich.ViewModels;
+﻿using System.Windows.Controls;
 
 namespace TienIchLich.Views
 {

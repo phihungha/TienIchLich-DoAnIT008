@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="TienIchLich.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:ReminderSoundOptionIdToString x:Key="ReminderSoundOptionIdToStringConverter" />
@@ -17,20 +17,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <TextBlock Grid.Row="0" HorizontalAlignment="Left" Margin="50,30,0,20" FontSize="30">Cài đặt</TextBlock>
 
         <GroupBox Grid.Row="1" Header="Âm báo nhắc nhở" Margin="120,20,120,15" Padding="0,15,0,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="1.3*"/>
+                    <ColumnDefinition Width="1.3*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.Resources>
@@ -55,21 +55,21 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
 
-                    <Button Command="{Binding PlaySoundCommand}" 
+                    <Button Command="{Binding PlaySoundCommand}"
                     Margin="8,0,0,0" FontSize="11"
                     Padding="4,2,4,2" Content="Phát thử" />
                 </StackPanel>
 
-                <TextBlock Grid.Row="2" Visibility="{Binding UseCustomReminderSoundOption, 
+                <TextBlock Grid.Row="2" Visibility="{Binding UseCustomReminderSoundOption,
                                              Converter={StaticResource BooleanToVisibilityConverter}}">
                     Đường dẫn âm báo tùy thích
                 </TextBlock>
-                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" 
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal"
                     Width="300" HorizontalAlignment="Left" Margin="0,0,0,15"
-                    Visibility="{Binding UseCustomReminderSoundOption, 
+                    Visibility="{Binding UseCustomReminderSoundOption,
                                  Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBox Text="{Binding ReminderSoundFileName}" IsReadOnly="True" Width="200" />
-                    <Button Command="{Binding OpenFileDialogCommand}" 
+                    <Button Command="{Binding OpenFileDialogCommand}"
                     Margin="8,0,0,0" Padding="4,2,4,2" Content="Mở file" />
                 </StackPanel>
 
@@ -81,13 +81,11 @@
             </Grid>
         </GroupBox>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" 
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Margin="0,0,40,30">
             <Button Command="{Binding CancelCommand}" Margin="0,0,15,0" Content="Hủy" />
             <Button Command="{Binding SaveCommand}" Background="Blue" Foreground="White" Content="Lưu" />
         </StackPanel>
     </Grid>
-    
-    
 </UserControl>

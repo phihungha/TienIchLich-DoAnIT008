@@ -11,6 +11,7 @@ namespace TienIchLich.ViewModels
     {
         // Method that provides logic for this command
         private Action<object> execute;
+
         // Method that decides if this command can be executed
         private Predicate<object> canExecute;
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Input;
-using System.Windows.Media;
 using TienIchLich.Models;
 using TienIchLich.Services;
 
@@ -24,7 +23,7 @@ namespace TienIchLich.ViewModels
         public RemindAgainTimeOptionId Id { get; set; }
         public TimeSpan Time { get; set; }
     }
-    
+
     /// <summary>
     /// View model for the reminder view.
     /// </summary>

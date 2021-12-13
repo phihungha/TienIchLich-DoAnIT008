@@ -21,7 +21,7 @@ namespace TienIchLich.Models
             => (startTime - reminderTime - DateTime.Now).TotalMilliseconds;
 
         /// <summary>
-        /// Add a new reminder timer. 
+        /// Add a new reminder timer.
         /// Start the timer if there is still time until reminding.
         /// </summary>
         /// <param name="calendarEventId">Calendar event Id associated with this timer for later access</param>

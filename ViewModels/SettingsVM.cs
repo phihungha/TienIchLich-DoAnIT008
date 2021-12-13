@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Configuration;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
@@ -33,7 +28,7 @@ namespace TienIchLich.ViewModels
             public string FilePath { get; set; }
         }
 
-        private static ReminderSoundOption[] reminderSoundOptions = 
+        private static ReminderSoundOption[] reminderSoundOptions =
         {
             new ReminderSoundOption()
             {
@@ -166,7 +161,6 @@ namespace TienIchLich.ViewModels
 
         private void SaveSettings()
         {
-            
         }
     }
 }
