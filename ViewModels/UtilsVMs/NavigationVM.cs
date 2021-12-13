@@ -105,8 +105,8 @@ namespace TienIchLich.ViewModels
         /// <param name="startTime">Start time of new calendar event</param>
         public void NavigateToEventEditorViewToAdd(DateTime? startTime)
         {
-            eventEditorVM.BeginAdd(startTime);
-            DisplayedVM = eventEditorVM;
+            if (eventEditorVM.BeginAdd(startTime))
+                DisplayedVM = eventEditorVM;
         }
 
         /// <summary>

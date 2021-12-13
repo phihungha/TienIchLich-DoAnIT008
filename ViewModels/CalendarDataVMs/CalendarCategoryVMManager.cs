@@ -18,6 +18,11 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs { get; private set; }
 
+        /// <summary>
+        /// Calendar event view model manager.
+        /// </summary>
+        public CalendarEventVMManager EventVMManager { get; set; }
+
         public CalendarCategoryVMManager(DialogService dialogService)
         {
             this.dialogService = dialogService;
@@ -96,7 +101,7 @@ namespace TienIchLich.ViewModels
                 db.CalendarCategories.Remove(categoryToEdit);
                 db.SaveChanges();
             }
-
+            EventVMManager.DeleteVMsOfCategory(categoryVM.Id);
             CalendarCategoryVMs.Remove(categoryVM);
         }
     }

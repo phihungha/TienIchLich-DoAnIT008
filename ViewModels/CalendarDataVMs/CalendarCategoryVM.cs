@@ -287,7 +287,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void DeleteCategory()
         {
-            if (dialogService.ShowConfirmation("Bạn có muốn xóa loại lịch này?"))
+            if (dialogService.ShowConfirmation("Bạn có muốn xóa loại lịch này?\nTất cả sự kiện thuộc loại này sẽ bị xóa!"))
                 calendarCategoryVMManager.Delete(this);
         }
 

@@ -25,6 +25,8 @@ namespace TienIchLich.ViewModels
             var calendarCategoryVMManager = new CalendarCategoryVMManager(dialogService);
             var reminderManager = new ReminderManager();
             var calendarEventVMManager = new CalendarEventVMManager(NavigationVM, calendarCategoryVMManager, reminderManager);
+            calendarCategoryVMManager.EventVMManager = calendarEventVMManager;
+
             var settingsVM = new SettingsVM(NavigationVM, alarmSoundService, dialogService);
 
             CategoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);

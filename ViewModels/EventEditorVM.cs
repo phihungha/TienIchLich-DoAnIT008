@@ -383,11 +383,29 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
+        /// Check if event addition is permitted.
+        /// Permitted when there is at least one calendar category.
+        /// </summary>
+        /// <returns></returns>
+        private bool IsAddPermitted()
+        {
+            if (CategoryVMs.Count() == 0)
+            {
+                dialogService.ShowError("Bạn cần ít nhất một loại lịch để có thể tạo được sự kiện mới.");
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Enter add mode. Add a new calendar event with the provided start time.
         /// </summary>
         /// <param name="startTime">Start time</param>
-        public void BeginAdd(DateTime? startTime)
+        public bool BeginAdd(DateTime? startTime)
         {
+            if (!IsAddPermitted())
+                return false;
+
             if (startTime == null)
             {
                 CalendarEventVM = new CalendarEventVM(eventVMManager, navigationVM)
@@ -404,6 +422,7 @@ namespace TienIchLich.ViewModels
                     ReminderTime = new TimeSpan(0, 30, 0)
                 };
             }
+            return true;
         }
 
         /// <summary>
