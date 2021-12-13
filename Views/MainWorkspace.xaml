@@ -66,6 +66,7 @@
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
                         </TextBlock.Foreground>Năm</TextBlock>
                 </TabItem.Header>
+                <views:UserControl1/>
             </TabItem>
 
 

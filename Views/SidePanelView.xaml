@@ -56,17 +56,37 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="200"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <!-- Calendar category listbox -->
-
-        <Border Grid.Row="0" BorderThickness="3">
+        <Button Command="{Binding AddEventCommand}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Height="50" Width="259"
+                        Grid.Row="0" Background="{x:Null}" BorderBrush="{x:Null}">
+            <StackPanel Orientation="Horizontal" Width="250">
+                <materialDesign:PackIcon Kind="Add" Height="25" Width="25" Margin="10" Foreground="Black"/>
+                <TextBlock Text="Thêm sự kiện" VerticalAlignment="Center" Margin="20 10" Foreground="Black"/>
+            </StackPanel>
+        </Button>
+        <Button         HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Height="60" Width="259"
+                        Grid.Row="1" Background="{x:Null}" BorderBrush="{x:Null}">
+            <StackPanel Orientation="Horizontal" Width="250">
+                <materialDesign:PackIcon Kind="Settings" Height="25" Width="25" Margin="10" Foreground="Black"/>
+                <TextBlock Text="Cài đặt" VerticalAlignment="Center" Margin="20 10" Foreground="Black"/>
+            </StackPanel>
+        </Button>
+        <Border Grid.Row="2" BorderThickness="3">
             <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="17"><Run Text="Logo here"/></TextBlock>
         </Border>
 
 
-        <Grid Grid.Row="1" Margin="4">
+        <Grid Grid.Row="3" Margin="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
