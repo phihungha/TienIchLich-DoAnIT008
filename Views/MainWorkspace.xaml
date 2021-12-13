@@ -17,10 +17,16 @@
         <Grid Grid.Row="0" HorizontalAlignment="Right">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+            
             <Button Command="{Binding AddEventCommand}" 
                     Margin="0,25,30,10"
                     Content="Thêm sự kiện" />
+
+            <Button Grid.Column="1" Command="{Binding SettingsCommand}" 
+                    Margin="0,25,10,10"
+                    Content="Cài đặt" />
         </Grid>
         
         <TabControl Grid.Row="1" SelectedIndex="1">

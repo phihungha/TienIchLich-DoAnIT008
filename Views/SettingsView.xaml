@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="TienIchLich.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ReminderSoundOptionIdToString x:Key="ReminderSoundOptionIdToStringConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Margin="50,30,0,20" FontSize="30">Cài đặt</TextBlock>
+
+        <GroupBox Grid.Row="1" Header="Âm báo nhắc nhở" Margin="120,20,120,15" Padding="0,15,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="1.3*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="13" />
+                        <Setter Property="Margin" Value="0,0,10,15" />
+                        <Setter Property="HorizontalAlignment" Value="Right" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                </Grid.Resources>
+
+                <TextBlock Grid.Row="1">Âm báo nhắc nhở</TextBlock>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal"
+                    Width="240" HorizontalAlignment="Left" Margin="0,0,0,15">
+                    <ComboBox ItemsSource="{Binding ReminderSoundOptions}"
+                      SelectedItem="{Binding SelectedReminderSoundOption}"
+                      Width="100">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="13" Text="{Binding Id, Converter={StaticResource ReminderSoundOptionIdToStringConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <Button Command="{Binding PlaySoundCommand}" 
+                    Margin="8,0,0,0" FontSize="11"
+                    Padding="4,2,4,2" Content="Phát thử" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="2" Visibility="{Binding UseCustomReminderSoundOption, 
+                                             Converter={StaticResource BooleanToVisibilityConverter}}">
+                    Đường dẫn âm báo tùy thích
+                </TextBlock>
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" 
+                    Width="300" HorizontalAlignment="Left" Margin="0,0,0,15"
+                    Visibility="{Binding UseCustomReminderSoundOption, 
+                                 Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBox Text="{Binding ReminderSoundFileName}" IsReadOnly="True" Width="200" />
+                    <Button Command="{Binding OpenFileDialogCommand}" 
+                    Margin="8,0,0,0" Padding="4,2,4,2" Content="Mở file" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="3">Âm lượng</TextBlock>
+                <Slider Grid.Row="3" Grid.Column="1" Minimum="0" Maximum="100"
+                HorizontalAlignment="Left" Width="150" VerticalAlignment="Center"
+                TickPlacement="BottomRight" AutoToolTipPlacement="BottomRight"
+                Ticks="0, 50, 100" Value="{Binding ReminderSoundVolume}" />
+            </Grid>
+        </GroupBox>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" 
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    Margin="0,0,40,30">
+            <Button Command="{Binding CancelCommand}" Margin="0,0,15,0" Content="Hủy" />
+            <Button Command="{Binding SaveCommand}" Background="Blue" Foreground="White" Content="Lưu" />
+        </StackPanel>
+    </Grid>
+    
+    
+</UserControl>

@@ -9,6 +9,7 @@ namespace TienIchLich.Services
     public class AlarmSoundService
     {
         private MediaPlayer soundPlayer = new();
+        private bool repeat = true;
 
         public AlarmSoundService()
         {
@@ -20,8 +21,24 @@ namespace TienIchLich.Services
         /// </summary>
         private void SoundPlayer_MediaEnded(object sender, EventArgs e)
         {
-            soundPlayer.Position = TimeSpan.Zero;
-            soundPlayer.Play();
+            if (repeat)
+            {
+                soundPlayer.Position = TimeSpan.Zero;
+                soundPlayer.Play();
+            }
+            else
+                repeat = true;
+        }
+
+        /// <summary>
+        /// Play reminder alarm sound once.
+        /// </summary>
+        /// <param name="filePath">Sound file's path</param>
+        /// <param name="volume">Audio volume</param>
+        public void PlaySoundOnce(string filePath, int volume)
+        {
+            repeat = false;
+            PlaySound(filePath, volume);
         }
 
         /// <summary>
@@ -33,7 +50,7 @@ namespace TienIchLich.Services
         {
             soundPlayer.Dispatcher.Invoke(() =>
             {
-                soundPlayer.Open(new Uri(filePath, UriKind.Relative));
+                soundPlayer.Open(new Uri(filePath, UriKind.RelativeOrAbsolute));
                 soundPlayer.Volume = (double)volumne / 100;
                 soundPlayer.Play();
             });

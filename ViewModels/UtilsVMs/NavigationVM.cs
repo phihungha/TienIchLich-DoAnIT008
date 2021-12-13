@@ -67,6 +67,20 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private SettingsVM settingsVM;
+
+        /// <summary>
+        /// Settings view.
+        /// </summary>
+        public SettingsVM SettingsVM
+        {
+            set
+            {
+                settingsVM = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Navigate to main workspace view
         /// </summary>
@@ -103,6 +117,14 @@ namespace TienIchLich.ViewModels
         {
             reminderVM.Remind(eventVM);
             DisplayedVM = reminderVM;
+        }
+
+        /// <summary>
+        /// Navigate to settings view.
+        /// </summary>
+        public void NavigateToSettingsView()
+        {
+            DisplayedVM = settingsVM;
         }
     }
 }

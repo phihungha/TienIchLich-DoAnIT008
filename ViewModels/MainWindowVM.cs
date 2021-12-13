@@ -25,6 +25,7 @@ namespace TienIchLich.ViewModels
             var calendarCategoryVMManager = new CalendarCategoryVMManager(dialogService);
             var reminderManager = new ReminderManager();
             var calendarEventVMManager = new CalendarEventVMManager(NavigationVM, calendarCategoryVMManager, reminderManager);
+            var settingsVM = new SettingsVM(NavigationVM, alarmSoundService, dialogService);
 
             CategoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
             var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager, calendarCategoryVMManager, NavigationVM);
@@ -34,6 +35,7 @@ namespace TienIchLich.ViewModels
             NavigationVM.EventEditorVM = eventEditorVM;
             NavigationVM.MainWorkspaceVM = mainWorkspaceVM;
             NavigationVM.ReminderVM = reminderVM;
+            NavigationVM.SettingsVM = settingsVM;
             NavigationVM.DisplayedVM = mainWorkspaceVM;
         }
     }

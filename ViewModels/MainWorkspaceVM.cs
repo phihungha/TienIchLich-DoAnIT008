@@ -13,6 +13,11 @@ namespace TienIchLich.ViewModels
         public ICommand AddEventCommand { get; private set; }
 
         /// <summary>
+        /// Command to open settings view.
+        /// </summary>
+        public ICommand SettingsCommand { get; private set; }
+
+        /// <summary>
         /// View model for calendar view.
         /// </summary>
         public CalendarVM CalendarVM { get; private set; }
@@ -34,6 +39,8 @@ namespace TienIchLich.ViewModels
             UpcomingOverviewVM = new UpcomingOverviewVM(calendarEventVMManager.CalendarEventVMs);
             AddEventCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewToAdd(CalendarVM.SelectedDate));
+            SettingsCommand = new RelayCommand(
+                i => navigationVM.NavigateToSettingsView());
         }
     }
 }
