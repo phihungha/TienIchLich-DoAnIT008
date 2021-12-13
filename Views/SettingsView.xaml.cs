@@ -3,11 +3,11 @@
 namespace TienIchLich.Views
 {
     /// <summary>
-    /// Interaction logic for UpcomingOverviewView.xaml
+    /// Interaction logic for SettingsView.xaml
     /// </summary>
-    public partial class UpcomingOverviewView : UserControl
+    public partial class SettingsView : UserControl
     {
-        public UpcomingOverviewView()
+        public SettingsView()
         {
             InitializeComponent();
         }

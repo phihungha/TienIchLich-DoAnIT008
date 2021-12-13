@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TienIchLich.Models;
@@ -13,17 +14,18 @@ namespace TienIchLich.ViewModels
     {
         private CalendarCategoryVMManager categoryVMs;
         private NavigationVM navigationVM;
-        private ReminderManager reminderManager = new();
+        private ReminderManager reminderManager;
 
         /// <summary>
         /// Calendar event view model collection.
         /// </summary>
         public ObservableCollection<CalendarEventVM> CalendarEventVMs { get; private set; }
 
-        public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs)
+        public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs, ReminderManager reminderManager)
         {
             this.navigationVM = navigationVM;
             this.categoryVMs = categoryVMs;
+            this.reminderManager = reminderManager;
             CalendarEventVMs = new ObservableCollection<CalendarEventVM>();
 
             // Build view models for all calendar events in database
@@ -139,6 +141,20 @@ namespace TienIchLich.ViewModels
             CalendarEventVMs.Remove(eventVM);
 
             reminderManager.Remove(eventVM.Id);
+        }
+
+        /// <summary>
+        /// Delete all calendar event view models belong to a calendar category.
+        /// This is used when cascade delete happens.
+        /// </summary>
+        /// <param name="categoryId">Id of calendar category</param>
+        public void DeleteVMsOfCategory(long categoryId)
+        {
+            foreach (CalendarEventVM eventVM in CalendarEventVMs.ToList())
+            {
+                if (eventVM.CategoryVM.Id == categoryId)
+                    CalendarEventVMs.Remove(eventVM);
+            }
         }
     }
 }

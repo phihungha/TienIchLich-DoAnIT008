@@ -100,12 +100,21 @@ namespace TienIchLich.MonthEventCalendarControl
                 CalendarCategoryVM newCategory = (CalendarCategoryVM)e.NewItems[0];
                 newCategory.PropertyChanged += CategoryVM_PropertyChanged;
             }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                Refresh();
+            }
+        }
+
+        private void CategoryVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Refresh();
         }
 
         /// <summary>
         /// Refresh calendar when a calendar category view model changes.
         /// </summary>
-        private void CategoryVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Refresh()
         {
             DateTime? currentSelectedDate = SelectedDate;
             SelectedDate = new DateTime();

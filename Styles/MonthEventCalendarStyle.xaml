@@ -14,10 +14,9 @@
 
                         <!-- Start: Data template for header button -->
                         <DataTemplate x:Key="{x:Static CalendarItem.DayTitleTemplateResourceKey}">
-                            <TextBlock FontFamily="Verdana" Foreground="#FF333333" FontSize="12" HorizontalAlignment="Center" Margin="0,6,0,6" Text="{Binding Converter={StaticResource DayNameConverter}}" VerticalAlignment="Center"/>
+                            <TextBlock FontFamily="Verdana" Foreground="#FF333333" FontSize="12" HorizontalAlignment="Center" Margin="0,6,0,6" Text="{Binding Converter={StaticResource DayNameConverter}}" VerticalAlignment="Center" />
                         </DataTemplate>
                         <!-- End: Data template for header button -->
-
                     </ControlTemplate.Resources>
                     <Grid Name="PART_Root">
                         <Grid.Resources>
@@ -34,9 +33,9 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Border 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
+                        <Border
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="1">
                             <Border CornerRadius="1" BorderBrush="#FFFFFFFF" BorderThickness="2">
@@ -90,13 +89,13 @@
                                                 </VisualStateManager.VisualStateGroups>
                                                 <Rectangle Fill="#11E5EBF1" Stretch="Fill" Opacity="1" />
                                                 <Grid>
-                                                    <Path Margin="4,0,0,0" Height="10" Width="6" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                                    <Path Margin="4,0,0,0" Height="10" Width="6" VerticalAlignment="Center" HorizontalAlignment="Left"
                                                           Stretch="Fill" Data="M288.75,232.25 L283,236.625 L288.75,240.625" StrokeThickness="2">
                                                         <Path.Stroke>
                                                             <SolidColorBrush x:Name="TextColor" Color="#FF333333" />
                                                         </Path.Stroke>
                                                     </Path>
-                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left"
                                                           Stretch="Fill" Data="M283,236.625 L297,236.625" Stroke="#FF333333" StrokeThickness="2" />
                                                 </Grid>
                                             </Grid>
@@ -124,7 +123,7 @@
                                                 </VisualStateManager.VisualStateGroups>
                                                 <Rectangle Fill="#11E5EBF1" Stretch="Fill" Opacity="1" />
                                                 <Grid>
-                                                    
+
                                                     <Path Margin="0,0,4,0" Height="10" Width="6" VerticalAlignment="Center" HorizontalAlignment="Right" Stretch="Fill" Data="M283,232.25 L288.75,236.625 L283,240.625" StrokeThickness="2">
                                                         <Path.Stroke>
                                                             <SolidColorBrush x:Name="TextColor" Color="#FF333333" />
@@ -175,14 +174,13 @@
                                     <Rectangle Fill="#FFE3EFFF" Grid.ColumnSpan="4" />
 
                                     <!-- Start: Previous button content -->
-                                    <Button x:Name="PART_PreviousButton" 
+                                    <Button x:Name="PART_PreviousButton"
                                             Margin="4"
                                             Grid.Row="0" Grid.Column="0"
-                                            Template="{StaticResource PreviousButtonTemplate}" 
-                                            Height="20" Width="20" 
-                                            HorizontalAlignment="Left" 
-                                            Focusable="False"
-                                            />
+                                            Template="{StaticResource PreviousButtonTemplate}"
+                                            Height="20" Width="20"
+                                            HorizontalAlignment="Left"
+                                            Focusable="False" />
                                     <!-- End: Previous button content -->
 
                                     <!-- Start: Header button content -->
@@ -196,18 +194,17 @@
                                     <!-- End: Header button content -->
 
                                     <!-- Start: Next button content -->
-                                    <Button x:Name="PART_NextButton" 
+                                    <Button x:Name="PART_NextButton"
                                             Margin="4"
-                                            Grid.Row="0" Grid.Column="1" 
-                                            Height="20" Width="20" 
-                                            HorizontalAlignment="Right" 
-                                            Template="{StaticResource NextButtonTemplate}" 
-                                            Focusable="False"
-                                            />
+                                            Grid.Row="0" Grid.Column="1"
+                                            Height="20" Width="20"
+                                            HorizontalAlignment="Right"
+                                            Template="{StaticResource NextButtonTemplate}"
+                                            Focusable="False" />
                                     <!-- End: Next button content -->
 
                                     <!-- Start: Month Content Grid -->
-                                    <Grid x:Name="PART_MonthView" Grid.Row="1" Grid.ColumnSpan="4" Visibility="Visible" >
+                                    <Grid x:Name="PART_MonthView" Grid.Row="1" Grid.ColumnSpan="4" Visibility="Visible">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="*" />
@@ -230,7 +227,7 @@
                                     <!-- End: Month Content Grid -->
 
                                     <!-- End: Year Content Grid -->
-                                    <Grid x:Name="PART_YearView" Grid.Row="1" Grid.ColumnSpan="4" Visibility="Hidden" >
+                                    <Grid x:Name="PART_YearView" Grid.Row="1" Grid.ColumnSpan="4" Visibility="Hidden">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
                                             <RowDefinition Height="*" />
@@ -247,7 +244,7 @@
                                 </Grid>
                             </Border>
                         </Border>
-                        <Rectangle x:Name="PART_DisabledVisual" Opacity="0" Visibility="Collapsed" 
+                        <Rectangle x:Name="PART_DisabledVisual" Opacity="0" Visibility="Collapsed"
                                    Stretch="Fill" StrokeThickness="1" RadiusX="2" RadiusY="2"
                                    Stroke="{StaticResource DisabledColor}" Fill="{StaticResource DisabledColor}" />
                     </Grid>
@@ -293,12 +290,12 @@
                 <ControlTemplate TargetType="{x:Type CalendarDayButton}">
                     <Border x:Name="ButtonBorder" BorderThickness="0.2" BorderBrush="LightGray">
                         <Border.InputBindings>
-                            <MouseBinding Gesture="LeftDoubleClick" 
-                                          Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                                           AncestorType={x:Type local:MonthEventCalendar}}, 
+                            <MouseBinding Gesture="LeftDoubleClick"
+                                          Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                           AncestorType={x:Type local:MonthEventCalendar}},
                                                             Path=CalendarVM.AddEventCommand}" />
                         </Border.InputBindings>
-                        
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualStateGroup.Transitions>
@@ -328,7 +325,7 @@
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
-                            
+
                             <VisualStateGroup x:Name="ActiveStates">
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition GeneratedDuration="0" />
@@ -364,7 +361,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        
+
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -375,36 +372,36 @@
                             <Rectangle x:Name="TodayBackground" Grid.RowSpan="2" Fill="#FFAAAAAA" Opacity="0" RadiusX="1" RadiusY="1" />
                             <Rectangle x:Name="SelectedBackground" Grid.RowSpan="2" Fill="#FFBADDE9" Opacity="0" RadiusX="1" RadiusY="1" />
                             <Rectangle x:Name="NormalBackground" Grid.RowSpan="2" Fill="#FFBADDE9" Opacity="0" RadiusX="1" RadiusY="1" />
-                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" 
+                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}"
                                     BorderBrush="{TemplateBinding BorderBrush}" />
                             <Rectangle x:Name="HighlightBackground" Fill="#FFBADDE9" Opacity="0" RadiusX="1" RadiusY="1" />
-                            <Path x:Name="Blackout" Data="M8.1772461,11.029181 L10.433105,11.029181 L11.700684,12.801641 L12.973633,11.029181 L15.191895,11.029181 L12.844727,13.999395 L15.21875,17.060919 L12.962891,17.060919 L11.673828,15.256231 L10.352539,17.060919 L8.1396484,17.060919 L10.519043,14.042364 z" 
-                                  Fill="#FF000000" HorizontalAlignment="Stretch" Margin="3" Opacity="0" 
+                            <Path x:Name="Blackout" Data="M8.1772461,11.029181 L10.433105,11.029181 L11.700684,12.801641 L12.973633,11.029181 L15.191895,11.029181 L12.844727,13.999395 L15.21875,17.060919 L12.962891,17.060919 L11.673828,15.256231 L10.352539,17.060919 L8.1396484,17.060919 L10.519043,14.042364 z"
+                                  Fill="#FF000000" HorizontalAlignment="Stretch" Margin="3" Opacity="0"
                                   RenderTransformOrigin="0.5,0.5" Stretch="Fill" VerticalAlignment="Stretch" />
                             <Rectangle x:Name="DayButtonFocusVisual" IsHitTestVisible="false" RadiusX="1" RadiusY="1" Stroke="#FF45D6FA" Visibility="Collapsed" />
 
                             <!-- Day number -->
                             <ContentPresenter x:Name="NormalText" Grid.Row="0" TextElement.FontSize="13"
                                               Margin="5"
-                                              HorizontalAlignment="Left" 
+                                              HorizontalAlignment="Left"
                                               VerticalAlignment="Top" />
-                            
+
                             <!-- Event list -->
                             <ListBox Grid.Row="1"
-                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                     Background="Transparent" 
-                                     BorderBrush="Transparent" 
+                                     Background="Transparent"
+                                     BorderBrush="Transparent"
                                      HorizontalContentAlignment="Stretch">
                                 <ListBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource EventConverter}">
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, 
-                                                                                 AncestorType={x:Type local:MonthEventCalendar}}" 
+                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                                                 AncestorType={x:Type local:MonthEventCalendar}}"
                                                  Path="CalendarVM.CalendarEventVMs" />
                                         <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext" />
                                     </MultiBinding>
                                 </ListBox.ItemsSource>
-                                
+
                                 <!-- Item container style. Disable highlight -->
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem">
@@ -417,11 +414,11 @@
                                         </Setter>
                                     </Style>
                                 </ListBox.ItemContainerStyle>
-                                
+
                                 <!-- Template for calendar event list item -->
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Background="{Binding CategoryVM.DisplayColor}" 
+                                        <Button Background="{Binding CategoryVM.DisplayColor}"
                                                 HorizontalContentAlignment="Left"
                                                 Margin="2"
                                                 Padding="2">
@@ -455,7 +452,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- Style for the control -->
     <Style TargetType="local:MonthEventCalendar">
         <Setter Property="CalendarItemStyle" Value="{StaticResource CustomCalendarItemStyle}" />
@@ -485,17 +482,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Calendar">
                     <Grid Name="PART_Root">
-                        <CalendarItem 
-                                Name="PART_CalendarItem" 
+                        <CalendarItem
+                                Name="PART_CalendarItem"
                                 Style="{TemplateBinding CalendarItemStyle}"
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}"                            
-                            />
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
-
 </ResourceDictionary>

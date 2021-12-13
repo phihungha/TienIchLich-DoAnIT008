@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Microsoft.Win32;
+using System.Windows;
 
 namespace TienIchLich.Services
 {
@@ -27,6 +28,22 @@ namespace TienIchLich.Services
             if (result == MessageBoxResult.Yes)
                 return true;
             return false;
+        }
+
+        /// <summary>
+        /// Show an open file dialog.
+        /// </summary>
+        /// <param name="fileFormats">File formats to use</param>
+        /// <returns></returns>
+        public string ShowOpenFile(string fileFormats)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = fileFormats;
+
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+                return dialog.FileName;
+            return null;
         }
     }
 }

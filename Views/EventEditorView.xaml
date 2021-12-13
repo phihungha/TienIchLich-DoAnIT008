@@ -1,14 +1,13 @@
 ﻿<UserControl x:Class="TienIchLich.Views.EventEditorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:vm="clr-namespace:TienIchLich.ViewModels"
              xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
              mc:Ignorable="d"
-             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
     <!-- Calendar event editor view -->
     <UserControl.Resources>
         <Style TargetType="TextBlock">
@@ -16,7 +15,7 @@
             <Setter Property="Margin" Value="0,0,0,15" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        
+
         <Style TargetType="DatePicker">
             <Setter Property="SelectedDateFormat" Value="Long" />
             <Setter Property="Padding" Value="10,2,0,2" />
@@ -29,13 +28,13 @@
             <Setter Property="ClipValueToMinMax" Value="True" />
             <Setter Property="HorizontalAlignment" Value="Left" />
         </Style>
-        
+
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal" />
             <Setter Property="Margin" Value="0,0,0,15" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
-        
+
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="14" />
         </Style>
@@ -65,7 +64,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <DatePicker Grid.Row="0" Margin="0,0,0,15" 
+                <DatePicker Grid.Row="0" Margin="0,0,0,15"
                             DisplayDateEnd="{Binding EndTime}"
                             SelectedDate="{Binding StartTime}"
                             Style="{StaticResource MaterialDesignDatePicker}"/>
@@ -79,8 +78,8 @@
 
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel Orientation="Horizontal">
-                <AdornedElementPlaceholder/>
-                <TextBlock VerticalAlignment="Center" Foreground="Red" Margin="10,0,10,0" 
+                <AdornedElementPlaceholder />
+                <TextBlock VerticalAlignment="Center" Foreground="Red" Margin="10,0,10,0"
                            FontSize="14" Text="{Binding ErrorContent}" />
             </StackPanel>
         </ControlTemplate>
@@ -108,11 +107,11 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" 
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
                        Margin="0,0,0,20" FontSize="24" >Chỉnh sửa sự kiện</TextBlock>
 
             <TextBlock Grid.Row="1" Grid.Column="0" FontSize="15">Chủ đề</TextBlock>
-            <TextBox Text="{Binding Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  
+            <TextBox Text="{Binding Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                      Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" 
                      Margin="0,0,250,15" FontSize="25"
@@ -130,8 +129,8 @@
             <TextBlock Grid.Row="4" Grid.Column="0">
                 Cả ngày
             </TextBlock>
-            <CheckBox Grid.Row="4" Grid.Column="1" 
-                      VerticalAlignment="Center" Margin="0,0,0,15" 
+            <CheckBox Grid.Row="4" Grid.Column="1"
+                      VerticalAlignment="Center" Margin="0,0,0,15"
                       IsChecked="{Binding AllDay}" />
 
             <TextBlock Grid.Row="5" Grid.Column="0">Nhắc nhở trước</TextBlock>
@@ -153,7 +152,7 @@
             </StackPanel>
 
             <TextBlock Grid.Row="6" Grid.Column="0">Loại lịch</TextBlock>
-            <ComboBox  ItemsSource="{Binding CategoryVMs}" 
+            <ComboBox  ItemsSource="{Binding CategoryVMs}"
                        SelectedItem="{Binding CategoryVM}"
                        Grid.Row="6" Grid.Column="1" Margin="0,0,300,15">
                 <ComboBox.ItemTemplate>
@@ -166,9 +165,9 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            
+
             <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Top">Mô tả</TextBlock>
-            <TextBox Grid.Row="7" Grid.Column="1" 
+            <TextBox Grid.Row="7" Grid.Column="1"
                      Margin="0,0,250,100" TextWrapping="Wrap"
                      Text="{Binding Description}"
                      Style="{StaticResource MaterialDesignTextBox}"/>
@@ -180,12 +179,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Button Command="{Binding CancelCommand}" Grid.Column="0" 
+                <Button Command="{Binding CancelCommand}" Grid.Column="0"
                         Margin="5,0,5,0" Content="Hủy" />
-                <Button Command="{Binding SaveCommand}" Grid.Column="1" 
-                        Margin="5,0,5,0" Background="Blue" Foreground="White" 
+                <Button Command="{Binding SaveCommand}" Grid.Column="1"
+                        Margin="5,0,5,0" Background="Blue" Foreground="White"
                         Content="Lưu" />
-                <Button Command="{Binding DeleteCommand}" Grid.Column="2"  
+                <Button Command="{Binding DeleteCommand}" Grid.Column="2"
                         Margin="5,0,5,0" Background="Red" Foreground="White" Content="Xóa" />
             </Grid>
         </Grid>

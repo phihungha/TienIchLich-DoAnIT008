@@ -7,14 +7,8 @@ namespace TienIchLich.ViewModels.Converters
     [ValueConversion(typeof(TimeSpan), typeof(string))]
     public class TimeSpanToString : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public static string ConvertFromTimeSpan(TimeSpan timeSpan)
         {
-            TimeSpan timeSpan;
-            if (value != null && value is TimeSpan)
-                timeSpan = (TimeSpan)value;
-            else
-                return "";
-
             string timeSpanString = "";
             if (timeSpan.TotalDays >= 1)
                 timeSpanString += $"{(int)timeSpan.TotalDays} ngày ";
@@ -26,7 +20,17 @@ namespace TienIchLich.ViewModels.Converters
                 timeSpanString += $"{timeSpan.Seconds} giây ";
             if (timeSpan.TotalSeconds == 0)
                 timeSpanString = "Ngay lập tức";
-             return timeSpanString;
+            return timeSpanString;
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            TimeSpan timeSpan;
+            if (value != null && value is TimeSpan)
+                timeSpan = (TimeSpan)value;
+            else
+                return "";
+            return ConvertFromTimeSpan(timeSpan);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

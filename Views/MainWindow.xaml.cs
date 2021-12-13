@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using TienIchLich.ViewModels;
-using System.Globalization;
+﻿using System.Globalization;
+using System.Windows;
 using TienIchLich.Services;
+using TienIchLich.ViewModels;
 
 namespace TienIchLich
 {
@@ -12,11 +12,12 @@ namespace TienIchLich
     public partial class MainWindow : Window
     {
         private DialogService dialogService = new();
+        private AlarmSoundService alarmSoundService = new();
 
         public MainWindow()
         {
             CultureInfo.CurrentCulture = new CultureInfo("vi-VN");
-            DataContext = new MainWindowVM(this.dialogService);
+            DataContext = new MainWindowVM(dialogService, alarmSoundService);
             InitializeComponent();
         }
     }

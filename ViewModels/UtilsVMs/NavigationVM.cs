@@ -53,6 +53,34 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private ReminderVM reminderVM;
+
+        /// <summary>
+        /// Reminder view.
+        /// </summary>
+        public ReminderVM ReminderVM
+        {
+            set
+            {
+                reminderVM = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private SettingsVM settingsVM;
+
+        /// <summary>
+        /// Settings view.
+        /// </summary>
+        public SettingsVM SettingsVM
+        {
+            set
+            {
+                settingsVM = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Navigate to main workspace view
         /// </summary>
@@ -65,9 +93,9 @@ namespace TienIchLich.ViewModels
         /// Navigate to event editor view to edit a calendar event.
         /// </summary>
         /// <param name="calendarEventVM">View model of calendar event to edit</param>
-        public void NavigateToEventEditorViewToEdit(CalendarEventVM calendarEventVM)
+        public void NavigateToEventEditorViewToEdit(CalendarEventVM eventVM)
         {
-            eventEditorVM.BeginEdit(calendarEventVM);
+            eventEditorVM.BeginEdit(eventVM);
             DisplayedVM = eventEditorVM;
         }
 
@@ -77,8 +105,26 @@ namespace TienIchLich.ViewModels
         /// <param name="startTime">Start time of new calendar event</param>
         public void NavigateToEventEditorViewToAdd(DateTime? startTime)
         {
-            eventEditorVM.BeginAdd(startTime);
-            DisplayedVM = eventEditorVM;
+            if (eventEditorVM.BeginAdd(startTime))
+                DisplayedVM = eventEditorVM;
+        }
+
+        /// <summary>
+        /// Navigate to reminder view.
+        /// </summary>
+        /// <param name="eventVM">Calendar event view model to display</param>
+        public void NavigateToReminderView(CalendarEventVM eventVM)
+        {
+            reminderVM.Remind(eventVM);
+            DisplayedVM = reminderVM;
+        }
+
+        /// <summary>
+        /// Navigate to settings view.
+        /// </summary>
+        public void NavigateToSettingsView()
+        {
+            DisplayedVM = settingsVM;
         }
     }
 }

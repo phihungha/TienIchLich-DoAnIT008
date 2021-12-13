@@ -1,17 +1,18 @@
 ﻿<UserControl x:Class="TienIchLich.Views.UpcomingOverviewView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
              xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
-             mc:Ignorable="d" 
+             xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:StartTimeFilterOptionToString x:Key="StartTimeFilterOptionToString" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,8 +21,8 @@
 
         <StackPanel Grid.Row="0" Margin="15" HorizontalAlignment="Right" Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center" Margin="0,0,15,0">Hiển thị</TextBlock>
-            <ComboBox ItemsSource="{Binding StartTimeFilterOptions}" 
-                      SelectedItem="{Binding SelectedStartTimeFilterOption}" 
+            <ComboBox ItemsSource="{Binding StartTimeFilterOptions}"
+                      SelectedItem="{Binding SelectedStartTimeFilterOption}"
                       Margin="0,0,15,0">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -29,17 +30,17 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <xctk:TimeSpanUpDown Value="{Binding StartTimeFilterValue}" Minimum="0" 
+            <xctk:TimeSpanUpDown Value="{Binding StartTimeFilterValue}" Minimum="0"
                                  VerticalAlignment="Center" Margin="0,0,15,0"
-                                 Visibility="{Binding UseCustomStartTimeFilter, 
-                                              Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                 Visibility="{Binding UseCustomStartTimeFilter,
+                                              Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
 
-        <DataGrid Grid.Row="1"  AutoGenerateColumns="False"
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False"
                   ItemsSource="{Binding EventCollectionView}"
                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
-                  Margin="5" Background="Transparent" BorderThickness="0" FontSize="12" 
-                  GridLinesVisibility="None" HeadersVisibility="None">
+                  Margin="5" Background="Transparent" BorderThickness="0" FontSize="12"
+                  GridLinesVisibility="None" HeadersVisibility="None" HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -47,20 +48,48 @@
                             <DataTemplate.Resources>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="White" />
-                                    <Setter Property="Margin" Value="3" />
                                 </Style>
                             </DataTemplate.Resources>
-                            <Border HorizontalAlignment="Stretch" Background="{Binding CategoryVM.DisplayColor}" CornerRadius="3" Margin="5,5,10,5">
+                            <Border HorizontalAlignment="Stretch" Background="{Binding CategoryVM.DisplayColor}" CornerRadius="6" Margin="5,5,10,5">
                                 <StackPanel>
-                                    <TextBlock FontSize="13" FontWeight="Bold" Text="{Binding Subject}" />
-                                    <TextBlock Text="{Binding StartTime, StringFormat=t}" />
-                                    <TextBlock Text="{Binding Description}" />
+                                    <TextBlock FontSize="14" FontWeight="Bold" Margin="6,6,0,2" Text="{Binding Subject}" />
+                                    <TextBlock Margin="6,0,0,7" Text="{Binding StartTime, StringFormat=t}" />
+                                    <TextBlock  FontSize="13" Margin="6,0,0,6" Foreground="White" Text="{Binding Description}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <Trigger Property="Text" Value="">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
+
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGrid">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Margin="0,0,0,15" HorizontalAlignment="Center">AN IMAGE HERE</TextBlock>
+                                            <TextBlock FontSize="20" HorizontalAlignment="Center">Có vẻ bạn đang rảnh trong thời gian này!</TextBlock>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
 
             <DataGrid.GroupStyle>
                 <GroupStyle>
@@ -88,6 +117,5 @@
                 </GroupStyle>
             </DataGrid.GroupStyle>
         </DataGrid>
-                  
     </Grid>
 </UserControl>

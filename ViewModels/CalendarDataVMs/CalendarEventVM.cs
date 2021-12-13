@@ -2,6 +2,7 @@
 using System;
 using System.Timers;
 using System.Windows.Input;
+using TienIchLich.ViewModels.Converters;
 
 namespace TienIchLich.ViewModels
 {
@@ -10,6 +11,8 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class CalendarEventVM : ViewModelBase
     {
+        private NavigationVM navigationVM;
+
         private int id = 0;
 
         /// <summary>
@@ -118,6 +121,20 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        public TimeSpan RemainingTime
+        {
+            get
+            {
+                if (DateTime.Now < StartTime)
+                {
+                    TimeSpan remainingTime = StartTime - DateTime.Now;
+                    if (remainingTime.Seconds >= 58)
+                        return remainingTime + new TimeSpan(0, 0, 60 - remainingTime.Seconds);
+                }
+                return TimeSpan.Zero;
+            }
+        }
+
         private string description = "";
 
         /// <summary>
@@ -166,6 +183,8 @@ namespace TienIchLich.ViewModels
 
         public CalendarEventVM(CalendarEventVMManager eventVMManager, NavigationVM navigationVM, DateTime? startTime = null)
         {
+            this.navigationVM = navigationVM;
+
             if (startTime != null)
             {
                 StartTime = (DateTime)startTime;
@@ -180,13 +199,15 @@ namespace TienIchLich.ViewModels
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            navigationVM.NavigateToReminderView(this);
+
             string title;
-            if (ReminderTime.Ticks == 0)
+            if (RemainingTime.Ticks == 0)
                 title = $"Sự kiện \"{Subject}\" đã bắt đầu!";
             else
-                title = $"Sự kiện \"{Subject}\" sắp diễn ra trong {ReminderTime} nữa!";
+                title = $"Sự kiện \"{Subject}\" sắp diễn ra trong {TimeSpanToString.ConvertFromTimeSpan(RemainingTime)}nữa!";
 
-            string subtitle = $"Bắt đầu: {StartTime.ToString("F")}\nKết thúc: {EndTime.ToString("F")}";
+            string subtitle = $"Bắt đầu: {StartTime:F}\nKết thúc: {EndTime:F}";
             new ToastContentBuilder().AddText(title).AddText(subtitle).AddText(Description).Show();
         }
     }
