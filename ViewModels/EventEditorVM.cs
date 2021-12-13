@@ -8,90 +8,6 @@ using TienIchLich.Services;
 namespace TienIchLich.ViewModels
 {
     /// <summary>
-    /// Wrapper class for calendar event start and end time.
-    /// Used to pass time as reference.
-    /// </summary>
-    public class CalendarEventTime
-    {
-        /// <summary>
-        /// Event start time.
-        /// </summary>
-        public DateTime StartTime { get; set; }
-
-        /// <summary>
-        /// Event end time.
-        /// </summary>
-        public DateTime EndTime { get; set; }
-    }
-
-    /// <summary>
-    /// View model for calendar event time picker view.
-    /// </summary>
-    public class CalendarEventTimePickerVM : ViewModelBase
-    {
-        private CalendarEventTime eventTime;
-
-        /// <summary>
-        /// Event's start time.
-        /// </summary>
-        public DateTime StartTime
-        {
-            get
-            {
-                return eventTime.StartTime;
-            }
-            set
-            {
-                eventTime.StartTime = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Event's end time.
-        /// </summary>
-        public DateTime EndTime
-        {
-            get
-            {
-                return eventTime.EndTime;
-            }
-            set
-            {
-                eventTime.EndTime = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public CalendarEventTimePickerVM(CalendarEventTime eventTime)
-        {
-            this.eventTime = eventTime;
-        }
-    }
-
-    /// <summary>
-    /// View model for calendar event datetime picker view.
-    /// </summary>
-    public class CalendarEventDatetimePickerVM : CalendarEventTimePickerVM
-    {
-        public CalendarEventDatetimePickerVM(CalendarEventTime eventTime)
-            : base(eventTime)
-        {
-        }
-    }
-
-    /// <summary>
-    /// View model for calendar event date-only picker view.
-    /// </summary>
-    public class CalendarEventDatePickerVM : CalendarEventTimePickerVM
-    {
-        public CalendarEventDatePickerVM(CalendarEventTime eventTime)
-            : base(eventTime)
-        {
-        }
-    }
-
-    /// <summary>
     /// Identifiers for calendar event reminder time options.
     /// </summary>
     public enum CalendarEventReminderTimeOptionId
@@ -144,28 +60,42 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        private CalendarEventTime eventTime = new(); // Event's start and end time values
-        private CalendarEventDatetimePickerVM eventDatetimePickerVM; // Datetime picker view model
-        private CalendarEventDatePickerVM eventDatePickerVM; // Date picker view model
-        private CalendarEventTimePickerVM eventTimePickerVM;
+        private DateTime startTime;
 
         /// <summary>
-        /// View model of the time picker to display (DatetimePicker or DatePicker).
+        /// Event's start time.
         /// </summary>
-        public CalendarEventTimePickerVM EventTimePickerVM
+        public DateTime StartTime
         {
             get
             {
-                return eventTimePickerVM;
+                return startTime;
             }
             set
             {
-                eventTimePickerVM = value;
+                startTime = value;
                 NotifyPropertyChanged();
             }
         }
 
-        private string description;
+        private DateTime endTime;
+
+        /// <summary>
+        /// Event's end time.
+        /// </summary>
+        public DateTime EndTime
+        {
+            get
+            {
+                return endTime;
+            }
+            set
+            {
+                endTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         private string subject;
 
@@ -200,10 +130,25 @@ namespace TienIchLich.ViewModels
             set
             {
                 allDay = value;
-                if (allDay)
-                    EventTimePickerVM = eventDatePickerVM;
-                else
-                    EventTimePickerVM = eventDatetimePickerVM;
+                DisplayTimePicker = !value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool displayTimePicker = false;
+
+        /// <summary>
+        /// True of time picker should display.
+        /// </summary>
+        public bool DisplayTimePicker
+        {
+            get
+            {
+                return displayTimePicker;
+            }
+            set
+            {
+                displayTimePicker = value;
                 NotifyPropertyChanged();
             }
         }
@@ -306,6 +251,8 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private string description;
+
         /// <summary>
         /// Description of this event.
         /// </summary>
@@ -336,6 +283,14 @@ namespace TienIchLich.ViewModels
                     if (Subject == "")
                     {
                         result = "Chủ đề không được rỗng!";
+                        canSave = false;
+                    }
+                }
+                else if (columnName == "StartTime" || columnName == "EndTime")
+                {
+                    if (StartTime > EndTime)
+                    {
+                        result = "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc";
                         canSave = false;
                     }
                 }
@@ -377,9 +332,6 @@ namespace TienIchLich.ViewModels
             CancelCommand = new RelayCommand(i => HideView());
             SaveCommand = new RelayCommand(i => SaveEvent(), i => canSave);
             DeleteCommand = new RelayCommand(i => DeleteEvent(), i => editMode);
-
-            eventDatePickerVM = new CalendarEventDatePickerVM(eventTime);
-            eventDatetimePickerVM = new CalendarEventDatetimePickerVM(eventTime);
         }
 
         /// <summary>
@@ -442,8 +394,8 @@ namespace TienIchLich.ViewModels
         {
             Subject = calendarEventVM.Subject;
             AllDay = calendarEventVM.AllDay;
-            eventTime.StartTime = calendarEventVM.StartTime;
-            eventTime.EndTime = calendarEventVM.EndTime;
+            StartTime = calendarEventVM.StartTime;
+            EndTime = calendarEventVM.EndTime;
             SetSelectedReminderTimeOptionFromEventVM();
             CustomReminderTimeOption = calendarEventVM.ReminderTime;
             CategoryVM = calendarEventVM.CategoryVM;
@@ -468,8 +420,8 @@ namespace TienIchLich.ViewModels
         private void SaveEvent()
         {
             calendarEventVM.Subject = Subject;
-            calendarEventVM.StartTime = eventTime.StartTime;
-            calendarEventVM.EndTime = eventTime.EndTime;
+            calendarEventVM.StartTime = StartTime;
+            calendarEventVM.EndTime = EndTime;
             SetStartEndTimeOnEventVM();
             SetReminderTimeOnEventVM();
             calendarEventVM.AllDay = AllDay;
@@ -493,13 +445,13 @@ namespace TienIchLich.ViewModels
         {
             if (AllDay)
             {
-                calendarEventVM.StartTime = eventTime.StartTime.Date;
-                calendarEventVM.EndTime = eventTime.EndTime.Date;
+                calendarEventVM.StartTime = StartTime.Date;
+                calendarEventVM.EndTime = EndTime.Date;
             }
             else
             {
-                calendarEventVM.StartTime = eventTime.StartTime;
-                calendarEventVM.EndTime = eventTime.EndTime;
+                calendarEventVM.StartTime = StartTime;
+                calendarEventVM.EndTime = EndTime;
             }
         }
 

@@ -4,10 +4,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:vm="clr-namespace:TienIchLich.ViewModels"
              xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
-             mc:Ignorable="d"
-             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
+             mc:Ignorable="d">
     <!-- Calendar event editor view -->
     <UserControl.Resources>
         <Style TargetType="TextBlock">
@@ -16,17 +16,11 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
-        <Style TargetType="DatePicker">
+        <Style BasedOn="{StaticResource MaterialDesignDatePicker}" TargetType="DatePicker">
             <Setter Property="SelectedDateFormat" Value="Long" />
-            <Setter Property="Padding" Value="10,2,0,2" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Left" />
-        </Style>
-
-        <Style TargetType="xctk:DateTimePicker">
-            <Setter Property="Padding" Value="10,2,0,2" />
-            <Setter Property="ClipValueToMinMax" Value="True" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="FontSize" Value="13" />
         </Style>
 
         <Style TargetType="StackPanel">
@@ -38,43 +32,6 @@
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="14" />
         </Style>
-
-        <DataTemplate DataType="{x:Type vm:CalendarEventDatetimePickerVM}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <xctk:DateTimePicker Grid.Row="0"
-                                     Margin="0,0,0,15"
-                                     Maximum="{Binding EndTime}"
-                                     Value="{Binding StartTime}"
-                                    />
-                <xctk:DateTimePicker Grid.Row="1"
-                                     Minimum="{Binding StartTime}"
-                                     Value="{Binding EndTime}" />
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type vm:CalendarEventDatePickerVM}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <DatePicker Grid.Row="0" Margin="0,0,0,15"
-                            DisplayDateEnd="{Binding EndTime}"
-                            SelectedDate="{Binding StartTime}"
-                            Style="{StaticResource MaterialDesignDatePicker}"/>
-                <DatePicker Grid.Row="1"
-                            DisplayDateStart="{Binding StartTime}"
-                            SelectedDate="{Binding EndTime}"
-                            Style="{StaticResource MaterialDesignDatePicker}"/>
-                            
-            </Grid>
-        </DataTemplate>
 
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel Orientation="Horizontal">
@@ -120,11 +77,28 @@
             <TextBlock Grid.Row="2" Grid.Column="0">
                 Bắt đầu lúc
             </TextBlock>
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                <DatePicker Grid.Row="0" Margin="0,0,0,0" Width="250"
+                            DisplayDateEnd="{Binding EndTime}"
+                            SelectedDate="{Binding StartTime}"/>
+                <materialdesign:TimePicker Margin="10,0,0,0"
+                                           Visibility="{Binding DisplayTimePicker, 
+                                                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                                           SelectedTime="{Binding StartTime, ValidatesOnDataErrors=True}" />
+            </StackPanel>
+            
             <TextBlock Grid.Row="3" Grid.Column="0">
                 Kết thúc lúc
             </TextBlock>
-            <ContentControl Content="{Binding EventTimePickerVM}"
-                            Grid.Row="2" Grid.Column="1" Grid.RowSpan="2" Margin="0,0,350,15" />
+            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                <DatePicker Grid.Row="0" Margin="0,0,0,0" Width="250"
+                            DisplayDateStart="{Binding StartTime}"
+                            SelectedDate="{Binding EndTime}"/>
+                <materialdesign:TimePicker Margin="10,0,0,0"
+                                           Visibility="{Binding DisplayTimePicker,
+                                                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                                           SelectedTime="{Binding EndTime, ValidatesOnDataErrors=True}" />
+            </StackPanel>
 
             <TextBlock Grid.Row="4" Grid.Column="0">
                 Cả ngày
@@ -134,7 +108,8 @@
                       IsChecked="{Binding AllDay}" />
 
             <TextBlock Grid.Row="5" Grid.Column="0">Nhắc nhở trước</TextBlock>
-            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,15">
+            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" 
+                        HorizontalAlignment="Left" Margin="0,0,0,15" Width="100">
                 <ComboBox
                       ItemsSource="{Binding ReminderTimeOptions}"
                       SelectedItem="{Binding SelectedReminderTimeOption}">
@@ -154,7 +129,8 @@
             <TextBlock Grid.Row="6" Grid.Column="0">Loại lịch</TextBlock>
             <ComboBox  ItemsSource="{Binding CategoryVMs}"
                        SelectedItem="{Binding CategoryVM}"
-                       Grid.Row="6" Grid.Column="1" Margin="0,0,300,15">
+                       Grid.Row="6" Grid.Column="1" 
+                       HorizontalAlignment="Left" Margin="0,0,0,15" Width="100">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -168,9 +144,8 @@
 
             <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Top">Mô tả</TextBlock>
             <TextBox Grid.Row="7" Grid.Column="1"
-                     Margin="0,0,250,100" TextWrapping="Wrap"
-                     Text="{Binding Description}"
-                     Style="{StaticResource MaterialDesignTextBox}"/>
+                     Margin="0,0,150,80" TextWrapping="Wrap"
+                     Text="{Binding Description}" />
 
             <Grid Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Margin="10">
                 <Grid.ColumnDefinitions>

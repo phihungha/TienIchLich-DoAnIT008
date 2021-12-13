@@ -41,13 +41,14 @@
         <selectors:ReminderSubject x:Key="ReminderSubjectTemplateSelector" />
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="1.5*" />
         </Grid.ColumnDefinitions>
 
         <Image Grid.Column="0" VerticalAlignment="Center" Source="" />
+        
         <Grid Grid.Column="1" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

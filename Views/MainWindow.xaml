@@ -30,7 +30,7 @@
         </Grid.ColumnDefinitions>
         <Image Source="/image/back2.jfif" Grid.ColumnSpan="2" Stretch="Fill">
             <Image.Effect>
-                <BlurEffect Radius="25"/>
+                <BlurEffect Radius="15"/>
             </Image.Effect>
         </Image>
         <!-- Side panel -->
