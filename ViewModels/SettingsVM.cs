@@ -1,5 +1,7 @@
 ﻿using System.Windows.Input;
 using TienIchLich.Services;
+using TienIchLich.Properties;
+using System.Linq;
 
 namespace TienIchLich.ViewModels
 {
@@ -49,7 +51,6 @@ namespace TienIchLich.ViewModels
             new ReminderSoundOption()
             {
                 Id = ReminderSoundOption.OptionId.Custom,
-                FilePath = ""
             }
         };
 
@@ -138,7 +139,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Cancel settings change and go back to main workspace view.
         /// </summary>
-        public ICommand CancelCommand { get; private set; }
+        public ICommand ExitCommand { get; private set; }
 
         public SettingsVM(NavigationVM navigationVM, AlarmSoundService alarmSoundService, DialogService dialogService)
         {
@@ -146,9 +147,24 @@ namespace TienIchLich.ViewModels
             this.navigationVM = navigationVM;
             this.dialogService = dialogService;
             SaveCommand = new RelayCommand(i => SaveSettings());
-            CancelCommand = new RelayCommand(i => CancelSettings());
+            ExitCommand = new RelayCommand(i => ExitSettings());
             PlaySoundCommand = new RelayCommand(i => TestReminderSound());
             OpenFileDialogCommand = new RelayCommand(i => OpenFileDialog());
+
+            LoadSettings();
+        }
+
+        /// <summary>
+        /// Set properties of this view model to the settings file's values.
+        /// </summary>
+        private void LoadSettings()
+        {
+            ReminderSoundVolume = Settings.Default.ReminderSoundVolume;
+            SelectedReminderSoundOption = ReminderSoundOptions
+                .Where(i => i.FilePath == Settings.Default.ReminderSoundFileName)
+                .DefaultIfEmpty(ReminderSoundOptions[3])
+                .First();
+            ReminderSoundFileName = Settings.Default.ReminderSoundFileName;
         }
 
         /// <summary>
@@ -168,10 +184,13 @@ namespace TienIchLich.ViewModels
 
         private void SaveSettings()
         {
-
+            Settings.Default.ReminderSoundVolume = ReminderSoundVolume;
+            Settings.Default.ReminderSoundFileName = ReminderSoundFileName;
+            Settings.Default.Save();
+            ExitSettings();
         }
 
-        private void CancelSettings()
+        private void ExitSettings()
         {
             alarmSoundService.StopSound();
             navigationVM.NavigateToMainWorkspaceView();

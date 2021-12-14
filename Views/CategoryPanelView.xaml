@@ -67,7 +67,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" FontSize="20" Text="Loại lịch" />
+            <TextBlock Grid.Column="0" FontSize="20" FontWeight="Bold" Foreground="White" Text="Loại lịch" />
 
             <Button Grid.Column="1" Command="{Binding AddCommand}"
                     HorizontalAlignment="Right" 

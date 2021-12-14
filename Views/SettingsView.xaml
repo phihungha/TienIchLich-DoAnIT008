@@ -75,7 +75,7 @@
                                  Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBox Text="{Binding ReminderSoundFileName}" IsReadOnly="True" Width="200" />
                     <Button Command="{Binding OpenFileDialogCommand}"
-                    Margin="8,0,0,0" Padding="4,2,4,2" Content="Mở file" />
+                    Margin="8,0,0,0" Padding="4,2,4,2" FontSize="11" Content="Mở file" />
                 </StackPanel>
 
                 <TextBlock Grid.Row="3">Âm lượng</TextBlock>
@@ -90,7 +90,7 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     Margin="0,0,40,30">
-            <Button Command="{Binding CancelCommand}" Margin="0,0,15,0" Content="Hủy" />
+            <Button Command="{Binding ExitCommand}" Margin="0,0,15,0" Content="Thoát" />
             <Button Command="{Binding SaveCommand}" Background="Blue" Foreground="White" Content="Lưu" />
         </StackPanel>
     </Grid>
