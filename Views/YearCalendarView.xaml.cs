@@ -1,38 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace TienIchLich.Views
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for YearCalendarView.xaml
     /// </summary>
     public partial class YearCalendarView : UserControl
     {
         public YearCalendarView()
         {
             InitializeComponent();
+            Month1.DisplayDate = new DateTime(DateTime.Now.Year, 1, 1);
+            YearNumber.Text = Month1.DisplayDate.Year.ToString();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void PreviousYear_Click(object sender, RoutedEventArgs e)
         {
-            this.Month1.DisplayDate = Month1.DisplayDate.AddYears(-1);
+            Month1.DisplayDate = Month1.DisplayDate.AddYears(-1);
+            YearNumber.Text = Month1.DisplayDate.Year.ToString();
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
+        private void NextYear_Click(object sender, RoutedEventArgs e)
         {
-            this.Month1.DisplayDate = Month1.DisplayDate.AddYears(1);
+            Month1.DisplayDate = Month1.DisplayDate.AddYears(1);
+            YearNumber.Text = Month1.DisplayDate.Year.ToString();
         }
     }
 }
