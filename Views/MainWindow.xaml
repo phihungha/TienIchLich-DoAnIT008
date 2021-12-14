@@ -28,7 +28,7 @@
             <ColumnDefinition Width="280" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image Source="/image/back2.jfif" Grid.ColumnSpan="2" Stretch="Fill">
+        <Image Source="/Images/back2.jfif" Grid.ColumnSpan="2" Stretch="Fill">
             <Image.Effect>
                 <BlurEffect Radius="15"/>
             </Image.Effect>

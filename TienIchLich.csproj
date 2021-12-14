@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.223" />
-	<None Remove="Image\back2.jfif" />
+	<None Remove="Images\back2.jfif" />
     <None Remove="Sounds\ringtone1.mp3" />
     <None Remove="Sounds\ringtone2.mp3" />
     <None Remove="Sounds\ringtone3.mp3" />
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Resource Include="Image\back2.jfif">
+	<Resource Include="Images\back2.jfif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Sounds\ringtone1.mp3" />
