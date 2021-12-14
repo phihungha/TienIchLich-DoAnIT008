@@ -10,7 +10,7 @@
                 <ResourceDictionary Source="Styles/MonthEventCalendarStyle.xaml" />
                 <ResourceDictionary Source="Styles/Others.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.DatePicker.xaml" />
-                <ResourceDictionary  Source="Styles/YearEventCalendar.xaml"/>
+                <ResourceDictionary Source="Styles/YearEventCalendarStyle.xaml"/>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
 

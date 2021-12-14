@@ -36,4 +36,36 @@ namespace TienIchLich.MonthEventCalendarControl
             throw new NotImplementedException();
         }
     }
+
+    /// <summary>
+    /// Get whether there is event in current day.
+    /// </summary>
+    [ValueConversion(typeof(ObservableCollection<CalendarEventVM>), typeof(bool))]
+    public class CalendarEventsToBoolConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            DateTime date = (DateTime)values[1];
+
+            var thisDayEvents = new ObservableCollection<CalendarEventVM>();
+            if (values[0] == null || !(values[0] is ObservableCollection<CalendarEventVM>))
+                return false;
+
+            foreach (CalendarEventVM calendarEventVM in (ObservableCollection<CalendarEventVM>)values[0])
+            {
+                var startTime = calendarEventVM.StartTime;
+                var startDate = new DateTime(startTime.Year, startTime.Month, startTime.Day);
+                bool isDisplayed = calendarEventVM.CategoryVM.IsDisplayed;
+                if (startDate == date && isDisplayed)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
