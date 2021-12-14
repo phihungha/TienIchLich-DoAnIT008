@@ -131,45 +131,6 @@
                         <ColumnDefinition Width="Auto "/>
                     </Grid.ColumnDefinitions>
 
-<<<<<<< HEAD
-                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                    <CheckBox Margin="0,0,10,18" IsChecked="{Binding StartTimeFilter.Enable}" />
-                    <TextBlock>Ngày bắt đầu</TextBlock>
-                </StackPanel>
-                <StackPanel Grid.Row="1" Grid.Column="1"
-                        Margin="15,0,0,15" Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0">Min</TextBlock>
-                    <xctk:DateTimePicker IsEnabled="{Binding StartTimeFilter.Enable}"
-                                         Value="{Binding StartTimeFilter.Low}"
-                                         Maximum="{Binding StartTimeFilter.High}" />
-                </StackPanel>
-                <StackPanel Grid.Row="1" Grid.Column="2"
-                        Margin="15,0,0,15" Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0">Max</TextBlock>
-                    <xctk:DateTimePicker IsEnabled="{Binding StartTimeFilter.Enable}"
-                                         Value="{Binding StartTimeFilter.High}"
-                                         Minimum="{Binding StartTimeFilter.Low}" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                    <CheckBox Margin="0,0,10,18" IsChecked="{Binding EndTimeFilter.Enable}" />
-                    <TextBlock>Ngày kết thúc</TextBlock>
-                </StackPanel>
-                <StackPanel Grid.Row="2" Grid.Column="1"
-                        Margin="15,0,0,15" Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0">Min</TextBlock>
-                    <xctk:DateTimePicker IsEnabled="{Binding EndTimeFilter.Enable}"
-                                         Value="{Binding EndTimeFilter.Low}"
-                                         Maximum="{Binding EndTimeFilter.High}" />
-                </StackPanel>
-                <StackPanel Grid.Row="2" Grid.Column="2"
-                        Margin="15,0,0,15" Orientation="Horizontal">
-                    <TextBlock Margin="0,0,10,0">Max</TextBlock>
-                    <xctk:DateTimePicker IsEnabled="{Binding EndTimeFilter.Enable}"
-                                         Value="{Binding EndTimeFilter.High}"
-                                         Minimum="{Binding EndTimeFilter.Low}" />
-                </StackPanel>
-=======
                     <TextBox Grid.Column="0" Margin="0,0,15,0"
                              Text="{Binding SubjectFilter.FilterText, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -178,7 +139,6 @@
                                    IsChecked="{Binding SubjectFilter.MatchCase}" />
                         <TextBlock VerticalAlignment="Center">PB hoa thường</TextBlock>
                     </StackPanel>
->>>>>>> ce7bc90 (Fix DataGrid alignment issue)
 
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                         <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" 
