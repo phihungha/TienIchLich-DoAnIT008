@@ -15,7 +15,8 @@
 
                         <!-- Start: Data template for header button -->
                         <DataTemplate x:Key="{x:Static CalendarItem.DayTitleTemplateResourceKey}">
-                            <TextBlock FontFamily="Verdana" Foreground="#FF333333" FontSize="12" HorizontalAlignment="Center" Margin="0,6,0,6" Text="{Binding Converter={StaticResource DayNameConverter}}" VerticalAlignment="Center" />
+                            <TextBlock Foreground="#FF333333" FontSize="12" HorizontalAlignment="Center" Margin="0,6,0,6" 
+                                       Text="{Binding Converter={StaticResource DayNameConverter}}" VerticalAlignment="Center" />
                         </DataTemplate>
                         <!-- End: Data template for header button -->
                     </ControlTemplate.Resources>
@@ -34,12 +35,11 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Border
-                                BorderBrush="{TemplateBinding BorderBrush}"
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
-                                CornerRadius="1">
-                            <Border CornerRadius="1" BorderBrush="#FFFFFFFF" BorderThickness="2">
+                                CornerRadius="0">
+                            <Border BorderBrush="#FFFFFFFF" BorderThickness="0">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -53,23 +53,6 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Grid.Resources>
-                                        <Style x:Key="NavigationEllipseStyle" TargetType="{x:Type Ellipse}">
-                                            <Setter Property="Width" Value="20" />
-                                            <Setter Property="Height" Value="20" />
-                                            <Setter Property="Stroke" Value="#FF8EB0DC" />
-                                            <Setter Property="StrokeThickness" Value="1" />
-                                            <Setter Property="Fill">
-                                                <Setter.Value>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                        <GradientStop Color="#FFFAFCFF" Offset="0" />
-                                                        <GradientStop Color="#FFFAFCFF" Offset="0.5" />
-                                                        <GradientStop Color="#FFCCE2FF" Offset="0.5" />
-                                                        <GradientStop Color="#FFCCE2FF" Offset="1" />
-                                                    </LinearGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-
                                         <!-- Start: Previous button template -->
                                         <ControlTemplate x:Key="PreviousButtonTemplate" TargetType="Button">
                                             <Grid Cursor="Hand">
@@ -79,25 +62,31 @@
                                                         <VisualState x:Name="MouseOver">
                                                             <Storyboard>
                                                                 <ColorAnimation Storyboard.TargetName="TextColor" Storyboard.TargetProperty="Color" To="#FF73A9D8" Duration="0" />
+                                                                <ColorAnimation Storyboard.TargetName="TextColor2" Storyboard.TargetProperty="Color" To="#FF73A9D8" Duration="0" />
                                                             </Storyboard>
                                                         </VisualState>
                                                         <VisualState x:Name="Disabled">
                                                             <Storyboard>
                                                                 <DoubleAnimation Storyboard.TargetName="TextColor" Storyboard.TargetProperty="Opacity" To=".5" Duration="0" />
+                                                                <DoubleAnimation Storyboard.TargetName="TextColor2" Storyboard.TargetProperty="Opacity" To=".5" Duration="0" />
                                                             </Storyboard>
                                                         </VisualState>
                                                     </VisualStateGroup>
                                                 </VisualStateManager.VisualStateGroups>
                                                 <Rectangle Fill="#11E5EBF1" Stretch="Fill" Opacity="1" />
                                                 <Grid>
-                                                    <Path Margin="4,0,0,0" Height="10" Width="6" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                                    <Path Margin="4,0,0,0" Height="13" Width="8" VerticalAlignment="Center" HorizontalAlignment="Left"
                                                           Stretch="Fill" Data="M288.75,232.25 L283,236.625 L288.75,240.625" StrokeThickness="2">
                                                         <Path.Stroke>
                                                             <SolidColorBrush x:Name="TextColor" Color="#FF333333" />
                                                         </Path.Stroke>
                                                     </Path>
-                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                                          Stretch="Fill" Data="M283,236.625 L297,236.625" Stroke="#FF333333" StrokeThickness="2" />
+                                                    <Path Margin="4,0,0,0" Height="15" Width="20" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                                          Stretch="Fill" Data="M283,236.625 L297,236.625" StrokeThickness="2">
+                                                        <Path.Stroke>
+                                                            <SolidColorBrush x:Name="TextColor2" Color="#FF333333" />
+                                                        </Path.Stroke>
+                                                    </Path>
                                                 </Grid>
                                             </Grid>
                                         </ControlTemplate>
@@ -113,11 +102,13 @@
                                                         <VisualState x:Name="MouseOver">
                                                             <Storyboard>
                                                                 <ColorAnimation Storyboard.TargetName="TextColor" Storyboard.TargetProperty="Color" To="#FF73A9D8" Duration="0" />
+                                                                <ColorAnimation Storyboard.TargetName="TextColor2" Storyboard.TargetProperty="Color" To="#FF73A9D8" Duration="0" />
                                                             </Storyboard>
                                                         </VisualState>
                                                         <VisualState x:Name="Disabled">
                                                             <Storyboard>
                                                                 <DoubleAnimation Storyboard.TargetName="TextColor" Storyboard.TargetProperty="Opacity" To=".5" Duration="0" />
+                                                                <DoubleAnimation Storyboard.TargetName="TextColor2" Storyboard.TargetProperty="Opacity" To=".5" Duration="0" />
                                                             </Storyboard>
                                                         </VisualState>
                                                     </VisualStateGroup>
@@ -125,12 +116,19 @@
                                                 <Rectangle Fill="#11E5EBF1" Stretch="Fill" Opacity="1" />
                                                 <Grid>
 
-                                                    <Path Margin="0,0,4,0" Height="10" Width="6" VerticalAlignment="Center" HorizontalAlignment="Right" Stretch="Fill" Data="M283,232.25 L288.75,236.625 L283,240.625" StrokeThickness="2">
+                                                    <Path Margin="0,0,0,0" Height="13" Width="8" VerticalAlignment="Center" 
+                                                          HorizontalAlignment="Right" Stretch="Fill" 
+                                                          Data="M283,232.25 L288.75,236.625 L283,240.625" StrokeThickness="2">
                                                         <Path.Stroke>
                                                             <SolidColorBrush x:Name="TextColor" Color="#FF333333" />
                                                         </Path.Stroke>
                                                     </Path>
-                                                    <Path Margin="4,0,0,0" Height="10" Width="12" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="Fill" Data="M283,236.625 L297,236.625" Stroke="#FF333333" StrokeThickness="2" />
+                                                    <Path Margin="4,0,0,0" Height="15" Width="20" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                                          Stretch="Fill" Data="M283,236.625 L297,236.625" StrokeThickness="2">
+                                                        <Path.Stroke>
+                                                            <SolidColorBrush x:Name="TextColor2" Color="#FF333333" />
+                                                        </Path.Stroke>
+                                                    </Path>
                                                 </Grid>
                                             </Grid>
                                         </ControlTemplate>
@@ -159,7 +157,6 @@
                                                         x:Name="buttonContent"
                                                         Content="{TemplateBinding Content}"
                                                         ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                        Margin="1,4,1,9"
                                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                                     <TextElement.Foreground>
@@ -171,8 +168,6 @@
 
                                         <!-- End: Header button template -->
                                     </Grid.Resources>
-
-                                    <Rectangle Fill="#FFE3EFFF" Grid.ColumnSpan="4" />
 
                                     <!-- Start: Previous button content -->
                                     <Button x:Name="PART_PreviousButton"
@@ -189,9 +184,8 @@
                                             Grid.Row="0" Grid.Column="2" 
                                             Template="{StaticResource HeaderButtonTemplate}" 
                                             HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                            FontWeight="Normal" FontSize="16" 
-                                            Focusable="False"
-                                            />
+                                            FontWeight="Normal" FontSize="23" 
+                                            Focusable="False" Margin="15,0,0,0" />
                                     <!-- End: Header button content -->
 
                                     <!-- Start: Next button content -->
@@ -279,6 +273,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    
+    <!-- Custom style for calendar button -->
+    <Style x:Key="CustomCalendarButtonStyle" BasedOn="{StaticResource {x:Type CalendarButton}}"  TargetType="CalendarButton">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Margin" Value="25" />
     </Style>
 
     <!-- Custom style for calendar day button -->
@@ -458,27 +458,8 @@
     <Style TargetType="local:MonthEventCalendar">
         <Setter Property="CalendarItemStyle" Value="{StaticResource CustomCalendarItemStyle}" />
         <Setter Property="CalendarDayButtonStyle" Value="{StaticResource CustomCalendarDayButtonStyle}" />
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                    <GradientStop Color="#FFE4EAF0" Offset="0" />
-                    <GradientStop Color="#FFECF0F4" Offset="0.05" />
-                    <GradientStop Color="#FFFCFCFD" Offset="0.16" />
-                    <GradientStop Color="#FFFFFFFF" Offset="1" />
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="BorderBrush">
-            <Setter.Value>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFA3AEB9" Offset="0" />
-                    <GradientStop Color="#FF8399A9" Offset="0.375" />
-                    <GradientStop Color="#FF718597" Offset="0.375" />
-                    <GradientStop Color="#FF617584" Offset="1" />
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CalendarButtonStyle" Value="{StaticResource CustomCalendarButtonStyle}" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Calendar">
