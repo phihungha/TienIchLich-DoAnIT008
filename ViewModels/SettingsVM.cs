@@ -117,6 +117,7 @@ namespace TienIchLich.ViewModels
             set
             {
                 reminderSoundVolume = value;
+                alarmSoundService.SetVolume(value);
                 NotifyPropertyChanged();
             }
         }

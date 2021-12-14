@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using TienIchLich.Models;
 using TienIchLich.Services;
+using TienIchLich.Properties;
 
 namespace TienIchLich.ViewModels
 {
@@ -119,7 +120,7 @@ namespace TienIchLich.ViewModels
         public void Remind(CalendarEventVM eventVM)
         {
             EventVM = eventVM;
-            alarmSoundService.PlaySound(@"../../../Sounds/ringtone1.mp3", 100);
+            alarmSoundService.PlaySound(Settings.Default.ReminderSoundFileName, Settings.Default.ReminderSoundVolume);
         }
 
         /// <summary>

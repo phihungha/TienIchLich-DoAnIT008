@@ -84,8 +84,10 @@
 
             <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Margin="0,0,0,25" Text="{Binding EventVM.Description}" />
 
-            <Button Grid.Row="4" Grid.Column="0" Margin="20,0,20,20" Command="{Binding AckCommand}" Content="Đã biết" />
-            <Button Grid.Row="4" Grid.Column="1" Margin="20,0,20,20" Command="{Binding RemindLaterCommand}" Content="Báo lại" />
+            <Button Grid.Row="4" Grid.Column="0" Width="200" Margin="0,0,0,15" 
+                    Command="{Binding AckCommand}" Content="Đã biết" />
+            <Button Grid.Row="4" Grid.Column="1" Width="200" Margin="0,0,0,15" 
+                    Command="{Binding RemindLaterCommand}" Content="Báo lại" />
 
             <StackPanel Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
                 <TextBlock Margin="0,0,15,0">Báo lại trong</TextBlock>

@@ -45,14 +45,26 @@ namespace TienIchLich.Services
         /// Play reminder alarm sound.
         /// </summary>
         /// <param name="filePath">Sound file's path</param>
-        /// <param name="volumne">Audio volume</param>
-        public void PlaySound(string filePath, int volumne)
+        /// <param name="volume">Audio volume</param>
+        public void PlaySound(string filePath, int volume)
         {
             soundPlayer.Dispatcher.Invoke(() =>
             {
                 soundPlayer.Open(new Uri(filePath, UriKind.RelativeOrAbsolute));
-                soundPlayer.Volume = (double)volumne / 100;
+                soundPlayer.Volume = (double)volume / 100;
                 soundPlayer.Play();
+            });
+        }
+
+        /// <summary>
+        /// Set reminder alarm volume.
+        /// </summary>
+        /// <param name="volume">Audio volume</param>
+        public void SetVolume(int volume)
+        {
+            soundPlayer.Dispatcher.Invoke(() =>
+            {
+                soundPlayer.Volume = (double)volume / 100;
             });
         }
 
