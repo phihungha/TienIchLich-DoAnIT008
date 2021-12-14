@@ -4,39 +4,49 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TienIchLich.Views"
+              xmlns:views="clr-namespace:TienIchLich.Views"
+             xmlns:custom_controls="clr-namespace:TienIchLich.MonthEventCalendarControl"
              mc:Ignorable="d"
-             xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
-             d:DesignHeight="1050" d:DesignWidth="800">
+             xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="1050" d:DesignWidth="900">
     <UserControl.Resources>
         <converters:YearCalendarConverter x:Key="yearconv"/>
+
+
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+
+
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
-        <Button Content="P" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="N" Grid.Column="5" Grid.Row="0" VerticalAlignment="Top" Click="Button1_Click"/>
-        <Calendar x:Name="Month1" Grid.Row="0" Grid.Column="1" DisplayDate="2021/01/11"/>
-        <Calendar x:Name="Month2" Grid.Row="0" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month1, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month3" Grid.Row="0" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month2, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month4" Grid.Row="0" Grid.Column="4" DisplayDate="{Binding Path=DisplayDate, ElementName=Month3, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month5" Grid.Row="1" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month4, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month6" Grid.Row="1" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month5, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month7" Grid.Row="1" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month6, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month8" Grid.Row="1" Grid.Column="4" DisplayDate="{Binding Path=DisplayDate, ElementName=Month7, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month9" Grid.Row="2" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month8, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month10" Grid.Row="2" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month9, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month11" Grid.Row="2" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month10, Converter={StaticResource yearconv}}"/>
-        <Calendar x:Name="Month12" Grid.Row="2" Grid.Column="4" DisplayDate="{Binding Path=DisplayDate, ElementName=Month11, Converter={StaticResource yearconv}}"/>
+        <Button Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Column="0" Grid.Row="0" Width="50" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Button_Click" Background="White" BorderBrush="Black">
+            <materialDesign:PackIcon Kind="ArrowLeft"/>
+        </Button>
+        <Button Style="{StaticResource MaterialDesignRaisedLightButton}" Grid.Column="3" Grid.Row="0" Width="50" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button1_Click" Background="White" BorderBrush="Black" Foreground="Black">
+            <materialDesign:PackIcon Kind="ArrowRight"/>
+        </Button>
+        <custom_controls:MonthEventCalendar x:Name="Month1" Style="{StaticResource MonthStyle2}" Grid.Row="1" Grid.Column="0" DisplayDate="2021/01/11"/>
+        <custom_controls:MonthEventCalendar x:Name="Month2" Style="{StaticResource MonthStyle2}" Grid.Row="1" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month1, Converter={StaticResource yearconv}}" />
+        <custom_controls:MonthEventCalendar x:Name="Month3" Style="{StaticResource MonthStyle2}" Grid.Row="1" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month2, Converter={StaticResource yearconv}}"/>
+        <custom_controls:MonthEventCalendar x:Name="Month4" Style="{StaticResource MonthStyle2}" Grid.Row="1" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month3, Converter={StaticResource yearconv}}" />
+        <custom_controls:MonthEventCalendar x:Name="Month5" Style="{StaticResource MonthStyle2}" Grid.Row="2" Grid.Column="0" DisplayDate="{Binding Path=DisplayDate, ElementName=Month4, Converter={StaticResource yearconv}}" />
+        <custom_controls:MonthEventCalendar x:Name="Month6" Style="{StaticResource MonthStyle2}" Grid.Row="2" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month5, Converter={StaticResource yearconv}}" />
+        <custom_controls:MonthEventCalendar x:Name="Month7" Style="{StaticResource MonthStyle2}" Grid.Row="2" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month6, Converter={StaticResource yearconv}}" />
+        <custom_controls:MonthEventCalendar x:Name="Month8" Style="{StaticResource MonthStyle2}" Grid.Row="2" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month7, Converter={StaticResource yearconv}}" />
+        <custom_controls:MonthEventCalendar x:Name="Month9" Style="{StaticResource MonthStyle2}" Grid.Row="3" Grid.Column="0" DisplayDate="{Binding Path=DisplayDate, ElementName=Month8, Converter={StaticResource yearconv}}"/>
+        <custom_controls:MonthEventCalendar x:Name="Month10" Style="{StaticResource MonthStyle2}" Grid.Row="3" Grid.Column="1" DisplayDate="{Binding Path=DisplayDate, ElementName=Month9, Converter={StaticResource yearconv}}"/>
+        <custom_controls:MonthEventCalendar x:Name="Month11" Style="{StaticResource MonthStyle2}" Grid.Row="3" Grid.Column="2" DisplayDate="{Binding Path=DisplayDate, ElementName=Month10, Converter={StaticResource yearconv}}"/>
+        <custom_controls:MonthEventCalendar Style="{StaticResource MonthStyle2}" Grid.Row="3" Grid.Column="3" DisplayDate="{Binding Path=DisplayDate, ElementName=Month11, Converter={StaticResource yearconv}}"/>
     </Grid>
 </UserControl>

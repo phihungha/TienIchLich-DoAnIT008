@@ -14,6 +14,9 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/back3.jpg"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -80,7 +83,7 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="DataGrid">
                                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                            <TextBlock Margin="0,0,0,15" HorizontalAlignment="Center">AN IMAGE HERE</TextBlock>
+                                         
                                             <TextBlock FontSize="20" HorizontalAlignment="Center">Có vẻ bạn đang rảnh trong thời gian này!</TextBlock>
                                         </StackPanel>
                                     </ControlTemplate>

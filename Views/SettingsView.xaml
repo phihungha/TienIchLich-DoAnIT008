@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
+             xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -62,7 +62,10 @@
 
                     <Button Command="{Binding PlaySoundCommand}"
                     Margin="8,0,0,0" FontSize="11"
-                    Padding="4,2,4,2" Content="Phát thử" />
+                    Padding="4,2,4,2" Width="32">
+                        <materialDesign:PackIcon Kind="Play"/>
+                    </Button>
+
                 </StackPanel>
 
                 <TextBlock Grid.Row="2" Visibility="{Binding UseCustomReminderSoundOption,
@@ -75,7 +78,9 @@
                                  Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBox Text="{Binding ReminderSoundFileName}" IsReadOnly="True" Width="200" />
                     <Button Command="{Binding OpenFileDialogCommand}"
-                    Margin="8,0,0,0" Padding="4,2,4,2" FontSize="11" Content="Mở file" />
+                    Margin="8,0,0,0" Padding="4,2,4,2" Width="32" Height="32">
+                        <materialDesign:PackIcon Kind="File"/>
+                    </Button>
                 </StackPanel>
 
                 <TextBlock Grid.Row="3">Âm lượng</TextBlock>

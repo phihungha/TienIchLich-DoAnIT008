@@ -106,7 +106,7 @@
                      Margin="15,0,100,15" Text="{Binding SubjectFilter, UpdateSourceTrigger=PropertyChanged}" />
 
                 <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                    <CheckBox Margin="0,0,10,0" IsChecked="{Binding StartTimeFilter.Enable}" />
+                    <CheckBox Margin="0,0,10,18" IsChecked="{Binding StartTimeFilter.Enable}" />
                     <TextBlock>Ngày bắt đầu</TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Grid.Column="1"
@@ -125,7 +125,7 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                    <CheckBox Margin="0,0,10,0" IsChecked="{Binding EndTimeFilter.Enable}" />
+                    <CheckBox Margin="0,0,10,18" IsChecked="{Binding EndTimeFilter.Enable}" />
                     <TextBlock>Ngày kết thúc</TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Grid.Column="1"

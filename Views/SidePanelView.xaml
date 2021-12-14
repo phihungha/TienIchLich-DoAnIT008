@@ -34,8 +34,10 @@
         </Button>
         
         <Border Grid.Row="2" BorderThickness="3">
-            <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="17">
-                <Run Text="Logo here"/></TextBlock>
+            <Border.Background>
+                <ImageBrush ImageSource="/Images/logo.png"/>
+            </Border.Background>
+                
         </Border>
         
         <views:CategoryPanelView Grid.Row="3" Margin="4" DataContext="{Binding CategoryPanelVM}" />

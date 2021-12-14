@@ -41,7 +41,10 @@
         <selectors:ReminderSubject x:Key="ReminderSubjectTemplateSelector" />
     </UserControl.Resources>
 
-    <Grid Background="White">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/back4.jpg"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="1.5*" />
