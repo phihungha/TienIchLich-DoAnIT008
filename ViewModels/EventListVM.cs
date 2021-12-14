@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Windows.Data;
 
 namespace TienIchLich.ViewModels
@@ -91,6 +92,97 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        /// <summary>
+        /// Holds filter values for a text property.
+        /// </summary>
+        public class TextFilter : ViewModelBase
+        {
+            // Method to refresh the CollectionView on property update.
+            private Action Refresh;
+
+            private string filterText = "";
+
+            /// <summary>
+            /// Text value to filter.
+            /// </summary>
+            public string FilterText
+            {
+                get
+                {
+                    return filterText;
+                }
+                set
+                {
+                    filterText = value;
+                    Refresh();
+                    NotifyPropertyChanged();
+                }
+            }
+
+            private bool matchCase = false;
+
+            /// <summary>
+            /// True if case matching is required.
+            /// </summary>
+            public bool MatchCase
+            {
+                get
+                {
+                    return matchCase;
+                }
+                set
+                {
+                    matchCase = value;
+                    Refresh();
+                    NotifyPropertyChanged();
+                }
+            }
+
+            private bool matchWholeWord = false;
+
+            /// <summary>
+            /// True if whole word matching is required.
+            /// </summary>
+            public bool MatchWholeWord
+            {
+                get
+                {
+                    return matchWholeWord;
+                }
+                set
+                {
+                    matchWholeWord = value;
+                    Refresh();
+                    NotifyPropertyChanged();
+                }
+            }
+
+            public TextFilter(Action refresh)
+            {
+                Refresh = refresh;
+            }
+
+            /// <summary>
+            /// Get filter result.
+            /// </summary>
+            /// <param name="timeValue">Time value to filter</param>
+            /// <returns></returns>
+            public bool Filter(string text)
+            {
+                bool matchFound;
+                if (MatchCase)
+                    matchFound = text.Contains(FilterText);
+                else
+                    matchFound = text.IndexOf(FilterText, StringComparison.OrdinalIgnoreCase) >= 0;
+                if (!matchFound)
+                    return false;
+
+                if (MatchWholeWord)
+                    return Regex.Match(text, $"\\b{Regex.Escape(FilterText)}\\b", RegexOptions.IgnoreCase).Success;
+                return true;
+            }
+        }
+
         private CollectionViewSource eventCollectionViewSource;
 
         /// <summary>
@@ -98,43 +190,15 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICollectionView EventCollectionView => eventCollectionViewSource.View;
 
-        private string subjectFilter = "";
+        /// <summary>
+        /// Event's subject filter values.
+        /// </summary>
+        public TextFilter SubjectFilter { get; private set; }
 
         /// <summary>
-        /// Event's subject filter words.
+        /// Event's description filter values.
         /// </summary>
-        public string SubjectFilter
-        {
-            get
-            {
-                return subjectFilter;
-            }
-            set
-            {
-                subjectFilter = value;
-                EventCollectionView.Refresh();
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string descriptionFilter = "";
-
-        /// <summary>
-        /// Event's description filter words.
-        /// </summary>
-        public string DescriptionFilter
-        {
-            get
-            {
-                return descriptionFilter;
-            }
-            set
-            {
-                descriptionFilter = value;
-                EventCollectionView.Refresh();
-                NotifyPropertyChanged();
-            }
-        }
+        public TextFilter DescriptionFilter { get; private set; }
 
         /// <summary>
         /// Event's start time filter values.
@@ -146,6 +210,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public TimeFilter EndTimeFilter { get; private set; }
 
+
         public EventListVM(ObservableCollection<CalendarEventVM> eventVMs)
         {
             eventCollectionViewSource = new CollectionViewSource()
@@ -153,6 +218,8 @@ namespace TienIchLich.ViewModels
                 Source = eventVMs,
                 IsLiveFilteringRequested = true
             };
+            SubjectFilter = new TextFilter(EventCollectionView.Refresh);
+            DescriptionFilter = new TextFilter(EventCollectionView.Refresh);
             StartTimeFilter = new TimeFilter(EventCollectionView.Refresh);
             EndTimeFilter = new TimeFilter(EventCollectionView.Refresh);
             eventCollectionViewSource.Filter += EventCollectionViewSource_Filter;
@@ -166,11 +233,11 @@ namespace TienIchLich.ViewModels
         private void EventCollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
             var eventVM = (CalendarEventVM)e.Item;
-            e.Accepted = eventVM.Subject.Contains(SubjectFilter)
-                         && eventVM.Description.Contains(DescriptionFilter)
+            e.Accepted = eventVM.CategoryVM.IsDisplayed
+                         && SubjectFilter.Filter(eventVM.Subject)
+                         && DescriptionFilter.Filter(eventVM.Description)
                          && StartTimeFilter.Filter(eventVM.StartTime)
-                         && EndTimeFilter.Filter(eventVM.EndTime)
-                         && eventVM.CategoryVM.IsDisplayed;
+                         && EndTimeFilter.Filter(eventVM.EndTime);
         }
     }
 }

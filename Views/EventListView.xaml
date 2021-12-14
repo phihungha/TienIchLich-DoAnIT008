@@ -25,7 +25,13 @@
                   Background="Transparent" BorderThickness="0"
                   FontSize="14">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Tiêu đề" Binding="{Binding Subject}" Width="*" />
+                <DataGridTextColumn Header="Tiêu đề" Binding="{Binding Subject}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 
                 <DataGridTemplateColumn Header="Loại lịch" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -41,13 +47,31 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Bắt đầu" Width="*" Binding="{Binding StartTime}" />
+                <DataGridTextColumn Header="Bắt đầu" Width="*" Binding="{Binding StartTime}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                <DataGridTextColumn Header="Kết thúc" Width="*" Binding="{Binding EndTime}" />
+                <DataGridTextColumn Header="Kết thúc" Width="*" Binding="{Binding EndTime}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
                 <DataGridTextColumn Header="Nhắc nhở trước" Width="*"
                                     Binding="{Binding ReminderTime,
-                                              Converter={StaticResource TimespanToStringConverter}}" />
+                                              Converter={StaticResource TimespanToStringConverter}}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 
                 <DataGridTemplateColumn Width="130">
                     <DataGridTemplateColumn.CellTemplate>
@@ -76,11 +100,10 @@
         </DataGrid>
 
         <Expander Grid.Row="1" Background="Beige" Header="Lọc">
-            <Grid Margin="10">
+            <Grid Margin="15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="250" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -90,10 +113,6 @@
                 </Grid.RowDefinitions>
 
                 <Grid.Resources>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Height" Value="20" />
-                    </Style>
-
                     <Style TargetType="xctk:DateTimePicker">
                         <Setter Property="Format" Value="Custom" />
                         <Setter Property="FormatString" Value="dd MMMM yyyy HH:mm" />
@@ -101,10 +120,18 @@
                     </Style>
                 </Grid.Resources>
 
-                <TextBlock Grid.Row="0" Grid.Column="0">Chủ đề</TextBlock>
-                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
-                     Margin="15,0,100,15" Text="{Binding SubjectFilter, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,0,15" VerticalAlignment="Center">
+                    Chủ đề
+                </TextBlock>
+                <Grid Grid.Row="0" Grid.Column="1" 
+                      VerticalAlignment="Center" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto "/>
+                        <ColumnDefinition Width="Auto "/>
+                    </Grid.ColumnDefinitions>
 
+<<<<<<< HEAD
                 <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                     <CheckBox Margin="0,0,10,18" IsChecked="{Binding StartTimeFilter.Enable}" />
                     <TextBlock>Ngày bắt đầu</TextBlock>
@@ -142,10 +169,105 @@
                                          Value="{Binding EndTimeFilter.High}"
                                          Minimum="{Binding EndTimeFilter.Low}" />
                 </StackPanel>
+=======
+                    <TextBox Grid.Column="0" Margin="0,0,15,0"
+                             Text="{Binding SubjectFilter.FilterText, UpdateSourceTrigger=PropertyChanged}" />
 
-                <TextBlock Grid.Row="3" Grid.Column="0">Mô tả</TextBlock>
-                <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
-                     Margin="15,0,100,15" Text="{Binding DescriptionFilter, UpdateSourceTrigger=PropertyChanged}" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,15,0">
+                        <CheckBox  Margin="0,0,5,0" VerticalAlignment="Center" 
+                                   IsChecked="{Binding SubjectFilter.MatchCase}" />
+                        <TextBlock VerticalAlignment="Center">PB hoa thường</TextBlock>
+                    </StackPanel>
+>>>>>>> ce7bc90 (Fix DataGrid alignment issue)
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" 
+                                  IsChecked="{Binding SubjectFilter.MatchWholeWord}" />
+                        <TextBlock VerticalAlignment="Center">Trùng cả từ</TextBlock>
+                    </StackPanel>
+                </Grid>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,0,15" VerticalAlignment="Center">
+                    Mô tả
+                </TextBlock>
+                <Grid Grid.Row="1" Grid.Column="1" 
+                      VerticalAlignment="Center" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto "/>
+                        <ColumnDefinition Width="Auto "/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0" Margin="0,0,15,0"
+                             Text="{Binding DescriptionFilter.FilterText, UpdateSourceTrigger=PropertyChanged}" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,15,0">
+                        <CheckBox  Margin="0,0,5,0" VerticalAlignment="Center" 
+                                   IsChecked="{Binding DescriptionFilter.MatchCase}" />
+                        <TextBlock VerticalAlignment="Center">PB hoa thường</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" 
+                                  IsChecked="{Binding DescriptionFilter.MatchWholeWord}" />
+                        <TextBlock VerticalAlignment="Center">Trùng cả từ</TextBlock>
+                    </StackPanel>
+                </Grid>
+
+
+                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" 
+                            VerticalAlignment="Center" Margin="0,0,0,15">
+                    <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" IsChecked="{Binding StartTimeFilter.Enable}" />
+                    <TextBlock VerticalAlignment="Center">Ngày bắt đầu</TextBlock>
+                </StackPanel>
+                <Grid Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Min</TextBlock>
+                        <xctk:DateTimePicker VerticalAlignment="Center"
+                                             IsEnabled="{Binding StartTimeFilter.Enable}"
+                                             Value="{Binding StartTimeFilter.Low}"
+                                             Maximum="{Binding StartTimeFilter.High}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Max</TextBlock>
+                        <xctk:DateTimePicker VerticalAlignment="Center"
+                                             IsEnabled="{Binding StartTimeFilter.Enable}"
+                                             Value="{Binding StartTimeFilter.High}"
+                                             Minimum="{Binding StartTimeFilter.Low}" />
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" 
+                            VerticalAlignment="Center">
+                    <CheckBox Margin="0,0,5,0" VerticalAlignment="Center" IsChecked="{Binding EndTimeFilter.Enable}" />
+                    <TextBlock VerticalAlignment="Center">Ngày kết thúc</TextBlock>
+                </StackPanel>
+                <Grid Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Min</TextBlock>
+                        <xctk:DateTimePicker VerticalAlignment="Center"
+                                             IsEnabled="{Binding EndTimeFilter.Enable}"
+                                             Value="{Binding EndTimeFilter.Low}"
+                                             Maximum="{Binding EndTimeFilter.High}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Max</TextBlock>
+                        <xctk:DateTimePicker VerticalAlignment="Center"
+                                             IsEnabled="{Binding EndTimeFilter.Enable}"
+                                             Value="{Binding EndTimeFilter.High}"
+                                             Minimum="{Binding EndTimeFilter.Low}" />
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Expander>
     </Grid>
