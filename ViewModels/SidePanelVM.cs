@@ -1,4 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Globalization;
+using System.Timers;
+using System.Windows.Input;
 
 namespace TienIchLich.ViewModels
 {
@@ -7,6 +10,25 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class SidePanelVM : ViewModelBase
     {
+        Timer currentTimeUpdateTimer = new() { Interval = 1000, Enabled = true };
+        private DateTime currentTime = DateTime.Now;
+
+        /// <summary>
+        /// Current time to display.
+        /// </summary>
+        public DateTime CurrentTime
+        {
+            get
+            {
+                return currentTime;
+            }
+            set
+            {
+                currentTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// View model for calendar category panel.
         /// </summary>
@@ -24,11 +46,17 @@ namespace TienIchLich.ViewModels
 
         public SidePanelVM(NavigationVM navigationVM, CategoryPanelVM categoryPanelVM, CalendarVM calendarVM)
         {
+            currentTimeUpdateTimer.Elapsed += CurrentTimeUpdateTimer_Elapsed;
             CategoryPanelVM = categoryPanelVM;
             AddEventCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewToAdd(calendarVM.SelectedDate));
             OpenSettingsCommand = new RelayCommand(
                 i => navigationVM.NavigateToSettingsView());
+        }
+
+        private void CurrentTimeUpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            CurrentTime = DateTime.Now;
         }
     }
 }

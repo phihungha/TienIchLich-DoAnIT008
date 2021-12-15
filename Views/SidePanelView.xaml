@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="clr-namespace:TienIchLich.Views"
+             xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
 			 x:Class="TienIchLich.Views.SidePanelView"
              mc:Ignorable="d" 
@@ -26,17 +27,29 @@
 
         <Button Grid.Row="1" Command="{Binding OpenSettingsCommand}"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                Height="50" Width="259">
+                Height="50" Width="259" Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal" Width="250">
                 <materialDesign:PackIcon Kind="Settings" Height="25" Width="25" Margin="10" Foreground="White"/>
                 <TextBlock Text="Cài đặt" VerticalAlignment="Center" Margin="20 10" Foreground="White"/>
             </StackPanel>
         </Button>
         
-        <Border Grid.Row="2" BorderThickness="3">
+        <Border Grid.Row="2" BorderThickness="0">
             <Border.Background>
-                <ImageBrush ImageSource="/Images/logo.png"/>
+                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                    <GradientStop Color="#006eff" Offset="0" />
+                    <GradientStop Color="#00f2ff" Offset="1" />
+                </LinearGradientBrush>
             </Border.Background>
+
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" Margin="0,0,0,5" FontWeight="Bold" 
+                           Foreground="White" FontSize="35" Text="{Binding CurrentTime, StringFormat=T,
+                                                                     ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
+                <TextBlock HorizontalAlignment="Center" FontSize="14"
+                           Foreground="White" Text="{Binding CurrentTime, StringFormat=D, 
+                                                       ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
+            </StackPanel>
                 
         </Border>
         
