@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels.Converters
 {
+    /// <summary>
+    /// Get month for the next month calendar on the year view using the month of the previous one.
+    /// </summary>
     public class YearCalendarConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

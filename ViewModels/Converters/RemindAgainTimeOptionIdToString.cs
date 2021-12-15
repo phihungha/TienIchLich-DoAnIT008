@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels.Converters
 {
+    /// <summary>
+    /// Convert remind again time option identifier to user-readable text.
+    /// </summary>
     [ValueConversion(typeof(RemindAgainTimeOptionId), typeof(string))]
     public class RemindAgainTimeOptionIdToString : IValueConverter
     {

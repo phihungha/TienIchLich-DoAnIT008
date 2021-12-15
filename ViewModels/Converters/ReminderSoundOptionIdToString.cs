@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels.Converters
 {
+    /// <summary>
+    /// Converts reminder sound option identifier to user-readable text.
+    /// </summary>
     [ValueConversion(typeof(SettingsVM.ReminderSoundOption.OptionId), typeof(string))]
     public class ReminderSoundOptionIdToString : IValueConverter
     {

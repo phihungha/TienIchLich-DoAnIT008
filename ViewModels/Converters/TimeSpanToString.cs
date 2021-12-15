@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels.Converters
 {
+    /// <summary>
+    /// Convert TimeSpan to user-readable text.
+    /// </summary>
     [ValueConversion(typeof(TimeSpan), typeof(string))]
     public class TimeSpanToString : IValueConverter
     {

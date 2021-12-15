@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels.Converters
 {
+    /// <summary>
+    /// Convert calendar category display color option identifier to user-readable text.
+    /// </summary>
     [ValueConversion(typeof(CategoryDisplayColorOptionId), typeof(string))]
     public class CategoryDisplayColorOptionIdToString : IValueConverter
     {

@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace TienIchLich.ViewModels.Converters
 {
     /// <summary>
-    /// Convert start time filter options of upcoming event overview to strings for ComboBox.
+    /// Convert start time filter options of upcoming event overview to user-readable text.
     /// </summary>
     [ValueConversion(typeof(UpcomingOverviewStartTimeFilterOptionId), typeof(string))]
     public class StartTimeFilterOptionToString : IValueConverter

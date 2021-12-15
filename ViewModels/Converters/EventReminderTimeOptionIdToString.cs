@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels.Converters
 {
+    /// <summary>
+    /// Convert calendar event reminder time option identifier to user-readable text.
+    /// </summary>
     [ValueConversion(typeof(CalendarEventReminderTimeOptionId), typeof(string))]
     internal class EventReminderTimeOptionIdToString : IValueConverter
     {
