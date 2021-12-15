@@ -3,6 +3,9 @@ using System.Windows.Controls;
 
 namespace TienIchLich.ViewModels.DataTemplateSelectors
 {
+    /// <summary>
+    /// Select appropriate category display color option display (text or color picker).
+    /// </summary>
     public class CategoryDisplayColorOption : DataTemplateSelector
     {
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
