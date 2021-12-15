@@ -50,7 +50,6 @@
                 <views:YearCalendarView />
             </TabItem>
 
-
             <!-- Event list view -->
             <TabItem>
                 <TabItem.Header>
@@ -60,6 +59,17 @@
                         </TextBlock.Foreground>Sự kiện</TextBlock>
                 </TabItem.Header>
                 <views:EventListView DataContext="{Binding EventListVM}" />
+            </TabItem>
+
+            <!-- Statistics view -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock FontSize="14" FontWeight="Bold">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                        </TextBlock.Foreground>Thống kê</TextBlock>
+                </TabItem.Header>
+                <views:StatisticsView DataContext="{Binding StatisticsVM}" />
             </TabItem>
         </dragablz:TabablzControl>
     </Grid>

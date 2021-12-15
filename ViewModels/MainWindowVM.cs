@@ -31,8 +31,9 @@ namespace TienIchLich.ViewModels
             var calendarVM = new CalendarVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs, NavigationVM);
             var eventListVM = new EventListVM(calendarEventVMManager.CalendarEventVMs);
             var upcomingOverviewVM = new UpcomingOverviewVM(calendarEventVMManager.CalendarEventVMs);
+            var statisticsVM = new StatisticsVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs);
+            var mainWorkspaceVM = new MainWorkspaceVM(calendarVM, eventListVM, upcomingOverviewVM, statisticsVM);
 
-            var mainWorkspaceVM = new MainWorkspaceVM(calendarVM, eventListVM, upcomingOverviewVM);
             var eventEditorVM = new EventEditorVM(NavigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
             var reminderVM = new ReminderVM(NavigationVM, reminderManager, alarmSoundService);
 
@@ -43,6 +44,7 @@ namespace TienIchLich.ViewModels
             NavigationVM.MainWorkspaceVM = mainWorkspaceVM;
             NavigationVM.ReminderVM = reminderVM;
             NavigationVM.SettingsVM = settingsVM;
+            NavigationVM.StatisticsVM = statisticsVM;
             NavigationVM.DisplayedVM = mainWorkspaceVM;
         }
     }

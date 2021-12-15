@@ -22,11 +22,17 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public UpcomingOverviewVM UpcomingOverviewVM { get; private set; }
 
-        public MainWorkspaceVM(CalendarVM calendarVM, EventListVM eventListVM, UpcomingOverviewVM upcomingOverviewVM)
+        /// <summary>
+        /// View model for upcoming event overview.
+        /// </summary>
+        public StatisticsVM StatisticsVM { get; private set; }
+
+        public MainWorkspaceVM(CalendarVM calendarVM, EventListVM eventListVM, UpcomingOverviewVM upcomingOverviewVM, StatisticsVM statisticsVM)
         {
             CalendarVM = calendarVM;
             EventListVM = eventListVM;
             UpcomingOverviewVM = upcomingOverviewVM;
+            StatisticsVM = statisticsVM;
         }
     }
 }
