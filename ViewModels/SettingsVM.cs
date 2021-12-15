@@ -17,7 +17,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Reminder sound option info.
         /// </summary>
-        public struct ReminderSoundOption
+        public class ReminderSoundOption : ViewModelBase
         {
             public enum OptionId
             {
@@ -27,8 +27,28 @@ namespace TienIchLich.ViewModels
                 Custom
             }
 
+            /// <summary>
+            /// Identifier.
+            /// </summary>
             public OptionId Id { get; set; }
-            public string FilePath { get; set; }
+
+            private string filePath;
+
+            /// <summary>
+            /// Path to sound file.
+            /// </summary>
+            public string FilePath
+            {
+                get
+                {
+                    return filePath;
+                }
+                set
+                {
+                    filePath = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         private static ReminderSoundOption[] reminderSoundOptions =
@@ -54,10 +74,16 @@ namespace TienIchLich.ViewModels
             }
         };
 
+        /// <summary>
+        /// Reminder sound options.
+        /// </summary>
         public static ReminderSoundOption[] ReminderSoundOptions => reminderSoundOptions;
 
         private ReminderSoundOption selectedReminderSoundOption = reminderSoundOptions[0];
 
+        /// <summary>
+        /// Selected reminder sound option.
+        /// </summary>
         public ReminderSoundOption SelectedReminderSoundOption
         {
             get
@@ -67,17 +93,20 @@ namespace TienIchLich.ViewModels
             set
             {
                 selectedReminderSoundOption = value;
-                ReminderSoundFileName = value.FilePath;
                 if (value.Id == ReminderSoundOption.OptionId.Custom)
                     UseCustomReminderSoundOption = true;
                 else
                     UseCustomReminderSoundOption = false;
+                ReminderSoundFileName = value.FilePath;
                 NotifyPropertyChanged();
             }
         }
 
         private bool useCustomReminderSoundOption = false;
 
+        /// <summary>
+        /// Display custom reminder sound file dialog button if True.
+        /// </summary>
         public bool UseCustomReminderSoundOption
         {
             get
@@ -93,6 +122,9 @@ namespace TienIchLich.ViewModels
 
         private string reminderSoundFileName = reminderSoundOptions[0].FilePath;
 
+        /// <summary>
+        /// Path to current reminder sound file.
+        /// </summary>
         public string ReminderSoundFileName
         {
             get
@@ -102,12 +134,17 @@ namespace TienIchLich.ViewModels
             set
             {
                 reminderSoundFileName = value;
+                if (UseCustomReminderSoundOption)
+                    ReminderSoundOptions[3].FilePath = value;
                 NotifyPropertyChanged();
             }
         }
 
         private int reminderSoundVolume = 50;
 
+        /// <summary>
+        /// Current reminder sound volume.
+        /// </summary>
         public int ReminderSoundVolume
         {
             get
@@ -158,7 +195,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Set properties of this view model to the settings file's values.
         /// </summary>
-        private void LoadSettings()
+        public void LoadSettings()
         {
             ReminderSoundVolume = Settings.Default.ReminderSoundVolume;
             SelectedReminderSoundOption = ReminderSoundOptions

@@ -124,6 +124,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public void NavigateToSettingsView()
         {
+            settingsVM.LoadSettings();
             DisplayedVM = settingsVM;
         }
     }
