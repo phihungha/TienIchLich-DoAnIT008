@@ -166,7 +166,10 @@ namespace TienIchLich.ViewModels
             }
             set
             {
+                if (categoryVM != null)
+                    categoryVM.UnregisterEvent();
                 categoryVM = value;
+                categoryVM.RegisterEvent();
                 NotifyPropertyChanged();
             }
         }

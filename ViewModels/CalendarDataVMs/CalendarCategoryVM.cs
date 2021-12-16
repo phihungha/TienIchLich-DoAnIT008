@@ -128,6 +128,24 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private int eventNum;
+
+        /// <summary>
+        /// Number of events belong to this category.
+        /// </summary>
+        public int EventNum
+        {
+            get
+            {
+                return eventNum;
+            }
+            private set
+            {
+                eventNum = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         // Data validation
         public string Error => null;
 
@@ -255,6 +273,22 @@ namespace TienIchLich.ViewModels
             Name = "(Tên trống)";
             DisplayColor = DisplayColorOptions[0].HexCode;
             IsDisplayed = true;
+        }
+
+        /// <summary>
+        /// Register a new event belong to this category (for statistics).
+        /// </summary>
+        public void RegisterEvent()
+        {
+            EventNum++;
+        }
+
+        /// <summary>
+        /// Unregister a deleted event belong to this category (for statistics).
+        /// </summary>
+        public void UnregisterEvent()
+        {
+            EventNum--;
         }
 
         /// <summary>

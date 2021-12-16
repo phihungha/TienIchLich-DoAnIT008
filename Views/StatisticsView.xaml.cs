@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,36 @@ namespace TienIchLich.Views
         public StatisticsView()
         {
             InitializeComponent();
+
+            // Set axises for event count line chart.
+            EventCountLineChart.AxisX = new AxesCollection()
+            {
+                new Axis()
+                {
+                    Title= "Ngày",
+                    FontSize = 14,
+                    Separator = new LiveCharts.Wpf.Separator()
+                    {
+                        Step = 1.0,
+                        IsEnabled = false
+                    }
+                }
+            };
+
+            EventCountLineChart.AxisY = new AxesCollection()
+            {
+                new Axis()
+                {
+                    Title= "Số sự kiện",
+                    FontSize = 14,
+                    MinValue = 0,
+                    Separator = new LiveCharts.Wpf.Separator()
+                    {
+                        Step = 1.0,
+                        IsEnabled = false
+                    }
+                }
+            };
         }
     }
 }

@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
+             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -15,25 +17,97 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <lvc:CartesianChart Grid.Row="0" Grid.ColumnSpan="2" />
-        <lvc:PieChart Grid.Row="1" Grid.Column="0" />
-
-        <GroupBox  Grid.Row="1" Grid.Column="1" Margin="10" Header="Số liệu">
+        
+        <GroupBox Grid.Row="0" Grid.ColumnSpan="2" 
+                  Margin="5" FontSize="15" 
+                  Header="Số sự kiện diễn ra trong 1 ngày của tháng">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-                    <TextBlock>Số sự kiện:</TextBlock>
-                    <TextBlock>123456</TextBlock>
+                <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                        Width="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,0,0,0"
+                        Background="White" BorderThickness="0"
+                        Command="{Binding PrevMonthCommand}">
+                    <materialdesign:PackIcon Kind="ArrowLeft"/>
+                </Button>
+
+                <TextBlock Grid.Row="0" Grid.Column="1" FontSize="16"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Text="{Binding CurrentMonthOfEventCountLineChart, StringFormat='{}{0: MMMM yyyy}',
+                                  ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
+
+                <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                        Width="50" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2,0,0,0"
+                        Background="White" BorderThickness="0"
+                        Command="{Binding NextMonthCommand}">
+                    <materialdesign:PackIcon Kind="ArrowRight"/>
+                </Button>
+
+                <lvc:CartesianChart Name="EventCountLineChart" Grid.Row="1" Grid.ColumnSpan="3" 
+                                    Margin="3" Series="{Binding EventCountLineChartSeriesCollection}" />
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Grid.Column="0" 
+                  Margin="5" FontSize="15"
+                  Header="Số sự kiện từng loại lịch">
+            <lvc:PieChart Margin="3" Series="{Binding CategoryPieChartSeriesCollection}" LegendLocation="Right" />
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Grid.Column="1" Margin="5" FontSize="15" Header="Số liệu">
+            <GroupBox.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Margin" Value="13,0,0,5" />
+                </Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Margin" Value="13,0,0,5" />
+                </Style>
+            </GroupBox.Resources>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="13,15,0,5">Số loại lịch:</TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" Margin="13,15,0,5" Text="{Binding CategoryNum}" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0">Loại lịch dùng nhiều nhất:</TextBlock>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,5,0" Text="{Binding MaxCategory.Name}" />
+                    <TextBlock Margin="0,0,5,0">(Số sự kiện: </TextBlock>
+                    <TextBlock Margin="0" Text="{Binding MaxCategory.EventNum}" />
+                    <TextBlock Margin="0">)</TextBlock>
                 </StackPanel>
+
+                <TextBlock Grid.Row="2" Grid.Column="0">Số sự kiện trung bình mỗi loại:</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CategoryEventNumAverage}" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0">Tổng số sự kiện:</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding EventNum}" />
+
+                <TextBlock Grid.Row="4" Grid.Column="0">Thời gian trung bình sự kiện:</TextBlock>
+                <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,5,0" Text="{Binding AverageEventHours, StringFormat=N2}" />
+                    <TextBlock Margin="0">giờ</TextBlock>
+                </StackPanel>
+
             </Grid>
         </GroupBox>
     </Grid>
