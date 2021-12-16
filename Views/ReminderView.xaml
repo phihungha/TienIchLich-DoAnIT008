@@ -42,14 +42,16 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/Images/back4.jpg"/>
-        </Grid.Background>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="1.5*" />
         </Grid.ColumnDefinitions>
-
+        <Grid Grid.Column="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Images/back4.jpg"/>
+            </Grid.Background>
+        </Grid>
         <Image Grid.Column="0" VerticalAlignment="Center" Source="" />
         
         <Grid Grid.Column="1" VerticalAlignment="Center">

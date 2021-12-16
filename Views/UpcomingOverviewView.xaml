@@ -84,7 +84,7 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="DataGrid">
                                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                         
+                                           
                                             <TextBlock FontSize="20" HorizontalAlignment="Center">Có vẻ bạn đang rảnh trong thời gian này!</TextBlock>
                                         </StackPanel>
                                     </ControlTemplate>
