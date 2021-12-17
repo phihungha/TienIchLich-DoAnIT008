@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <converters:YearCalendarConverter x:Key="yearconv"/>
     </UserControl.Resources>
-    
+    <Viewbox Stretch="Fill">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -155,4 +155,5 @@
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
     </Grid>
+    </Viewbox>
 </UserControl>
