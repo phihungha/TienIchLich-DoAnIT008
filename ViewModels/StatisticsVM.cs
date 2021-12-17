@@ -276,9 +276,9 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void CalculateEventDependentStats()
         {
-            CategoryEventNumAverage = categoryVMs.Where(i => i.EventNum != 0).Select(i => i.EventNum).Average();
-            MaxCategory = categoryVMs.OrderByDescending(i => i.EventNum).First();
-            double avgEventSeconds = (from e in eventVMs let i = e.EndTime - e.StartTime select i.TotalSeconds).Average();
+            CategoryEventNumAverage = categoryVMs.Where(i => i.EventNum != 0).Select(i => i.EventNum).DefaultIfEmpty().Average();
+            MaxCategory = categoryVMs.OrderByDescending(i => i.EventNum).DefaultIfEmpty().First();
+            double avgEventSeconds = (from e in eventVMs let i = e.EndTime - e.StartTime select i.TotalSeconds).DefaultIfEmpty().Average();
             AverageEventHours = avgEventSeconds / 3600;
             EventNum = eventVMs.Count();
         }

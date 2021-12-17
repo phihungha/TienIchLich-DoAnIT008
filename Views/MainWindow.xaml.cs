@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows;
+using TienIchLich.Models;
 using TienIchLich.Services;
 using TienIchLich.ViewModels;
 
@@ -17,8 +18,16 @@ namespace TienIchLich
         public MainWindow()
         {
             CultureInfo.CurrentCulture = new CultureInfo("vi-VN");
+            CreateDb();
             DataContext = new MainWindowVM(dialogService, alarmSoundService);
             InitializeComponent();
+        }
+        private void CreateDb()
+        {
+            using (var db = new CalendarDbContext())
+            {
+                db.Database.EnsureCreated();
+            }
         }
     }
 }

@@ -81,20 +81,6 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        private StatisticsVM statisticsVM;
-
-        /// <summary>
-        /// Statistics view.
-        /// </summary>
-        public StatisticsVM StatisticsVM
-        {
-            set
-            {
-                statisticsVM = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         /// <summary>
         /// Navigate to main workspace view
         /// </summary>

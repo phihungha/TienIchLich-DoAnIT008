@@ -44,7 +44,6 @@ namespace TienIchLich.ViewModels
             NavigationVM.MainWorkspaceVM = mainWorkspaceVM;
             NavigationVM.ReminderVM = reminderVM;
             NavigationVM.SettingsVM = settingsVM;
-            NavigationVM.StatisticsVM = statisticsVM;
             NavigationVM.DisplayedVM = mainWorkspaceVM;
         }
     }
