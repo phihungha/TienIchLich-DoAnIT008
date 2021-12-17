@@ -152,7 +152,6 @@ namespace TienIchLich.ViewModels
             set
             {
                 currentMonthOfEventCountLineChart = value;
-                CalculateEventCountLineChartForAllEvents();
                 NotifyPropertyChanged();
             }
         }
@@ -226,12 +225,16 @@ namespace TienIchLich.ViewModels
 
         private void EventVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            CalculateEventDependentStats();
+            CalculateEventDependentStats(); 
+            CalculateEventCountLineChartForAllEvents();
+            if (e.Action == NotifyCollectionChangedAction.Add)
+                ((CalendarEventVM)e.NewItems[0]).PropertyChanged += EventVM_PropertyChanged;
         }
 
         private void EventVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            CalculateEventDependentStats();
+            CalculateEventDependentStats(); 
+            CalculateEventCountLineChartForAllEvents();
         }
 
         /// <summary>
@@ -240,7 +243,12 @@ namespace TienIchLich.ViewModels
         private void CategoryVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
-                LoadCategoryIntoCategoryPieChartSeriesCollection((CalendarCategoryVM)e.NewItems[0]);
+            {
+                var categoryVM = (CalendarCategoryVM)e.NewItems[0];
+                LoadCategoryIntoCategoryPieChartSeriesCollection(categoryVM);
+                categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
+
+            }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 var categoryVM = (CalendarCategoryVM)e.OldItems[0];
@@ -317,11 +325,6 @@ namespace TienIchLich.ViewModels
             EventCountChartValues[day - 1].Value++;
         }
 
-        private void DecrementDayEventCount(int day)
-        {
-            EventCountChartValues[day - 1].Value--;
-        }
-
         private void CalculateEventCountLineChartForAnEvent(CalendarEventVM eventVM)
         {
             DateTime startOfMonth = new DateTime(CurrentMonthOfEventCountLineChart.Year, CurrentMonthOfEventCountLineChart.Month, 1);
@@ -329,7 +332,7 @@ namespace TienIchLich.ViewModels
             DateTime startTime = eventVM.StartTime;
             DateTime endTime = eventVM.EndTime;
             if ((startTime >= startOfMonth && startTime <= endOfMonth)
-                || (endTime >= startTime && endTime <= endOfMonth))
+                || (endTime >= startOfMonth && endTime <= endOfMonth))
             {
                 int startDay = startTime < startOfMonth ? 1 : startTime.Day;
                 int endDay = endTime > endOfMonth ? endOfMonth.Day : endTime.Day;

@@ -32,11 +32,12 @@ namespace TienIchLich.Views
                 {
                     Title= "Ngày",
                     FontSize = 14,
+                    MinValue = 1,
                     Separator = new LiveCharts.Wpf.Separator()
                     {
                         Step = 1.0,
                         IsEnabled = false
-                    }
+                    },
                 }
             };
 
