@@ -11,36 +11,14 @@ namespace TienIchLich.ViewModels.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            DateTime input = DateTime.Now;
-            try
-            {
-                input = (DateTime)value;
-                if (input != null)
-                {
-                    input = input.AddMonths(1);
-                }
-            }
-            catch (Exception)
-            {
-            }
-            return input;
+            if (value != null && value is DateTime)
+                return ((DateTime)value).AddMonths(1);
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            DateTime input = DateTime.Now;
-            try
-            {
-                input = (DateTime)value;
-                if (input != null)
-                {
-                    input = input.AddMonths(-1);
-                }
-            }
-            catch (Exception)
-            {
-            }
-            return input;
+            throw new NotImplementedException();
         }
     }
 }
