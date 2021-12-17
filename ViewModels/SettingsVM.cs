@@ -71,6 +71,7 @@ namespace TienIchLich.ViewModels
             new ReminderSoundOption()
             {
                 Id = ReminderSoundOption.OptionId.Custom,
+                FilePath = ""
             }
         };
 
@@ -136,6 +137,10 @@ namespace TienIchLich.ViewModels
                 reminderSoundFileName = value;
                 if (UseCustomReminderSoundOption)
                     ReminderSoundOptions[3].FilePath = value;
+                if (value == "")
+                    canSave = false;
+                else
+                    canSave = true;
                 NotifyPropertyChanged();
             }
         }
@@ -179,12 +184,15 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand ExitCommand { get; private set; }
 
+        // Disable save button if false.
+        private bool canSave = true;
+
         public SettingsVM(NavigationVM navigationVM, AlarmSoundService alarmSoundService, DialogService dialogService)
         {
             this.alarmSoundService = alarmSoundService;
             this.navigationVM = navigationVM;
             this.dialogService = dialogService;
-            SaveCommand = new RelayCommand(i => SaveSettings());
+            SaveCommand = new RelayCommand(i => SaveSettings(), i => canSave);
             ExitCommand = new RelayCommand(i => ExitSettings());
             PlaySoundCommand = new RelayCommand(i => TestReminderSound());
             OpenFileDialogCommand = new RelayCommand(i => OpenFileDialog());
