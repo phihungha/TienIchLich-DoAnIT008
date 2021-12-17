@@ -198,13 +198,13 @@ namespace TienIchLich.ViewModels
 
         private void GoToPrevMonthOnEventCountLineChart()
         {
-            CurrentMonthOfEventCountLineChart.AddMonths(-1);
+            CurrentMonthOfEventCountLineChart = CurrentMonthOfEventCountLineChart.AddMonths(-1);
             CalculateEventCountLineChartForAllEvents();
         }
 
         private void GoToNextMonthOnEventCountLineChart()
         {
-            CurrentMonthOfEventCountLineChart.AddMonths(1);
+            CurrentMonthOfEventCountLineChart = CurrentMonthOfEventCountLineChart.AddMonths(1);
             CalculateEventCountLineChartForAllEvents();
         }
 
@@ -302,7 +302,7 @@ namespace TienIchLich.ViewModels
         {
             PopulateDaysForEventCountLineChart();
             foreach (CalendarEventVM eventVM in eventVMs)
-                CalculateEventCountLineChartForNewEvent(eventVM);
+                CalculateEventCountLineChartForAnEvent(eventVM);
         }
 
         private void PopulateDaysForEventCountLineChart()
@@ -322,7 +322,7 @@ namespace TienIchLich.ViewModels
             EventCountChartValues[day - 1].Value--;
         }
 
-        private void CalculateEventCountLineChartForNewEvent(CalendarEventVM eventVM)
+        private void CalculateEventCountLineChartForAnEvent(CalendarEventVM eventVM)
         {
             DateTime startOfMonth = new DateTime(CurrentMonthOfEventCountLineChart.Year, CurrentMonthOfEventCountLineChart.Month, 1);
             DateTime endOfMonth = CurrentMonthOfEventCountLineChart;

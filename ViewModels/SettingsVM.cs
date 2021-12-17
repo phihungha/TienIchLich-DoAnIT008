@@ -138,9 +138,15 @@ namespace TienIchLich.ViewModels
                 if (UseCustomReminderSoundOption)
                     ReminderSoundOptions[3].FilePath = value;
                 if (value == "")
+                {
+                    canPlay = false;
                     canSave = false;
+                }
                 else
+                {
                     canSave = true;
+                    canPlay = true;
+                }
                 NotifyPropertyChanged();
             }
         }
@@ -187,6 +193,9 @@ namespace TienIchLich.ViewModels
         // Disable save button if false.
         private bool canSave = true;
 
+        // Disable reminder sound playback button.
+        private bool canPlay = true;
+
         public SettingsVM(NavigationVM navigationVM, AlarmSoundService alarmSoundService, DialogService dialogService)
         {
             this.alarmSoundService = alarmSoundService;
@@ -194,7 +203,7 @@ namespace TienIchLich.ViewModels
             this.dialogService = dialogService;
             SaveCommand = new RelayCommand(i => SaveSettings(), i => canSave);
             ExitCommand = new RelayCommand(i => ExitSettings());
-            PlaySoundCommand = new RelayCommand(i => TestReminderSound());
+            PlaySoundCommand = new RelayCommand(i => TestReminderSound(), i => canPlay);
             OpenFileDialogCommand = new RelayCommand(i => OpenFileDialog());
 
             LoadSettings();
