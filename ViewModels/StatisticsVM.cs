@@ -99,6 +99,24 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private CalendarCategoryVM minCategory;
+
+        /// <summary>
+        /// Category with the least events.
+        /// </summary>
+        public CalendarCategoryVM MinCategory
+        {
+            get
+            {
+                return minCategory;
+            }
+            set
+            {
+                minCategory = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private int eventNum = 0;
 
         /// <summary>
@@ -135,10 +153,9 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        private DateTime currentMonthOfEventCountLineChart = 
-            new DateTime(DateTime.Now.Year, 
-                         DateTime.Now.Month, 
-                         DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+        private DateTime currentMonthOfEventCountLineChart = new DateTime(DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
 
         /// <summary>
         /// Current month displayed on the event count line chart.
@@ -151,7 +168,9 @@ namespace TienIchLich.ViewModels
             }
             set
             {
-                currentMonthOfEventCountLineChart = value;
+                currentMonthOfEventCountLineChart = new DateTime(value.Year, 
+                    value.Month, 
+                    DateTime.DaysInMonth(value.Year, value.Month));
                 NotifyPropertyChanged();
             }
         }
@@ -173,14 +192,17 @@ namespace TienIchLich.ViewModels
 
             var categoryMapper = Mappers.Xy<CalendarCategoryVM>().Y(i => i.EventNum);
             CategoryPieChartSeriesCollection = new SeriesCollection(categoryMapper);
+
             EventCountLineChartSeriesCollection = new SeriesCollection()
             {
                 new LineSeries()
                 {
                     Title = "Số sự kiện",
-                    Configuration = Mappers.Xy<int>().X((value, index) => index + 1).Y((value, index) => value),
                     DataLabels = true,
-                    Values = EventCountChartValues,
+                    Configuration = Mappers.Xy<ObservableValue>()
+                                           .X((value, index) => index + 1)
+                                           .Y((value, index) => value.Value),
+                    Values = EventCountChartValues
                 }
             };
 
@@ -213,7 +235,7 @@ namespace TienIchLich.ViewModels
         {
             foreach (CalendarCategoryVM categoryVM in categoryVMs)
             {
-                LoadCategoryIntoCategoryPieChartSeriesCollection(categoryVM);
+                LoadCategoryIntoCategoryPieChart(categoryVM);
                 categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
             }
 
@@ -244,7 +266,7 @@ namespace TienIchLich.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 var categoryVM = (CalendarCategoryVM)e.NewItems[0];
-                LoadCategoryIntoCategoryPieChartSeriesCollection(categoryVM);
+                LoadCategoryIntoCategoryPieChart(categoryVM);
                 categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
 
             }
@@ -264,9 +286,12 @@ namespace TienIchLich.ViewModels
             var categoryVM = (CalendarCategoryVM)sender;
             PieSeries pieSeries = CategoryPieChartSeriesCollection.Cast<PieSeries>()
                                     .Where(i => ((CalendarCategoryVM)i.Values[0]).Id == categoryVM.Id)
-                                    .Single();
-            pieSeries.Title = categoryVM.Name;
-            pieSeries.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(categoryVM.DisplayColor));
+                                    .DefaultIfEmpty().Single();
+            if (pieSeries != null)
+            {
+                pieSeries.Title = categoryVM.Name;
+                pieSeries.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(categoryVM.DisplayColor));
+            }    
         }
 
         /// <summary>
@@ -275,10 +300,29 @@ namespace TienIchLich.ViewModels
         private void CalculateStats()
         {
             CategoryNum = categoryVMs.Count;
-            CategoryEventNumAverage = categoryVMs.Where(i => i.EventNum != 0).Select(i => i.EventNum).DefaultIfEmpty().Average();
-            MaxCategory = categoryVMs.OrderByDescending(i => i.EventNum).DefaultIfEmpty(new CalendarCategoryVM(null, null) { Name = "N/A" }).First();
-            double avgEventSeconds = (from e in eventVMs let i = e.EndTime - e.StartTime select i.TotalSeconds).DefaultIfEmpty().Average();
+
+            CategoryEventNumAverage = categoryVMs
+                .Where(i => i.EventNum != 0)
+                .Select(i => i.EventNum)
+                .DefaultIfEmpty().Average();
+
+            MaxCategory = categoryVMs
+                .OrderByDescending(i => i.EventNum)
+                .DefaultIfEmpty(new CalendarCategoryVM(null, null) { Name = "N/A" })
+                .First();
+
+            MinCategory = categoryVMs
+                .OrderBy(i => i.EventNum)
+                .DefaultIfEmpty(new CalendarCategoryVM(null, null) { Name = "N/A" })
+                .First();
+
+            double avgEventSeconds = 
+                (from e in eventVMs 
+                 let i = e.EndTime - e.StartTime 
+                 select i.TotalSeconds)
+                .DefaultIfEmpty().Average();
             AverageEventHours = avgEventSeconds / 3600;
+
             EventNum = eventVMs.Count();
         }
 
@@ -286,12 +330,14 @@ namespace TienIchLich.ViewModels
         /// Load the data in a calendar category view model into pie chart series collection.
         /// </summary>
         /// <param name="categoryVM">Calendar category view model</param>
-        private void LoadCategoryIntoCategoryPieChartSeriesCollection(CalendarCategoryVM categoryVM)
+        private void LoadCategoryIntoCategoryPieChart(CalendarCategoryVM categoryVM)
         {
             var pieSeries = new PieSeries()
             {
                 Title = categoryVM.Name,
                 Values = new ChartValues<CalendarCategoryVM> { categoryVM },
+                DataLabels = true,
+                LabelPoint = point => point.Y == 0 ? "" : string.Format("{0} ({1:P2})", point.Y, point.Participation),
                 Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(categoryVM.DisplayColor))
             };
             CategoryPieChartSeriesCollection.Add(pieSeries);

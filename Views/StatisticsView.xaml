@@ -20,7 +20,7 @@
         
         <GroupBox Grid.Row="0" Grid.ColumnSpan="2" 
                   Margin="5" FontSize="15" 
-                  Header="Số sự kiện diễn ra trong 1 ngày của tháng">
+                  Header="Số sự kiện diễn ra trong từng ngày của tháng">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -59,17 +59,19 @@
         <GroupBox Grid.Row="1" Grid.Column="0" 
                   Margin="5" FontSize="15"
                   Header="Số sự kiện từng loại lịch">
-            <lvc:PieChart Margin="3" Series="{Binding CategoryPieChartSeriesCollection}" LegendLocation="Right" />
+            <lvc:PieChart Margin="3" Hoverable="False" DataTooltip="{x:Null}"
+                          Series="{Binding CategoryPieChartSeriesCollection}" 
+                          LegendLocation="Right" />
         </GroupBox>
 
         <GroupBox Grid.Row="1" Grid.Column="1" Margin="5" FontSize="15" Header="Số liệu">
             <GroupBox.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="FontSize" Value="14" />
-                    <Setter Property="Margin" Value="13,0,0,5" />
+                    <Setter Property="Margin" Value="10,0,20,20" />
                 </Style>
                 <Style TargetType="StackPanel">
-                    <Setter Property="Margin" Value="13,0,0,5" />
+                    <Setter Property="Margin" Value="10,0,0,20" />
                 </Style>
             </GroupBox.Resources>
             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -83,10 +85,11 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Margin="13,15,0,5">Số loại lịch:</TextBlock>
-                <TextBlock Grid.Row="0" Grid.Column="1" Margin="13,15,0,5" Text="{Binding CategoryNum}" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="10,15,0,20">Số loại lịch:</TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="1" Margin="10,15,0,20" Text="{Binding CategoryNum}" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0">Loại lịch dùng nhiều nhất:</TextBlock>
                 <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
@@ -96,18 +99,25 @@
                     <TextBlock Margin="0">)</TextBlock>
                 </StackPanel>
 
-                <TextBlock Grid.Row="2" Grid.Column="0">Số sự kiện trung bình mỗi loại:</TextBlock>
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CategoryEventNumAverage, StringFormat=N2}" />
+                <TextBlock Grid.Row="2" Grid.Column="0">Loại lịch dùng ít nhất:</TextBlock>
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Margin="0,0,5,0" Text="{Binding MinCategory.Name}" />
+                    <TextBlock Margin="0,0,5,0">(Số sự kiện:</TextBlock>
+                    <TextBlock Margin="0" Text="{Binding MinCategory.EventNum}" />
+                    <TextBlock Margin="0">)</TextBlock>
+                </StackPanel>
 
-                <TextBlock Grid.Row="3" Grid.Column="0">Tổng số sự kiện:</TextBlock>
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding EventNum}" />
+                <TextBlock Grid.Row="3" Grid.Column="0">Số sự kiện trung bình mỗi loại:</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CategoryEventNumAverage, StringFormat=N2}" />
 
-                <TextBlock Grid.Row="4" Grid.Column="0">Thời gian trung bình sự kiện:</TextBlock>
-                <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Grid.Row="4" Grid.Column="0">Tổng số sự kiện:</TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding EventNum}" />
+
+                <TextBlock Grid.Row="5" Grid.Column="0">Thời gian trung bình sự kiện:</TextBlock>
+                <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
                     <TextBlock Margin="0,0,5,0" Text="{Binding AverageEventHours, StringFormat=N2}" />
                     <TextBlock Margin="0">giờ</TextBlock>
                 </StackPanel>
-
             </Grid>
         </GroupBox>
     </Grid>

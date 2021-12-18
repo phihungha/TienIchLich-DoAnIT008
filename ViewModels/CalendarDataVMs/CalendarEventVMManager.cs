@@ -141,6 +141,7 @@ namespace TienIchLich.ViewModels
                 db.SaveChanges();
             }
 
+            eventVM.CategoryVM.UnregisterEvent();
             CalendarEventVMs.Remove(eventVM);
 
             reminderManager.Remove(eventVM.Id);
