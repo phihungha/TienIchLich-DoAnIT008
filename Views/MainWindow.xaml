@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:TienIchLich.ViewModels"
         xmlns:views="clr-namespace:TienIchLich.Views"
         mc:Ignorable="d"
-        Title="Lịch" Height="650" Width="1100">
+        Title="Tiện Ích Lịch" Height="650" Width="1100">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:MainWorkspaceVM}">
             <views:MainWorkspace />
