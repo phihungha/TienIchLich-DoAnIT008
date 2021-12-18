@@ -40,7 +40,8 @@
                         Tháng
                     </TextBlock>
                 </TabItem.Header>
-                <custom_controls:MonthEventCalendar
+                <custom_controls:MonthEventCalendar 
+                    x:Name="monthEventCalendar"
                     CalendarVM="{Binding CalendarVM}"
                     SelectedDate="{Binding CalendarVM.MonthCalendarSelectedDate}"
                     DisplayDate="{Binding CalendarVM.MonthCalendarDisplayDate}" />

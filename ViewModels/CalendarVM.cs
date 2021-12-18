@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows.Input;
 
 namespace TienIchLich.ViewModels
@@ -118,6 +119,7 @@ namespace TienIchLich.ViewModels
                 MonthCalendarDisplayDate = (DateTime)YearCalendarSelectedDate;
                 MonthCalendarSelectedDate = YearCalendarSelectedDate;
                 mainWorkspaceVM.SelectedTabIndex = 1;
+                Thread.Sleep(200);
             }
         }
     }

@@ -3,6 +3,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using TienIchLich.ViewModels;
 
 namespace TienIchLich.MonthEventCalendarControl
@@ -46,6 +48,13 @@ namespace TienIchLich.MonthEventCalendarControl
             : base()
         {
             Unloaded += MonthEventCalendar_Unloaded;
+        }
+
+        protected override void OnGotMouseCapture(MouseEventArgs e)
+        {
+            UIElement originalElement = e.OriginalSource as UIElement;
+            if (originalElement is CalendarDayButton || originalElement is CalendarItem)
+                originalElement.ReleaseMouseCapture();
         }
 
         /// <summary>
