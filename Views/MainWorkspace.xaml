@@ -9,7 +9,7 @@
              xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz">
     <!-- Main workspace view -->
     <Grid>
-        <dragablz:TabablzControl Grid.Row="0" SelectedIndex="1">
+        <dragablz:TabablzControl Grid.Row="0" SelectedIndex="{Binding SelectedTabIndex}">
             <dragablz:TabablzControl.BorderBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}"/>
             </dragablz:TabablzControl.BorderBrush>

@@ -27,6 +27,24 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public StatisticsVM StatisticsVM { get; private set; }
 
+        private int selectedTabIndex = 1;
+
+        /// <summary>
+        /// Currently selected tab index on the workspace.
+        /// </summary>
+        public int SelectedTabIndex
+        {
+            get
+            {
+                return selectedTabIndex;
+            }
+            set
+            {
+                selectedTabIndex = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public MainWorkspaceVM(CalendarVM calendarVM, EventListVM eventListVM, UpcomingOverviewVM upcomingOverviewVM, StatisticsVM statisticsVM)
         {
             CalendarVM = calendarVM;
