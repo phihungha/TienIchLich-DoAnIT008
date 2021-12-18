@@ -316,7 +316,7 @@
     </Style>
 
     <!-- Style for the control -->
-    <Style TargetType="local:MonthEventCalendar" x:Key="MonthStyle2">
+    <Style TargetType="local:MonthEventCalendar" x:Key="MonthEventCalendarForYear">
         <Setter Property="CalendarItemStyle" Value="{StaticResource CustomCalendarItemStyle}" />
         <Setter Property="CalendarDayButtonStyle" Value="{StaticResource CustomCalendarDayButtonStyle}" />
         <Setter Property="BorderThickness" Value="0" />

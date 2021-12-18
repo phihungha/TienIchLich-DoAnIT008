@@ -17,7 +17,7 @@ namespace TienIchLich.MonthEventCalendarControl
             (
                 "CalendarVM",
                 typeof(CalendarVM),
-                typeof(Calendar),
+                typeof(MonthEventCalendar),
                 new FrameworkPropertyMetadata(null,
                     FrameworkPropertyMetadataOptions.AffectsRender,
                     new PropertyChangedCallback(OnCalendarVMPropertyChanged))

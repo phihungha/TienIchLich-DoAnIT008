@@ -199,6 +199,7 @@
                                                     Focusable="False" />
                                             <!-- End: Next button content -->
 
+                                             <!-- Jump to today button -->
                                             <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                       AncestorType={x:Type local:MonthEventCalendar}},
                                                               Path=CalendarVM.TodayCommand}"
@@ -206,7 +207,11 @@
                                                     Grid.Column="3"
                                                     HorizontalAlignment="Right" VerticalAlignment="Center"
                                                     Focusable="False" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" >
-                                                <materialDesign:PackIcon Kind="CalendarToday" Foreground="White"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="CalendarToday" Foreground="White" 
+                                                                             Margin="0,2,5,0" VerticalAlignment="Center" />
+                                                    <TextBlock VerticalAlignment="Center">Hôm nay</TextBlock>
+                                                </StackPanel>
                                             </Button>
                                         </Grid>
                                     </Border>
