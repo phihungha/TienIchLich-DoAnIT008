@@ -224,7 +224,7 @@ namespace TienIchLich.ViewModels
             else
                 title = $"Sự kiện \"{Subject}\" sắp diễn ra trong {TimeSpanToString.ConvertFromTimeSpan(RemainingTime)}nữa!";
 
-            string subtitle = $"Bắt đầu: {StartTime:F}\nKết thúc: {EndTime:F}";
+            string subtitle = $"Bắt đầu: {StartTime:f}\nKết thúc: {EndTime:f}";
             new ToastContentBuilder().AddText(title).AddText(subtitle).AddText(Description).Show();
         }
     }
