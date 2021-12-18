@@ -10,9 +10,6 @@
     <!-- Main workspace view -->
     <Grid>
         <dragablz:TabablzControl Grid.Row="0" SelectedIndex="{Binding SelectedTabIndex}">
-            <dragablz:TabablzControl.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuHighlightColorKey}}"/>
-            </dragablz:TabablzControl.BorderBrush>
             <dragablz:TabablzControl.InterTabController>
                 <dragablz:InterTabController/>
             </dragablz:TabablzControl.InterTabController>

@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dragablz" Version="0.0.3.223" />
-	<None Remove="Images\back2.jfif" />
+    <None Remove="Images\back1.jpg" />
 	<None Remove="Images\back3.jpg" />
 	<None Remove="Images\back4.jpg" />
 	<None Remove="Images\logo.png" />
@@ -28,9 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	<Resource Include="Images\back2.jfif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+	<Resource Include="Images\back1.jpg" />
 	<Resource Include="Images\back3.jpg">
 	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</Resource>
