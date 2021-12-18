@@ -42,22 +42,19 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="1.5*" />
-        </Grid.ColumnDefinitions>
+        
         
             <Grid.Background>
             <ImageBrush ImageSource="/Images/back4.jpg"/>
             </Grid.Background>
         
-        <Image Grid.Column="0" VerticalAlignment="Center" Source="" />
+        
 
-        <Border Grid.Column="1" Margin="0,0,20,0" Padding="15" VerticalAlignment="Center">
+        <Border Margin="0,0,20,0" Padding="15" VerticalAlignment="Center" Width="503">
             <Border.Background>
                 <SolidColorBrush Color="White" Opacity="0.88" />
             </Border.Background>
-            <Grid>
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
