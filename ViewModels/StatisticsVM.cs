@@ -191,8 +191,7 @@ namespace TienIchLich.ViewModels
             NextMonthCommand = new RelayCommand(i => GoToNextMonthOnEventCountLineChart());
 
             InitData();
-            CalculateCategoryDependentStats();
-            CalculateEventDependentStats();
+            CalculateStats();
         }
 
         private void GoToPrevMonthOnEventCountLineChart()
@@ -225,7 +224,7 @@ namespace TienIchLich.ViewModels
 
         private void EventVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            CalculateEventDependentStats(); 
+            CalculateStats(); 
             CalculateEventCountLineChartForAllEvents();
             if (e.Action == NotifyCollectionChangedAction.Add)
                 ((CalendarEventVM)e.NewItems[0]).PropertyChanged += EventVM_PropertyChanged;
@@ -233,7 +232,7 @@ namespace TienIchLich.ViewModels
 
         private void EventVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            CalculateEventDependentStats(); 
+            CalculateStats(); 
             CalculateEventCountLineChartForAllEvents();
         }
 
@@ -257,7 +256,7 @@ namespace TienIchLich.ViewModels
                     .Single();
                 CategoryPieChartSeriesCollection.Remove(pieSeries);
             }
-            CalculateCategoryDependentStats();
+            CalculateStats();
         }
 
         private void CategoryVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -270,22 +269,14 @@ namespace TienIchLich.ViewModels
             pieSeries.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(categoryVM.DisplayColor));
         }
 
-
         /// <summary>
-        /// Calculate all statistics that may change due to category collection change.
+        /// Calculate all statistics that may change due to event and category change.
         /// </summary>
-        private void CalculateCategoryDependentStats()
+        private void CalculateStats()
         {
             CategoryNum = categoryVMs.Count;
-        }
-
-        /// <summary>
-        /// Calculate all statistics that may change due to event change.
-        /// </summary>
-        private void CalculateEventDependentStats()
-        {
             CategoryEventNumAverage = categoryVMs.Where(i => i.EventNum != 0).Select(i => i.EventNum).DefaultIfEmpty().Average();
-            MaxCategory = categoryVMs.OrderByDescending(i => i.EventNum).DefaultIfEmpty().First();
+            MaxCategory = categoryVMs.OrderByDescending(i => i.EventNum).DefaultIfEmpty(new CalendarCategoryVM(null, null) { Name = "N/A" }).First();
             double avgEventSeconds = (from e in eventVMs let i = e.EndTime - e.StartTime select i.TotalSeconds).DefaultIfEmpty().Average();
             AverageEventHours = avgEventSeconds / 3600;
             EventNum = eventVMs.Count();

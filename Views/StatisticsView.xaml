@@ -97,7 +97,7 @@
                 </StackPanel>
 
                 <TextBlock Grid.Row="2" Grid.Column="0">Số sự kiện trung bình mỗi loại:</TextBlock>
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CategoryEventNumAverage}" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CategoryEventNumAverage, StringFormat=N2}" />
 
                 <TextBlock Grid.Row="3" Grid.Column="0">Tổng số sự kiện:</TextBlock>
                 <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding EventNum}" />
