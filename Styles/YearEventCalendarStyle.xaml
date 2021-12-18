@@ -272,8 +272,14 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <!-- Day number -->
-
                         <Border x:Name="DayNumberBorder" CornerRadius="15" Padding="3" Margin="5,2,5,2">
+                            <Border.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick"
+                                              Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                           AncestorType={x:Type local:MonthEventCalendar}},
+                                                        Path=CalendarVM.AddEventCommand}" />
+                            </Border.InputBindings>
+                            
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Setter Property="Background" Value="Transparent" />

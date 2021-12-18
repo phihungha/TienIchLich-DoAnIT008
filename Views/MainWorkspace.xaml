@@ -23,31 +23,39 @@
                     <TextBlock FontWeight="Bold" FontSize="14">
                         <TextBlock.Foreground>
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
-                        </TextBlock.Foreground>Tóm tắt</TextBlock>
+                        </TextBlock.Foreground>
+                        Tóm tắt
+                    </TextBlock>
                 </TabItem.Header>
                 <views:UpcomingOverviewView DataContext="{Binding UpcomingOverviewVM}" />
             </TabItem>
+            
             <!-- Calendar month view -->
             <TabItem>
                 <TabItem.Header>
                     <TextBlock FontWeight="Bold" FontSize="14">
                         <TextBlock.Foreground>
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
-                        </TextBlock.Foreground>Tháng</TextBlock>
+                        </TextBlock.Foreground>
+                        Tháng
+                    </TextBlock>
                 </TabItem.Header>
                 <custom_controls:MonthEventCalendar
                     CalendarVM="{Binding CalendarVM}"
                     SelectedDate="{Binding CalendarVM.SelectedDate}" />
             </TabItem>
+            
             <!-- Year view -->
             <TabItem>
                 <TabItem.Header>
                     <TextBlock FontSize="14" FontWeight="Bold">
                         <TextBlock.Foreground>
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
-                        </TextBlock.Foreground>Năm</TextBlock>
+                        </TextBlock.Foreground>
+                        Năm
+                    </TextBlock>
                 </TabItem.Header>
-                <views:YearCalendarView />
+                <views:YearCalendarView DataContext="{Binding CalendarVM}" />
             </TabItem>
 
             <!-- Event list view -->
@@ -56,7 +64,9 @@
                     <TextBlock FontSize="14" FontWeight="Bold">
                         <TextBlock.Foreground>
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
-                        </TextBlock.Foreground>Sự kiện</TextBlock>
+                        </TextBlock.Foreground>
+                        Sự kiện
+                    </TextBlock>
                 </TabItem.Header>
                 <views:EventListView DataContext="{Binding EventListVM}" />
             </TabItem>
@@ -67,7 +77,9 @@
                     <TextBlock FontSize="14" FontWeight="Bold">
                         <TextBlock.Foreground>
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
-                        </TextBlock.Foreground>Thống kê</TextBlock>
+                        </TextBlock.Foreground>
+                        Thống kê
+                    </TextBlock>
                 </TabItem.Header>
                 <views:StatisticsView DataContext="{Binding StatisticsVM}" />
             </TabItem>

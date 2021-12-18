@@ -64,13 +64,15 @@
         <StackPanel Grid.Row="1" Grid.Column="0">
             <TextBlock>Tháng 1</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month1" Style="{StaticResource MonthStyle2}" 
-                                                CalendarVM="{Binding CalendarVM}"/>
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"/>
         </StackPanel>
         
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock>Tháng 2</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month2" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month1, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -78,7 +80,8 @@
         <StackPanel Grid.Row="1" Grid.Column="2">
             <TextBlock>Tháng 3</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month3" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month2, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -86,7 +89,8 @@
         <StackPanel Grid.Row="1" Grid.Column="3">
             <TextBlock>Tháng 4</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month4" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month3, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -94,7 +98,8 @@
         <StackPanel Grid.Row="2" Grid.Column="0">
             <TextBlock>Tháng 5</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month5" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month4, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -102,7 +107,8 @@
         <StackPanel Grid.Row="2" Grid.Column="1">
             <TextBlock>Tháng 6</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month6" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month5, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -110,7 +116,8 @@
         <StackPanel Grid.Row="2" Grid.Column="2">
             <TextBlock>Tháng 7</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month7" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month6, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -118,7 +125,8 @@
         <StackPanel Grid.Row="2" Grid.Column="3">
             <TextBlock>Tháng 8</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month8" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month7, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -126,7 +134,8 @@
         <StackPanel Grid.Row="3" Grid.Column="0">
             <TextBlock>Tháng 9</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month9" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month8, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -134,7 +143,8 @@
         <StackPanel Grid.Row="3" Grid.Column="1">
             <TextBlock>Tháng 10</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month10" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month9, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -142,7 +152,8 @@
         <StackPanel Grid.Row="3" Grid.Column="2">
             <TextBlock>Tháng 11</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month11" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month10, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
@@ -150,7 +161,8 @@
         <StackPanel Grid.Row="3" Grid.Column="3">
             <TextBlock>Tháng 12</TextBlock>
             <custom_controls:MonthEventCalendar x:Name="Month12" Style="{StaticResource MonthStyle2}"
-                                                CalendarVM="{Binding CalendarVM}"
+                                                SelectedDate="{Binding SelectedDate, Mode=OneWayToSource}"
+                                                CalendarVM="{Binding}"
                                                 DisplayDate="{Binding Path=DisplayDate, ElementName=Month11, 
                                                               Converter={StaticResource yearconv}}" />
         </StackPanel>
