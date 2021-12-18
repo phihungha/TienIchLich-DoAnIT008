@@ -31,11 +31,11 @@ namespace TienIchLich.ViewModels
             
             var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs, NavigationVM);
 
-            var eventEditorVM = new EventEditorVM(NavigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
-            var reminderVM = new ReminderVM(NavigationVM, reminderManager, alarmSoundService);
-
             var categoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
             SidePanelVM = new SidePanelVM(NavigationVM, categoryPanelVM, mainWorkspaceVM.CalendarVM);
+
+            var eventEditorVM = new EventEditorVM(NavigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
+            var reminderVM = new ReminderVM(NavigationVM, SidePanelVM, reminderManager, alarmSoundService);
 
             NavigationVM.EventEditorVM = eventEditorVM;
             NavigationVM.MainWorkspaceVM = mainWorkspaceVM;

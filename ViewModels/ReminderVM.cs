@@ -31,6 +31,7 @@ namespace TienIchLich.ViewModels
     public class ReminderVM : ViewModelBase
     {
         private NavigationVM navigationVM;
+        private SidePanelVM sidePanelVM;
         private ReminderManager reminderManager;
         private AlarmSoundService alarmSoundService;
 
@@ -104,11 +105,13 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand RemindLaterCommand { get; private set; }
 
-        public ReminderVM(NavigationVM navigationVM, ReminderManager reminderManager, AlarmSoundService alarmSoundService)
+        public ReminderVM(NavigationVM navigationVM, SidePanelVM sidePanelVM, ReminderManager reminderManager, AlarmSoundService alarmSoundService)
         {
             this.navigationVM = navigationVM;
+            this.sidePanelVM = sidePanelVM;
             this.reminderManager = reminderManager;
             this.alarmSoundService = alarmSoundService;
+
             AckCommand = new RelayCommand(i => Acknowledge());
             RemindLaterCommand = new RelayCommand(i => RemindAgain());
         }
@@ -120,6 +123,7 @@ namespace TienIchLich.ViewModels
         public void Remind(CalendarEventVM eventVM)
         {
             EventVM = eventVM;
+            sidePanelVM.IsEnabled = false;
             alarmSoundService.PlaySound(Settings.Default.ReminderSoundFileName, Settings.Default.ReminderSoundVolume);
         }
 
@@ -138,6 +142,7 @@ namespace TienIchLich.ViewModels
         private void Acknowledge()
         {
             alarmSoundService.StopSound();
+            sidePanelVM.IsEnabled = true;
             navigationVM.NavigateToMainWorkspaceView();
         }
     }

@@ -29,6 +29,24 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private bool isEnabled = true;
+
+        /// <summary>
+        /// True if controls on the side panel are enabled.
+        /// </summary>
+        public bool IsEnabled
+        {
+            get
+            {
+                return isEnabled;
+            }
+            set
+            {
+                isEnabled = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// View model for calendar category panel.
         /// </summary>

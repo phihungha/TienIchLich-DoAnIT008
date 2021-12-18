@@ -8,7 +8,7 @@
 			 x:Class="TienIchLich.Views.SidePanelView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="250">
-    <Grid>
+    <Grid IsEnabled="{Binding IsEnabled}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
