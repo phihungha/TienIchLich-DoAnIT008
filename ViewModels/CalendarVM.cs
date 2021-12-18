@@ -79,7 +79,7 @@ namespace TienIchLich.ViewModels
         public ICommand AddEventCommand { get; private set; }
 
         /// <summary>
-        /// Command to return to today.
+        /// Command to jump to today's date and select it.
         /// </summary>
         public ICommand TodayCommand { get; private set; }
 
@@ -95,8 +95,17 @@ namespace TienIchLich.ViewModels
             CalendarCategoryVMs = categoryVMs;
             AddEventCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewToAdd(MonthCalendarSelectedDate));
-            TodayCommand = new RelayCommand(i => MonthCalendarDisplayDate = DateTime.Now);
+            TodayCommand = new RelayCommand(i => JumpToToday());
             JumpToAnotherMonthCommand = new RelayCommand(i => JumpToAnotherMonth());
+        }
+
+        /// <summary>
+        /// Jump to current date and select it.
+        /// </summary>
+        private void JumpToToday()
+        {
+            MonthCalendarDisplayDate = DateTime.Now;
+            MonthCalendarSelectedDate = DateTime.Now;
         }
 
         /// <summary>

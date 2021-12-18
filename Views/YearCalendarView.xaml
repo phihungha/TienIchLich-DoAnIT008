@@ -60,85 +60,85 @@
             <StackPanel Grid.Row="1" Grid.Column="0">
                 <TextBlock>Tháng 1</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month1" Style="{StaticResource MonthStyle2}" 
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}"/>
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1" Grid.Column="1">
                 <TextBlock>Tháng 2</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month2" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="1" Grid.Column="2">
                 <TextBlock>Tháng 3</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month3" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="1" Grid.Column="3">
                 <TextBlock>Tháng 4</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month4" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="0">
                 <TextBlock>Tháng 5</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month5" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="1">
                 <TextBlock>Tháng 6</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month6" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="2">
                 <TextBlock>Tháng 7</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month7" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="3">
                 <TextBlock>Tháng 8</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month8" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="3" Grid.Column="0">
                 <TextBlock>Tháng 9</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month9" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="3" Grid.Column="1">
                 <TextBlock>Tháng 10</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month10" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="3" Grid.Column="2">
                 <TextBlock>Tháng 11</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month11" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
 
             <StackPanel Grid.Row="3" Grid.Column="3">
                 <TextBlock>Tháng 12</TextBlock>
                 <custom_controls:MonthEventCalendar x:Name="Month12" Style="{StaticResource MonthStyle2}"
-                                            SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
-                                            CalendarVM="{Binding}" />
+                                                    SelectedDate="{Binding YearCalendarSelectedDate, Mode=OneWayToSource}"
+                                                    CalendarVM="{Binding}" />
             </StackPanel>
         </Grid>
     </Viewbox>
