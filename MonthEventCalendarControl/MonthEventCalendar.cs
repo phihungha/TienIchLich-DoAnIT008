@@ -56,9 +56,12 @@ namespace TienIchLich.MonthEventCalendarControl
             if (oldCalendarVM != null)
             {
                 foreach (CalendarCategoryVM categoryVM in oldCalendarVM.CalendarCategoryVMs)
-                    categoryVM.PropertyChanged -= CategoryVM_PropertyChanged;
-
+                    categoryVM.PropertyChanged -= VM_PropertyChanged;
                 oldCalendarVM.CalendarCategoryVMs.CollectionChanged -= CalendarCategoryVMs_CollectionChanged;
+
+                foreach (CalendarEventVM eventVM in oldCalendarVM.CalendarEventVMs)
+                    eventVM.PropertyChanged -= VM_PropertyChanged;
+                oldCalendarVM.CalendarEventVMs.CollectionChanged -= CalendarEventVMs_CollectionChanged;
             }
         }
 
@@ -66,7 +69,7 @@ namespace TienIchLich.MonthEventCalendarControl
         {
             var obj = (MonthEventCalendar)d;
             obj.SetOldCalendarVM();
-            obj.AttachPropertyChangeEventHandlerToCalendarCategoryVMs();
+            obj.AttachPropertyChangeEventHandlerToVMs();
         }
 
         public void SetOldCalendarVM()
@@ -76,18 +79,35 @@ namespace TienIchLich.MonthEventCalendarControl
         }
 
         /// <summary>
-        /// Attach an event handler to calendar category view models' property change event
+        /// Attach property change event handler to calendar category and events view models
         /// so the calendar is refreshed when they change.
         /// </summary>
-        private void AttachPropertyChangeEventHandlerToCalendarCategoryVMs()
+        private void AttachPropertyChangeEventHandlerToVMs()
         {
             if (CalendarVM != null)
             {
                 foreach (CalendarCategoryVM categoryVM in CalendarVM.CalendarCategoryVMs)
-                    categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
-
+                    categoryVM.PropertyChanged += VM_PropertyChanged;
                 CalendarVM.CalendarCategoryVMs.CollectionChanged += CalendarCategoryVMs_CollectionChanged;
+
+                foreach (CalendarEventVM eventVM in CalendarVM.CalendarEventVMs)
+                    eventVM.PropertyChanged += VM_PropertyChanged;
+                CalendarVM.CalendarEventVMs.CollectionChanged += CalendarEventVMs_CollectionChanged;
             }
+        }
+
+        /// <summary>
+        /// Add calendar refreshing event handler to a newly added calendar event view model.
+        /// </summary>
+        private void CalendarEventVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                CalendarEventVM newEvent = (CalendarEventVM)e.NewItems[0];
+                newEvent.PropertyChanged += VM_PropertyChanged;
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+                Refresh();
         }
 
         /// <summary>
@@ -98,15 +118,13 @@ namespace TienIchLich.MonthEventCalendarControl
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 CalendarCategoryVM newCategory = (CalendarCategoryVM)e.NewItems[0];
-                newCategory.PropertyChanged += CategoryVM_PropertyChanged;
+                newCategory.PropertyChanged += VM_PropertyChanged;
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
                 Refresh();
-            }
         }
 
-        private void CategoryVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void VM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Refresh();
         }

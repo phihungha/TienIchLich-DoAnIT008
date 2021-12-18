@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TienIchLich.Models;
+using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {
@@ -15,17 +16,19 @@ namespace TienIchLich.ViewModels
         private CalendarCategoryVMManager categoryVMs;
         private NavigationVM navigationVM;
         private ReminderManager reminderManager;
+        private DialogService dialogService;
 
         /// <summary>
         /// Calendar event view model collection.
         /// </summary>
         public ObservableCollection<CalendarEventVM> CalendarEventVMs { get; private set; }
 
-        public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs, ReminderManager reminderManager)
+        public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs, ReminderManager reminderManager, DialogService dialogService)
         {
             this.navigationVM = navigationVM;
             this.categoryVMs = categoryVMs;
             this.reminderManager = reminderManager;
+            this.dialogService = dialogService;
             CalendarEventVMs = new ObservableCollection<CalendarEventVM>();
 
             // Build view models for all calendar events in database
@@ -44,7 +47,7 @@ namespace TienIchLich.ViewModels
             CalendarCategoryVM categoryVM = categoryVMs.CalendarCategoryVMs
                 .Where(i => i.Id == calendarEvent.CalendarCategoryId)
                 .FirstOrDefault();
-            var eventVM = new CalendarEventVM(this, navigationVM)
+            var eventVM = new CalendarEventVM(this, navigationVM, dialogService)
             {
                 Id = calendarEvent.CalendarEventId,
                 Subject = calendarEvent.Subject,

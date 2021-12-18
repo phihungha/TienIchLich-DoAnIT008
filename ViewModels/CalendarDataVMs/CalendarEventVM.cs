@@ -2,6 +2,7 @@
 using System;
 using System.Timers;
 using System.Windows.Input;
+using TienIchLich.Services;
 using TienIchLich.ViewModels.Converters;
 
 namespace TienIchLich.ViewModels
@@ -12,6 +13,8 @@ namespace TienIchLich.ViewModels
     public class CalendarEventVM : ViewModelBase
     {
         private NavigationVM navigationVM;
+        private CalendarEventVMManager eventVMManager;
+        private DialogService dialogService;
 
         private int id = 0;
 
@@ -184,9 +187,11 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand DeleteCommand { get; private set; }
 
-        public CalendarEventVM(CalendarEventVMManager eventVMManager, NavigationVM navigationVM, DateTime? startTime = null)
+        public CalendarEventVM(CalendarEventVMManager eventVMManager, NavigationVM navigationVM, DialogService dialogService, DateTime? startTime = null)
         {
             this.navigationVM = navigationVM;
+            this.dialogService = dialogService;
+            this.eventVMManager = eventVMManager;
 
             if (startTime != null)
             {
@@ -197,7 +202,16 @@ namespace TienIchLich.ViewModels
             EditCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewToEdit(this));
             DeleteCommand = new RelayCommand(
-                i => eventVMManager.Delete(this));
+                i => Delete());
+        }
+
+        /// <summary>
+        /// Delete this event.
+        /// </summary>
+        private void Delete()
+        {
+            if (dialogService.ShowConfirmation("Bạn có thật sự muốn xóa loại sự kiện này?"))
+                eventVMManager.Delete(this);
         }
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)

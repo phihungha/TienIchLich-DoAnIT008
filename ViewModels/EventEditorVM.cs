@@ -360,7 +360,7 @@ namespace TienIchLich.ViewModels
 
             if (startTime == null)
             {
-                CalendarEventVM = new CalendarEventVM(eventVMManager, navigationVM)
+                CalendarEventVM = new CalendarEventVM(eventVMManager, navigationVM, dialogService)
                 {
                     CategoryVM = CategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
@@ -368,7 +368,7 @@ namespace TienIchLich.ViewModels
             }
             else
             {
-                CalendarEventVM = new CalendarEventVM(eventVMManager, navigationVM, startTime)
+                CalendarEventVM = new CalendarEventVM(eventVMManager, navigationVM, dialogService, startTime)
                 {
                     CategoryVM = CategoryVMs[0],
                     ReminderTime = new TimeSpan(0, 30, 0)
@@ -471,7 +471,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void DeleteEvent()
         {
-            if (dialogService.ShowConfirmation("Bạn có muốn xóa sự kiện này?"))
+            if (dialogService.ShowConfirmation("Bạn có thật sự muốn xóa sự kiện này?"))
             {
                 eventVMManager.Delete(calendarEventVM);
                 editMode = false;
