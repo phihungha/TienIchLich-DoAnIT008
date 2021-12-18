@@ -10,6 +10,8 @@ namespace TienIchLich.Services
     {
         private MediaPlayer soundPlayer = new();
         private bool repeat = true;
+        private bool isPlaying = false;
+        private string currentPath = "";
 
         public AlarmSoundService()
         {
@@ -35,10 +37,13 @@ namespace TienIchLich.Services
         /// </summary>
         /// <param name="filePath">Sound file's path</param>
         /// <param name="volume">Audio volume</param>
-        public void PlaySoundOnce(string filePath, int volume)
+        public void PlayStopSound(string filePath, int volume)
         {
             repeat = false;
-            PlaySound(filePath, volume);
+            if (isPlaying && filePath == currentPath)
+                StopSound();
+            else
+                PlaySound(filePath, volume);
         }
 
         /// <summary>
@@ -54,6 +59,8 @@ namespace TienIchLich.Services
                 soundPlayer.Volume = (double)volume / 100;
                 soundPlayer.Play();
             });
+            currentPath = filePath;
+            isPlaying = true;
         }
 
         /// <summary>
@@ -74,6 +81,7 @@ namespace TienIchLich.Services
         public void StopSound()
         {
             soundPlayer.Stop();
+            isPlaying = false;
         }
     }
 }

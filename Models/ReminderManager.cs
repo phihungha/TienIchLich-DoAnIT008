@@ -12,7 +12,7 @@ namespace TienIchLich.Models
         private Dictionary<long, Timer> reminderTimers = new();
 
         /// <summary>
-        /// Get interval until reminding for timers.
+        /// Get interval in milliseconds until reminding for timers.
         /// </summary>
         /// <param name="startTime">Start time of calendar event</param>
         /// <param name="reminderTime">Reminder time of calendar event</param>
@@ -37,7 +37,7 @@ namespace TienIchLich.Models
             timer.Elapsed += elapsedEventHandler;
             reminderTimers.Add(calendarEventId, timer);
 
-            if (timerInterval > 0)
+            if (timerInterval > 0 && timerInterval < Int32.MaxValue)
             {
                 timer.Interval = timerInterval;
                 timer.Start();
@@ -55,7 +55,7 @@ namespace TienIchLich.Models
         public void Edit(long calendarEventId, DateTime startTime, TimeSpan reminderTime)
         {
             double timerInterval = GetReminderInterval(startTime, reminderTime);
-            if (timerInterval > 0)
+            if (timerInterval > 0 && timerInterval < Int32.MaxValue)
             {
                 reminderTimers[calendarEventId].Interval = timerInterval;
                 reminderTimers[calendarEventId].Start();
@@ -71,8 +71,11 @@ namespace TienIchLich.Models
         /// <param name="interval">Interval of timer</param>
         public void EditInterval(long calendarEventId, TimeSpan interval)
         {
-            reminderTimers[calendarEventId].Interval = interval.TotalMilliseconds;
-            reminderTimers[calendarEventId].Enabled = true;
+            if (interval.TotalMilliseconds > 0 && interval.TotalMilliseconds < Int32.MaxValue)
+            {
+                reminderTimers[calendarEventId].Interval = interval.TotalMilliseconds;
+                reminderTimers[calendarEventId].Enabled = true;
+            }
         }
 
         /// <summary>

@@ -124,17 +124,25 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        /// <summary>
+        /// True if remaining time needs to be real.
+        /// </summary>
+        public bool CalculateActualRemainingTime { get; set; }
+
+        /// <summary>
+        /// Remaining time until event happens.
+        /// </summary>
         public TimeSpan RemainingTime
         {
             get
             {
-                if (DateTime.Now < StartTime)
+                if (CalculateActualRemainingTime)
                 {
-                    TimeSpan remainingTime = StartTime - DateTime.Now;
-                    if (remainingTime.Seconds >= 58)
-                        return remainingTime + new TimeSpan(0, 0, 60 - remainingTime.Seconds);
+                    if (DateTime.Now < StartTime)
+                        return StartTime - DateTime.Now;
+                    return TimeSpan.Zero;
                 }
-                return TimeSpan.Zero;
+                return ReminderTime;
             }
         }
 
@@ -192,6 +200,8 @@ namespace TienIchLich.ViewModels
             this.navigationVM = navigationVM;
             this.dialogService = dialogService;
             this.eventVMManager = eventVMManager;
+
+            CalculateActualRemainingTime = false;
 
             if (startTime != null)
             {

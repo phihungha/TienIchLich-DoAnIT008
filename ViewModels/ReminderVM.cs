@@ -133,13 +133,23 @@ namespace TienIchLich.ViewModels
         private void RemindAgain()
         {
             reminderManager.EditInterval(eventVM.Id, SelectedRemindAgainTimeOption.Time);
-            Acknowledge();
+            eventVM.CalculateActualRemainingTime = true;
+            Exit();
+        }
+
+        /// <summary>
+        /// Acknowledge the reminder.
+        /// </summary>
+        private void Acknowledge()
+        {
+            eventVM.CalculateActualRemainingTime = false;
+            Exit();
         }
 
         /// <summary>
         /// Stop sound and return to main workspace view.
         /// </summary>
-        private void Acknowledge()
+        private void Exit()
         {
             alarmSoundService.StopSound();
             sidePanelVM.IsEnabled = true;

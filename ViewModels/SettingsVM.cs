@@ -234,7 +234,7 @@ namespace TienIchLich.ViewModels
 
         private void TestReminderSound()
         {
-            alarmSoundService.PlaySoundOnce(ReminderSoundFileName, ReminderSoundVolume);
+            alarmSoundService.PlayStopSound(ReminderSoundFileName, ReminderSoundVolume);
         }
 
         private void SaveSettings()
