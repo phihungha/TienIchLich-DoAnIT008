@@ -41,12 +41,14 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class UpcomingOverviewVM : ViewModelBase
     {
-        private CollectionViewSource eventCollectionViewSource;
+        private ObservableCollection<CalendarEventVM> eventVMs;
+        private ObservableCollection<CalendarCategoryVM> categoryVMs;
 
         /// <summary>
         /// Collection view for the upcoming event DataGrid.
         /// </summary>
-        public ICollectionView EventCollectionView => eventCollectionViewSource.View;
+        public ObservableCollection<CalendarEventVM> UpcomingEventVMs { get; private set; }
+
 
         private static UpcomingOverviewStartTimeFilterOption[] startTimeFilterOptions =
         {
@@ -96,7 +98,7 @@ namespace TienIchLich.ViewModels
             set
             {
                 startTimeFilterValue = value;
-                EventCollectionView.Refresh();
+                GetUpcomingEventVMs();
                 NotifyPropertyChanged();
             }
         }
@@ -124,48 +126,58 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public UpcomingOverviewVM(ObservableCollection<CalendarEventVM> eventVMs)
+        public UpcomingOverviewVM(ObservableCollection<CalendarEventVM> eventVMs, ObservableCollection<CalendarCategoryVM> categoryVMs)
         {
-            eventCollectionViewSource = new CollectionViewSource()
-            {
-                Source = eventVMs,
-                IsLiveFilteringRequested = true,
-                IsLiveSortingRequested = true,
-                IsLiveGroupingRequested = true
-            };
-            AttachEventHandlersToCalendarEventVMs(eventVMs);
-            eventCollectionViewSource.Filter += EventCollectionViewSource_Filter;
-            eventCollectionViewSource.GroupDescriptions.Add(new PropertyGroupDescription("StartTime.Date"));
-            eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
-            eventCollectionViewSource.LiveFilteringProperties.Add("CategoryVM.IsDisplayed");
-            eventCollectionViewSource.LiveSortingProperties.Add("StartTime");
-            eventCollectionViewSource.LiveGroupingProperties.Add("StartTime");
-
+            this.eventVMs = eventVMs;
+            this.categoryVMs = categoryVMs;
+            UpcomingEventVMs = new();
+            GetUpcomingEventVMs();
+            AttachEventHandlersToCalendarDataVMs();
             SelectedStartTimeFilterOption = StartTimeFilterOptions[0];
         }
 
         /// <summary>
-        /// Get upcoming events that satisfy the filters.
+        /// Get all upcoming events that satisfy filters.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EventCollectionViewSource_Filter(object sender, FilterEventArgs e)
+        private void GetUpcomingEventVMs()
         {
-            var eventVM = (CalendarEventVM)e.Item;
-            bool startTimeAccepted = SelectedStartTimeFilterOption.Id == UpcomingOverviewStartTimeFilterOptionId.All ||
-                                     (eventVM.StartTime < (DateTime.Now + StartTimeFilterValue)
-                                      && eventVM.StartTime > DateTime.Now);
-            e.Accepted = eventVM.CategoryVM.IsDisplayed && startTimeAccepted;
+            UpcomingEventVMs.Clear();
+            foreach (CalendarEventVM eventVM in eventVMs)
+            {
+                bool startTimeAccepted = SelectedStartTimeFilterOption.Id == UpcomingOverviewStartTimeFilterOptionId.All ||
+                                         (eventVM.StartTime < (DateTime.Now + StartTimeFilterValue)
+                                          && eventVM.StartTime > DateTime.Now);
+                if (startTimeAccepted && eventVM.CategoryVM.IsDisplayed)
+                    UpcomingEventVMs.Add(eventVM);
+            }
         }
 
-        // All of the code below is to add the sort description to the collection view again because it changes
-        // when we enter the event editor to add/edit event.
-
-        private void AttachEventHandlersToCalendarEventVMs(ObservableCollection<CalendarEventVM> eventVMs)
+        /// <summary>
+        /// Attach filter refresh event handlers for calendar category and event property change.
+        /// </summary>
+        private void AttachEventHandlersToCalendarDataVMs()
         {
             eventVMs.CollectionChanged += EventVMs_CollectionChanged;
             foreach (CalendarEventVM eventVM in eventVMs)
                 eventVM.PropertyChanged += DataVMChanged;
+
+            categoryVMs.CollectionChanged += CategoryVMs_CollectionChanged;
+            foreach (CalendarCategoryVM categoryVM in categoryVMs)
+                categoryVM.PropertyChanged += DataVMChanged;
+        }
+
+        private void CategoryVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                CalendarCategoryVM categoryVM = (CalendarCategoryVM)e.NewItems[0];
+                categoryVM.PropertyChanged += DataVMChanged;
+            }
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                CalendarCategoryVM categoryVM = (CalendarCategoryVM)e.OldItems[0];
+                categoryVM.PropertyChanged -= DataVMChanged;
+            }
         }
 
         private void EventVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -181,13 +193,12 @@ namespace TienIchLich.ViewModels
                 CalendarEventVM eventVM = (CalendarEventVM)e.OldItems[0];
                 eventVM.PropertyChanged -= DataVMChanged;
             }
-
-            EventCollectionView.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
+            GetUpcomingEventVMs();
         }
 
         private void DataVMChanged(object sender, PropertyChangedEventArgs e)
         {
-            eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
+            GetUpcomingEventVMs();
         }
     }
 }

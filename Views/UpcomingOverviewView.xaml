@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
              xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
@@ -11,6 +12,15 @@
     <UserControl.Resources>
         <converters:StartTimeFilterOptionToString x:Key="StartTimeFilterOptionToString" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        
+        <CollectionViewSource x:Key="UpcomingEventCollectionView" Source="{Binding UpcomingEventVMs}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="StartTime" />
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="StartTime.Date" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
     </UserControl.Resources>
 
     <Grid>
@@ -40,7 +50,7 @@
         </StackPanel>
 
         <DataGrid Grid.Row="1" AutoGenerateColumns="False"
-                  ItemsSource="{Binding EventCollectionView}"
+                  ItemsSource="{Binding Source={StaticResource UpcomingEventCollectionView}}"
                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
                   Margin="5" Background="Transparent" BorderThickness="0" FontSize="12"
                   GridLinesVisibility="None" HeadersVisibility="None" 
