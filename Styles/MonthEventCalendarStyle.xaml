@@ -205,8 +205,8 @@
                                                     Margin="4"
                                                     Grid.Column="3"
                                                     HorizontalAlignment="Right" VerticalAlignment="Center"
-                                                    Focusable="False">
-                                                <materialDesign:PackIcon Kind="CalendarToday"/>
+                                                    Focusable="False" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" >
+                                                <materialDesign:PackIcon Kind="CalendarToday" Foreground="White"/>
                                             </Button>
                                         </Grid>
                                     </Border>
