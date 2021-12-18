@@ -28,17 +28,14 @@ namespace TienIchLich.ViewModels
             calendarCategoryVMManager.EventVMManager = calendarEventVMManager;
 
             var settingsVM = new SettingsVM(NavigationVM, alarmSoundService, dialogService);
-            var calendarVM = new CalendarVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs, NavigationVM);
-            var eventListVM = new EventListVM(calendarEventVMManager.CalendarEventVMs);
-            var upcomingOverviewVM = new UpcomingOverviewVM(calendarEventVMManager.CalendarEventVMs);
-            var statisticsVM = new StatisticsVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs);
-            var mainWorkspaceVM = new MainWorkspaceVM(calendarVM, eventListVM, upcomingOverviewVM, statisticsVM);
+            
+            var mainWorkspaceVM = new MainWorkspaceVM(calendarEventVMManager.CalendarEventVMs, calendarCategoryVMManager.CalendarCategoryVMs, NavigationVM);
 
             var eventEditorVM = new EventEditorVM(NavigationVM, dialogService, calendarEventVMManager, calendarCategoryVMManager.CalendarCategoryVMs);
             var reminderVM = new ReminderVM(NavigationVM, reminderManager, alarmSoundService);
 
             var categoryPanelVM = new CategoryPanelVM(calendarCategoryVMManager, dialogService);
-            SidePanelVM = new SidePanelVM(NavigationVM, categoryPanelVM, calendarVM);
+            SidePanelVM = new SidePanelVM(NavigationVM, categoryPanelVM, mainWorkspaceVM.CalendarVM);
 
             NavigationVM.EventEditorVM = eventEditorVM;
             NavigationVM.MainWorkspaceVM = mainWorkspaceVM;

@@ -42,7 +42,8 @@
                 </TabItem.Header>
                 <custom_controls:MonthEventCalendar
                     CalendarVM="{Binding CalendarVM}"
-                    SelectedDate="{Binding CalendarVM.SelectedDate}" />
+                    SelectedDate="{Binding CalendarVM.MonthCalendarSelectedDate}"
+                    DisplayDate="{Binding CalendarVM.MonthCalendarDisplayDate}" />
             </TabItem>
             
             <!-- Year view -->

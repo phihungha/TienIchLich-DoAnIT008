@@ -13,9 +13,13 @@ namespace TienIchLich.MonthEventCalendarControl
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            var thisDayEvents = new ObservableCollection<CalendarEventVM>();
+
+            if (values[1] == null || !(values[1] is DateTime))
+                return thisDayEvents;
+
             DateTime date = (DateTime)values[1];
 
-            var thisDayEvents = new ObservableCollection<CalendarEventVM>();
             if (values[0] == null || !(values[0] is ObservableCollection<CalendarEventVM>))
                 return thisDayEvents;
 

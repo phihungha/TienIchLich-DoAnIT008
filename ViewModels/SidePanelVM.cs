@@ -49,7 +49,7 @@ namespace TienIchLich.ViewModels
             currentTimeUpdateTimer.Elapsed += CurrentTimeUpdateTimer_Elapsed;
             CategoryPanelVM = categoryPanelVM;
             AddEventCommand = new RelayCommand(
-                i => navigationVM.NavigateToEventEditorViewToAdd(calendarVM.SelectedDate));
+                i => navigationVM.NavigateToEventEditorViewToAdd(calendarVM.MonthCalendarSelectedDate));
             OpenSettingsCommand = new RelayCommand(
                 i => navigationVM.NavigateToSettingsView());
         }

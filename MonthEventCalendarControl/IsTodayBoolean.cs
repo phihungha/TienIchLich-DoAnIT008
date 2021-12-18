@@ -2,18 +2,21 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace TienIchLich.ViewModels.Converters
+namespace TienIchLich.MonthEventCalendarControl
 {
     /// <summary>
-    /// Get month for the next month calendar on the year view using the month of the previous one.
+    /// If the current day is today.
     /// </summary>
-    public class YearCalendarConverter : IValueConverter
+    public class IsTodayBoolean : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is DateTime)
-                return ((DateTime)value).AddMonths(1);
-            return null;
+            if (value == null && !(value is DateTime))
+                return false;
+
+            if (((DateTime)value).Date == DateTime.Now.Date)
+                return true;
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

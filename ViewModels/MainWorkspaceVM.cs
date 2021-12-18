@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace TienIchLich.ViewModels
 {
@@ -45,12 +46,12 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public MainWorkspaceVM(CalendarVM calendarVM, EventListVM eventListVM, UpcomingOverviewVM upcomingOverviewVM, StatisticsVM statisticsVM)
+        public MainWorkspaceVM(ObservableCollection<CalendarEventVM> eventVMs, ObservableCollection<CalendarCategoryVM> categoryVMs, NavigationVM navigationVM)
         {
-            CalendarVM = calendarVM;
-            EventListVM = eventListVM;
-            UpcomingOverviewVM = upcomingOverviewVM;
-            StatisticsVM = statisticsVM;
+            CalendarVM = new CalendarVM(eventVMs, categoryVMs, navigationVM, this);
+            EventListVM = new EventListVM(eventVMs);
+            UpcomingOverviewVM = new UpcomingOverviewVM(eventVMs);
+            StatisticsVM = new StatisticsVM(eventVMs, categoryVMs);
         }
     }
 }
