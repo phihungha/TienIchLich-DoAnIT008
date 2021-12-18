@@ -43,7 +43,8 @@
                   ItemsSource="{Binding EventCollectionView}"
                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
                   Margin="5" Background="Transparent" BorderThickness="0" FontSize="12"
-                  GridLinesVisibility="None" HeadersVisibility="None" HorizontalScrollBarVisibility="Disabled">
+                  GridLinesVisibility="None" HeadersVisibility="None" 
+                  HorizontalScrollBarVisibility="Disabled">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -83,10 +84,12 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="DataGrid">
-                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                           
-                                            <TextBlock FontSize="20" HorizontalAlignment="Center">Có vẻ bạn đang rảnh trong thời gian này!</TextBlock>
-                                        </StackPanel>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Padding="15">
+                                                <Border.Background>
+                                                    <SolidColorBrush Color="White" Opacity="0.8" />
+                                                </Border.Background>
+                                                <TextBlock FontSize="20" HorizontalAlignment="Center">Bạn đang rảnh trong thời gian này!</TextBlock>
+                                            </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -104,7 +107,8 @@
                                     <ControlTemplate>
                                         <Expander IsExpanded="True" Margin="0,5,0,5">
                                             <Expander.Header>
-                                                <TextBlock FontSize="14" Text="{Binding Name, StringFormat=D, ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
+                                                <TextBlock FontSize="14" Text="{Binding Name, StringFormat=D, 
+                                                                         ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
                                             </Expander.Header>
                                             <ItemsPresenter Margin="0,5,0,5" />
                                         </Expander>
