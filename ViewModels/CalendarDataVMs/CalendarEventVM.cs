@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Timers;
 using System.Windows.Input;
 using TienIchLich.Services;
@@ -31,24 +32,6 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        private string subject;
-
-        /// <summary>
-        /// Original subject name of this event.
-        /// </summary>
-        public string Subject
-        {
-            get
-            {
-                return subject;
-            }
-            set
-            {
-                subject = value;
-                SetDisplaySubject();
-            }
-        }
-
         /// <summary>
         /// This event's start time.
         /// </summary>
@@ -64,6 +47,25 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public int DayNum { get; set; }
 
+        private CalendarEventVM eventVM;
+
+        /// <summary>
+        /// View model of this card's event.
+        /// </summary>
+        public CalendarEventVM EventVM
+        {
+            get
+            {
+                return eventVM;
+            }
+            set
+            {
+                eventVM = value;
+                UpdateDisplaySubject();
+                eventVM.PropertyChanged += EventVM_PropertyChanged;
+            }
+        }
+
         /// <summary>
         /// View model of this event's calendar category.
         /// </summary>
@@ -74,15 +76,21 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand EditCommand { get; set; }
 
+        private void EventVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Subject")
+                UpdateDisplaySubject();
+        }
+
         /// <summary>
         /// Set day components of display subject name.
         /// </summary>
-        public void SetDisplaySubject()
+        public void UpdateDisplaySubject()
         {
             if (DayNum == 1)
-                DisplaySubject = $"{Subject}";
+                DisplaySubject = $"{EventVM.Subject}";
             else
-                DisplaySubject = $"{Subject} ({DayCount}/{DayNum})";
+                DisplaySubject = $"{EventVM.Subject} ({DayCount}/{DayNum})";
         }
     }
 
@@ -95,7 +103,24 @@ namespace TienIchLich.ViewModels
         private CalendarEventVMManager eventVMManager;
         private DialogService dialogService;
 
+        /// <summary>
+        /// View models of event cards belong to this event.
+        /// </summary>
         public Dictionary<DateTime, CalendarEventCardVM> EventCardVMs { get; private set; }
+
+        public delegate void RequestRemoveEventCardVMHandler(CalendarEventVM sender);
+
+        /// <summary>
+        /// Request calendar view model to remove outdated event card view models.
+        /// </summary>
+        public event RequestRemoveEventCardVMHandler RequestRemoveEventCardVM;
+
+        public delegate void RequestAddEventCardVMHandler(CalendarEventVM sender);
+
+        /// <summary>
+        /// Request calendar view model to add new event card view models.
+        /// </summary>
+        public event RequestAddEventCardVMHandler RequestAddEventCardVM;
 
         private int id = 0;
 
@@ -311,24 +336,27 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public void CreateEventCardVMs()
         {
+            RequestRemoveEventCardVM?.Invoke(this);
             EventCardVMs.Clear();
+
             int dayNum = (EndTime - StartTime).Days;
             for (int i = 0; i <= dayNum; i++)
             {
                 var cardVM = new CalendarEventCardVM()
                 {
-                    Subject = Subject,
-                    StartTime = StartTime,
                     DayCount = i + 1,
                     DayNum = dayNum + 1,
+                    EventVM = this,
+                    StartTime = StartTime,
                     CategoryVM = CategoryVM,
                     EditCommand = EditCommand
                 };
-                cardVM.SetDisplaySubject();
 
                 DateTime dateOnCalendar = StartTime.Date.AddDays(i);
                 EventCardVMs.Add(dateOnCalendar, cardVM);
             }
+
+            RequestAddEventCardVM?.Invoke(this);
         }
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)

@@ -313,8 +313,8 @@
                         <Border.InputBindings>
                             <MouseBinding Gesture="LeftDoubleClick"
                                           Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                                                           AncestorType={x:Type local:MonthEventCalendar}},
-                                                            Path=CalendarVM.AddEventCommand}" />
+                                                                            AncestorType={x:Type local:MonthEventCalendar}},
+                                                    Path=CalendarVM.AddEventCommand}" />
                         </Border.InputBindings>
 
                         <VisualStateManager.VisualStateGroups>
@@ -413,11 +413,12 @@
                                      Background="Transparent"
                                      BorderBrush="Transparent"
                                      HorizontalContentAlignment="Stretch">
+
                                 <ListBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource EventConverter}">
                                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
-                                                                  AncestorType={x:Type local:MonthEventCalendar}}"
-                                                 Path="CalendarVM.EventCardVMs" />
+                                                              AncestorType={x:Type local:MonthEventCalendar}}"
+                                             Path="CalendarVM.EventCardVMs" />
                                         <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext" />
                                     </MultiBinding>
                                 </ListBox.ItemsSource>
@@ -439,20 +440,22 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <Button Style="{x:Null}"
-                                                Visibility="{Binding CategoryVM.IsDisplayed, 
+                                                Visibility="{Binding CategoryVM.IsDisplayed,
                                                              Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 Background="{Binding CategoryVM.DisplayColor}"
                                                 HorizontalContentAlignment="Left"
                                                 BorderThickness="0"
                                                 Margin="3" Padding="1,2,1,2">
-                                            <Button.InputBindings>
-                                                <MouseBinding Gesture="LeftClick" Command="{Binding EditCommand}" />
-                                            </Button.InputBindings>
                                             <Button.Resources>
                                                 <Style TargetType="Border">
                                                     <Setter Property="CornerRadius" Value="4" />
                                                 </Style>
                                             </Button.Resources>
+
+                                            <Button.InputBindings>
+                                                <MouseBinding Gesture="LeftClick" Command="{Binding EditCommand}" />
+                                            </Button.InputBindings>
+
                                             <StackPanel Orientation="Horizontal">
                                                 <StackPanel.Resources>
                                                     <Style TargetType="TextBlock">

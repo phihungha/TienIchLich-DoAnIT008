@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Data;
 using TienIchLich.ViewModels;
 
 namespace TienIchLich.MonthEventCalendarControl
 {
     /// <summary>
-    /// Get calendar events for the current CalendarDayButton.
+    /// Get calendar event cards for the current CalendarDayButton.
     /// </summary>
     [ValueConversion(typeof(Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>>), typeof(ObservableCollection<CalendarEventVM>))]
     public class CalendarEventConverter : IMultiValueConverter
@@ -24,7 +25,11 @@ namespace TienIchLich.MonthEventCalendarControl
 
             var eventCardVMs = (Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>>)values[0];
             if (eventCardVMs.ContainsKey(currentDate))
-                return eventCardVMs[currentDate];
+            {
+                ICollectionView eventCollectionViewSource = CollectionViewSource.GetDefaultView(eventCardVMs[currentDate]);
+                eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
+                return eventCollectionViewSource;
+            }
             return null;
         }
 

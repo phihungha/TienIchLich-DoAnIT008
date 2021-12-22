@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Threading;
 using System.Windows.Input;
 
@@ -128,33 +127,27 @@ namespace TienIchLich.ViewModels
             foreach (CalendarEventVM eventVM in CalendarEventVMs)
             {
                 AddCardVMsOfEventVM(eventVM);
-                eventVM.PropertyChanged += EventVM_PropertyChanged;
+                eventVM.RequestAddEventCardVM += AddCardVMsOfEventVM;
+                eventVM.RequestRemoveEventCardVM += RemoveCardVMsOfEventVM;
             }
         }
 
+        /// <summary>
+        /// Update event card dictionary when a new event view model is added/removed.
+        /// </summary>
         private void CalendarEventVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 var newEvent = (CalendarEventVM)e.NewItems[0];
                 AddCardVMsOfEventVM(newEvent);
-                newEvent.PropertyChanged += EventVM_PropertyChanged;
+                newEvent.RequestAddEventCardVM += AddCardVMsOfEventVM;
+                newEvent.RequestRemoveEventCardVM += RemoveCardVMsOfEventVM;
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 var removedEvent = (CalendarEventVM)e.OldItems[0];
                 RemoveCardVMsOfEventVM(removedEvent);
-            }
-        }
-
-        private void EventVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "StartTime" || e.PropertyName == "EndTime")
-            {
-                var changedEvent = (CalendarEventVM)sender;
-                RemoveCardVMsOfEventVM(changedEvent);
-                AddCardVMsOfEventVM((CalendarEventVM)sender);
-                RequestRefresh();
             }
         }
 
@@ -164,12 +157,19 @@ namespace TienIchLich.ViewModels
         /// <param name="eventVM">Calendar event view model.</param>
         private void AddCardVMsOfEventVM(CalendarEventVM eventVM)
         {
+            bool needRefresh = false;
             foreach (var entry in eventVM.EventCardVMs)
             {
                 if (!EventCardVMs.ContainsKey(entry.Key))
+                {
                     EventCardVMs.Add(entry.Key, new ObservableCollection<CalendarEventCardVM>());
+                    needRefresh = true;
+                }
                 EventCardVMs[entry.Key].Add(entry.Value);
             }
+
+            if (needRefresh)
+                RequestRefresh?.Invoke();
         }
 
         /// <summary>
@@ -178,12 +178,19 @@ namespace TienIchLich.ViewModels
         /// <param name="eventVM"></param>
         private void RemoveCardVMsOfEventVM(CalendarEventVM eventVM)
         {
+            bool needRefresh = false;
             foreach (var entry in eventVM.EventCardVMs)
             {
                 EventCardVMs[entry.Key].Remove(entry.Value);
                 if (EventCardVMs[entry.Key].Count == 0)
+                {
                     EventCardVMs.Remove(entry.Key);
+                    needRefresh = true;
+                }
             }
+
+            if (needRefresh)
+                RequestRefresh?.Invoke();
         }
 
         /// <summary>
