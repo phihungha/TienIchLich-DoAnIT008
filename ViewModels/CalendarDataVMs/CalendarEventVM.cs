@@ -339,20 +339,20 @@ namespace TienIchLich.ViewModels
             RequestRemoveEventCardVM?.Invoke(this);
             EventCardVMs.Clear();
 
-            int dayNum = (EndTime - StartTime).Days;
-            for (int i = 0; i <= dayNum; i++)
+            int dayNum = (EndTime.Date - StartTime.Date).Days + 1;
+            for (int i = 1; i <= dayNum; i++)
             {
                 var cardVM = new CalendarEventCardVM()
                 {
-                    DayCount = i + 1,
-                    DayNum = dayNum + 1,
+                    DayCount = i,
+                    DayNum = dayNum,
                     EventVM = this,
                     StartTime = StartTime,
                     CategoryVM = CategoryVM,
                     EditCommand = EditCommand
                 };
 
-                DateTime dateOnCalendar = StartTime.Date.AddDays(i);
+                DateTime dateOnCalendar = StartTime.Date.AddDays(i - 1);
                 EventCardVMs.Add(dateOnCalendar, cardVM);
             }
 
