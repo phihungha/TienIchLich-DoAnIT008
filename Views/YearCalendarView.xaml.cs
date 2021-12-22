@@ -10,6 +10,7 @@ namespace TienIchLich.Views
     public partial class YearCalendarView : UserControl
     {
         private DateTime currentYear;
+
         public YearCalendarView()
         {
             InitializeComponent();

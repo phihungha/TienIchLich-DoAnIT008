@@ -22,6 +22,7 @@ namespace TienIchLich
             DataContext = new MainWindowVM(dialogService, alarmSoundService);
             InitializeComponent();
         }
+
         private void CreateDb()
         {
             using (var db = new CalendarDbContext())

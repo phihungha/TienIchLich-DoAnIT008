@@ -60,7 +60,7 @@ namespace TienIchLich.ViewModels
         }
 
         private DateTime? yearCalendarSelectedDate = DateTime.Now;
-        
+
         public DateTime? YearCalendarSelectedDate
         {
             get

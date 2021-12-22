@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="TienIchLich.Views.EventEditorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
              mc:Ignorable="d">
     <!-- Calendar event editor view -->
@@ -69,9 +69,9 @@
             <TextBlock Grid.Row="1" Grid.Column="0" FontSize="15">Chủ đề</TextBlock>
             <TextBox Text="{Binding Subject, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                     Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" 
+                     Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch"
                      Margin="0,0,250,15" FontSize="25"
-                     Style="{StaticResource MaterialDesignTextBox}"/>
+                     Style="{StaticResource MaterialDesignTextBox}" />
 
             <TextBlock Grid.Row="2" Grid.Column="0">
                 Bắt đầu lúc
@@ -79,20 +79,20 @@
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
                 <DatePicker Grid.Row="0" Margin="0,0,0,0" Width="250"
                             DisplayDateEnd="{Binding EndTime}"
-                            SelectedDate="{Binding StartTime}"/>
+                            SelectedDate="{Binding StartTime}" />
                 <materialdesign:TimePicker Margin="10,0,0,0"
-                                           Visibility="{Binding DisplayTimePicker, 
+                                           Visibility="{Binding DisplayTimePicker,
                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                            SelectedTime="{Binding StartTime, ValidatesOnDataErrors=True}" />
             </StackPanel>
-            
+
             <TextBlock Grid.Row="3" Grid.Column="0">
                 Kết thúc lúc
             </TextBlock>
             <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
                 <DatePicker Grid.Row="0" Margin="0,0,0,0" Width="250"
                             DisplayDateStart="{Binding StartTime}"
-                            SelectedDate="{Binding EndTime}"/>
+                            SelectedDate="{Binding EndTime}" />
                 <materialdesign:TimePicker Margin="10,0,0,0"
                                            Visibility="{Binding DisplayTimePicker,
                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -107,7 +107,7 @@
                       IsChecked="{Binding AllDay}" />
 
             <TextBlock Grid.Row="5" Grid.Column="0">Nhắc nhở trước</TextBlock>
-            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" 
+            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal"
                         HorizontalAlignment="Left" Margin="0,0,0,15">
                 <ComboBox
                       ItemsSource="{Binding ReminderTimeOptions}"
@@ -128,7 +128,7 @@
             <TextBlock Grid.Row="6" Grid.Column="0">Loại lịch</TextBlock>
             <ComboBox  ItemsSource="{Binding CategoryVMs}"
                        SelectedItem="{Binding CategoryVM}"
-                       Grid.Row="6" Grid.Column="1" 
+                       Grid.Row="6" Grid.Column="1"
                        HorizontalAlignment="Left" Margin="0,0,0,15" Width="100">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>

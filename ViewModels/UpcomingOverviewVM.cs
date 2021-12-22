@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Windows.Data;
 
 namespace TienIchLich.ViewModels
 {
@@ -48,7 +47,6 @@ namespace TienIchLich.ViewModels
         /// Collection view for the upcoming event DataGrid.
         /// </summary>
         public ObservableCollection<CalendarEventVM> UpcomingEventVMs { get; private set; }
-
 
         private static UpcomingOverviewStartTimeFilterOption[] startTimeFilterOptions =
         {

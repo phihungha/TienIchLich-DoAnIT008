@@ -210,7 +210,6 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public TimeFilter EndTimeFilter { get; private set; }
 
-
         public EventListVM(ObservableCollection<CalendarEventVM> eventVMs)
         {
             eventCollectionViewSource = new CollectionViewSource()

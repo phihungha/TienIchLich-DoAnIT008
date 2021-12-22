@@ -15,13 +15,13 @@
 
                         <!-- Start: Data template for header button -->
                         <DataTemplate x:Key="{x:Static CalendarItem.DayTitleTemplateResourceKey}">
-                            <TextBlock FontWeight="Bold" Foreground="#FF333333" FontSize="11" 
-                                       HorizontalAlignment="Center" Margin="0,6,0,6" Text="{Binding}" 
-                                       VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Foreground="#FF333333" FontSize="11"
+                                       HorizontalAlignment="Center" Margin="0,6,0,6" Text="{Binding}"
+                                       VerticalAlignment="Center" />
                         </DataTemplate>
                         <!-- End: Data template for header button -->
                     </ControlTemplate.Resources>
-                    <Grid Name="PART_Root" >
+                    <Grid Name="PART_Root">
                         <Grid.Resources>
                             <SolidColorBrush x:Key="DisabledColor" Color="#A5FFFFFF" />
                         </Grid.Resources>
@@ -234,8 +234,8 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimation Duration="0" Storyboard.TargetName="DayNumberBorder" 
-                                                        Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                        <ColorAnimation Duration="0" Storyboard.TargetName="DayNumberBorder"
+                                                        Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
                                                         To="#d3d3d3" />
                                     </Storyboard>
                                 </VisualState>
@@ -248,8 +248,8 @@
                                 <VisualState x:Name="Active" />
                                 <VisualState x:Name="Inactive">
                                     <Storyboard>
-                                        <ColorAnimation Duration="0" Storyboard.TargetName="NormalText" 
-                                                        Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" 
+                                        <ColorAnimation Duration="0" Storyboard.TargetName="NormalText"
+                                                        Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
                                                         To="#FF777777" />
                                     </Storyboard>
                                 </VisualState>
@@ -261,8 +261,8 @@
                                 <VisualState x:Name="RegularDay" />
                                 <VisualState x:Name="Today">
                                     <Storyboard>
-                                        <ColorAnimation Duration="0" Storyboard.TargetName="NormalText" 
-                                                        Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" 
+                                        <ColorAnimation Duration="0" Storyboard.TargetName="NormalText"
+                                                        Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
                                                         To="#FFFFFFFF" />
                                     </Storyboard>
                                 </VisualState>
@@ -277,7 +277,7 @@
                                                                                 AncestorType={x:Type local:MonthEventCalendar}},
                                                         Path=CalendarVM.JumpToAnotherMonthCommand}" />
                             </Border.InputBindings>
-                            
+
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Setter Property="Background" Value="Transparent" />
@@ -302,14 +302,13 @@
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
-                            
-                            <ContentPresenter x:Name="NormalText"  
+
+                            <ContentPresenter x:Name="NormalText"
                                               TextElement.FontSize="12"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center" />
                         </Border>
                     </Grid>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -1,14 +1,14 @@
-﻿using System.Linq;
+﻿using LiveCharts;
+using LiveCharts.Configurations;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using LiveCharts;
-using LiveCharts.Wpf;
-using LiveCharts.Configurations;
-using System.Windows.Media;
 using System.ComponentModel;
-using System;
+using System.Linq;
 using System.Windows.Input;
-using LiveCharts.Defaults;
+using System.Windows.Media;
 
 namespace TienIchLich.ViewModels
 {
@@ -168,8 +168,8 @@ namespace TienIchLich.ViewModels
             }
             set
             {
-                currentMonthOfEventCountLineChart = new DateTime(value.Year, 
-                    value.Month, 
+                currentMonthOfEventCountLineChart = new DateTime(value.Year,
+                    value.Month,
                     DateTime.DaysInMonth(value.Year, value.Month));
                 NotifyPropertyChanged();
             }
@@ -246,7 +246,7 @@ namespace TienIchLich.ViewModels
 
         private void EventVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            CalculateStats(); 
+            CalculateStats();
             CalculateEventCountLineChartForAllEvents();
             if (e.Action == NotifyCollectionChangedAction.Add)
                 ((CalendarEventVM)e.NewItems[0]).PropertyChanged += EventVM_PropertyChanged;
@@ -254,7 +254,7 @@ namespace TienIchLich.ViewModels
 
         private void EventVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            CalculateStats(); 
+            CalculateStats();
             CalculateEventCountLineChartForAllEvents();
         }
 
@@ -268,7 +268,6 @@ namespace TienIchLich.ViewModels
                 var categoryVM = (CalendarCategoryVM)e.NewItems[0];
                 LoadCategoryIntoCategoryPieChart(categoryVM);
                 categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
-
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
@@ -291,7 +290,7 @@ namespace TienIchLich.ViewModels
             {
                 pieSeries.Title = categoryVM.Name;
                 pieSeries.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(categoryVM.DisplayColor));
-            }    
+            }
         }
 
         /// <summary>
@@ -316,9 +315,9 @@ namespace TienIchLich.ViewModels
                 .DefaultIfEmpty(new CalendarCategoryVM(null, null) { Name = "N/A" })
                 .First();
 
-            double avgEventSeconds = 
-                (from e in eventVMs 
-                 let i = e.EndTime - e.StartTime 
+            double avgEventSeconds =
+                (from e in eventVMs
+                 let i = e.EndTime - e.StartTime
                  select i.TotalSeconds)
                 .DefaultIfEmpty().Average();
             AverageEventHours = avgEventSeconds / 3600;
@@ -377,6 +376,5 @@ namespace TienIchLich.ViewModels
                     IncrementDayEventCount(day);
             }
         }
-
     }
 }

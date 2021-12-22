@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Timers;
 using System.Windows.Input;
 
@@ -10,7 +9,7 @@ namespace TienIchLich.ViewModels
     /// </summary>
     public class SidePanelVM : ViewModelBase
     {
-        Timer currentTimeUpdateTimer = new() { Interval = 1000, Enabled = true };
+        private Timer currentTimeUpdateTimer = new() { Interval = 1000, Enabled = true };
         private DateTime currentTime = DateTime.Now;
 
         /// <summary>

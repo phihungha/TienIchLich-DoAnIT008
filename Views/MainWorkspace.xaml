@@ -3,53 +3,53 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:views="clr-namespace:TienIchLich.Views"
+             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
              xmlns:custom_controls="clr-namespace:TienIchLich.MonthEventCalendarControl"
-             mc:Ignorable="d"
-             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz">
+             xmlns:views="clr-namespace:TienIchLich.Views"
+             mc:Ignorable="d">
     <!-- Main workspace view -->
     <Grid>
         <dragablz:TabablzControl Grid.Row="0" SelectedIndex="{Binding SelectedTabIndex}">
             <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController/>
+                <dragablz:InterTabController />
             </dragablz:TabablzControl.InterTabController>
-			
+
             <!-- Upcoming event overview -->
             <TabItem>
                 <TabItem.Header>
                     <TextBlock FontWeight="Bold" FontSize="14">
                         <TextBlock.Foreground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />
                         </TextBlock.Foreground>
                         Tóm tắt
                     </TextBlock>
                 </TabItem.Header>
                 <views:UpcomingOverviewView DataContext="{Binding UpcomingOverviewVM}" />
             </TabItem>
-            
+
             <!-- Calendar month view -->
             <TabItem>
                 <TabItem.Header>
                     <TextBlock FontWeight="Bold" FontSize="14">
                         <TextBlock.Foreground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />
                         </TextBlock.Foreground>
                         Tháng
                     </TextBlock>
                 </TabItem.Header>
-                <custom_controls:MonthEventCalendar 
+                <custom_controls:MonthEventCalendar
                     x:Name="monthEventCalendar"
                     CalendarVM="{Binding CalendarVM}"
                     SelectedDate="{Binding CalendarVM.MonthCalendarSelectedDate}"
                     DisplayDate="{Binding CalendarVM.MonthCalendarDisplayDate}" />
             </TabItem>
-            
+
             <!-- Year view -->
             <TabItem>
                 <TabItem.Header>
                     <TextBlock FontSize="14" FontWeight="Bold">
                         <TextBlock.Foreground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />
                         </TextBlock.Foreground>
                         Năm
                     </TextBlock>
@@ -62,7 +62,7 @@
                 <TabItem.Header>
                     <TextBlock FontSize="14" FontWeight="Bold">
                         <TextBlock.Foreground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />
                         </TextBlock.Foreground>
                         Sự kiện
                     </TextBlock>
@@ -75,7 +75,7 @@
                 <TabItem.Header>
                     <TextBlock FontSize="14" FontWeight="Bold">
                         <TextBlock.Foreground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />
                         </TextBlock.Foreground>
                         Thống kê
                     </TextBlock>

@@ -1,7 +1,7 @@
-﻿using System.Windows.Input;
-using TienIchLich.Services;
+﻿using System.Linq;
+using System.Windows.Input;
 using TienIchLich.Properties;
-using System.Linq;
+using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {

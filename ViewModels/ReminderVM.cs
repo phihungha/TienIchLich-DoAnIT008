@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
 using TienIchLich.Models;
-using TienIchLich.Services;
 using TienIchLich.Properties;
+using TienIchLich.Services;
 
 namespace TienIchLich.ViewModels
 {

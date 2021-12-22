@@ -96,7 +96,6 @@ namespace TienIchLich.ViewModels
             }
         }
 
-
         private string subject;
 
         /// <summary>
