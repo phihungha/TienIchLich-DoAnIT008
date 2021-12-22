@@ -47,7 +47,7 @@ namespace TienIchLich.MonthEventCalendarControl
         public MonthEventCalendar()
             : base()
         {
-            Unloaded += MonthEventCalendar_Unloaded;
+
         }
 
         protected override void OnGotMouseCapture(MouseEventArgs e)
@@ -57,85 +57,16 @@ namespace TienIchLich.MonthEventCalendarControl
                 originalElement.ReleaseMouseCapture();
         }
 
-        /// <summary>
-        /// Remove unused event handlers when this control is unloaded.
-        /// </summary>
-        private void MonthEventCalendar_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if (oldCalendarVM != null)
-            {
-                foreach (CalendarCategoryVM categoryVM in oldCalendarVM.CalendarCategoryVMs)
-                    categoryVM.PropertyChanged -= VM_PropertyChanged;
-                oldCalendarVM.CalendarCategoryVMs.CollectionChanged -= CalendarCategoryVMs_CollectionChanged;
-
-                foreach (CalendarEventVM eventVM in oldCalendarVM.CalendarEventVMs)
-                    eventVM.PropertyChanged -= VM_PropertyChanged;
-                oldCalendarVM.CalendarEventVMs.CollectionChanged -= CalendarEventVMs_CollectionChanged;
-            }
-        }
-
         private static void OnCalendarVMPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var obj = (MonthEventCalendar)d;
-            obj.SetOldCalendarVM();
-            obj.AttachPropertyChangeEventHandlerToVMs();
+            if (obj.CalendarVM != null)
+                obj.AttachEventHandlerToCalendarVM();
         }
 
-        public void SetOldCalendarVM()
+        private void AttachEventHandlerToCalendarVM()
         {
-            if (CalendarVM != null)
-                oldCalendarVM = CalendarVM;
-        }
-
-        /// <summary>
-        /// Attach property change event handler to calendar category and events view models
-        /// so the calendar is refreshed when they change.
-        /// </summary>
-        private void AttachPropertyChangeEventHandlerToVMs()
-        {
-            if (CalendarVM != null)
-            {
-                foreach (CalendarCategoryVM categoryVM in CalendarVM.CalendarCategoryVMs)
-                    categoryVM.PropertyChanged += VM_PropertyChanged;
-                CalendarVM.CalendarCategoryVMs.CollectionChanged += CalendarCategoryVMs_CollectionChanged;
-
-                foreach (CalendarEventVM eventVM in CalendarVM.CalendarEventVMs)
-                    eventVM.PropertyChanged += VM_PropertyChanged;
-                CalendarVM.CalendarEventVMs.CollectionChanged += CalendarEventVMs_CollectionChanged;
-            }
-        }
-
-        /// <summary>
-        /// Add calendar refreshing event handler to a newly added calendar event view model.
-        /// </summary>
-        private void CalendarEventVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                CalendarEventVM newEvent = (CalendarEventVM)e.NewItems[0];
-                newEvent.PropertyChanged += VM_PropertyChanged;
-            }
-            else if (e.Action == NotifyCollectionChangedAction.Remove)
-                Refresh();
-        }
-
-        /// <summary>
-        /// Add calendar refreshing event handler to a newly added calendar category view model.
-        /// </summary>
-        private void CalendarCategoryVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                CalendarCategoryVM newCategory = (CalendarCategoryVM)e.NewItems[0];
-                newCategory.PropertyChanged += VM_PropertyChanged;
-            }
-            else if (e.Action == NotifyCollectionChangedAction.Remove)
-                Refresh();
-        }
-
-        private void VM_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Refresh();
+            CalendarVM.RequestRefresh += Refresh;
         }
 
         /// <summary>

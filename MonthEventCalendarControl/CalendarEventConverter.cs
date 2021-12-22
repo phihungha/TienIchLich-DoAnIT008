@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using TienIchLich.ViewModels;
@@ -8,31 +9,23 @@ namespace TienIchLich.MonthEventCalendarControl
     /// <summary>
     /// Get calendar events for the current CalendarDayButton.
     /// </summary>
-    [ValueConversion(typeof(ObservableCollection<CalendarEventVM>), typeof(ObservableCollection<CalendarEventVM>))]
+    [ValueConversion(typeof(Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>>), typeof(ObservableCollection<CalendarEventVM>))]
     public class CalendarEventConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var thisDayEvents = new ObservableCollection<CalendarEventVM>();
-
             if (values[1] == null || !(values[1] is DateTime))
-                return thisDayEvents;
+                return null;
 
-            DateTime date = (DateTime)values[1];
+            var currentDate = (DateTime)values[1];
 
-            if (values[0] == null || !(values[0] is ObservableCollection<CalendarEventVM>))
-                return thisDayEvents;
+            if (values[0] == null || !(values[0] is Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>>))
+                return null;
 
-            foreach (CalendarEventVM calendarEventVM in (ObservableCollection<CalendarEventVM>)values[0])
-            {
-                var startTime = calendarEventVM.StartTime;
-                var startDate = new DateTime(startTime.Year, startTime.Month, startTime.Day);
-                bool isDisplayed = calendarEventVM.CategoryVM.IsDisplayed;
-                if (startDate == date && isDisplayed)
-                    thisDayEvents.Add(calendarEventVM);
-            }
-
-            return thisDayEvents;
+            var eventCardVMs = (Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>>)values[0];
+            if (eventCardVMs.ContainsKey(currentDate))
+                return eventCardVMs[currentDate];
+            return null;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
@@ -44,26 +37,22 @@ namespace TienIchLich.MonthEventCalendarControl
     /// <summary>
     /// Get whether there is event in current day.
     /// </summary>
-    [ValueConversion(typeof(ObservableCollection<CalendarEventVM>), typeof(bool))]
+    [ValueConversion(typeof(Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>>), typeof(bool))]
     public class CalendarEventsToBoolConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            DateTime date = (DateTime)values[1];
-
-            var thisDayEvents = new ObservableCollection<CalendarEventVM>();
-            if (values[0] == null || !(values[0] is ObservableCollection<CalendarEventVM>))
+            if (values[1] == null || !(values[1] is DateTime))
                 return false;
 
-            foreach (CalendarEventVM calendarEventVM in (ObservableCollection<CalendarEventVM>)values[0])
-            {
-                var startTime = calendarEventVM.StartTime;
-                var startDate = new DateTime(startTime.Year, startTime.Month, startTime.Day);
-                bool isDisplayed = calendarEventVM.CategoryVM.IsDisplayed;
-                if (startDate == date && isDisplayed)
-                    return true;
-            }
+            var currentDate = (DateTime)values[1];
 
+            if (values[0] == null || !(values[0] is Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>>))
+                return false;
+
+            var eventCardVMs = (Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>>)values[0];
+            if (eventCardVMs.ContainsKey(currentDate) && eventCardVMs[currentDate].Count > 0)
+                return true;
             return false;
         }
 

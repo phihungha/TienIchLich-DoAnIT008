@@ -5,6 +5,7 @@
                     xmlns:local="clr-namespace:TienIchLich.MonthEventCalendarControl">
 
     <local:CalendarEventConverter x:Key="EventConverter" />
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
     <!-- Custom style for calendar item -->
     <Style x:Key="CustomCalendarItemStyle" TargetType="CalendarItem">
@@ -415,8 +416,8 @@
                                 <ListBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource EventConverter}">
                                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
-                                                                                 AncestorType={x:Type local:MonthEventCalendar}}"
-                                                 Path="CalendarVM.CalendarEventVMs" />
+                                                                  AncestorType={x:Type local:MonthEventCalendar}}"
+                                                 Path="CalendarVM.EventCardVMs" />
                                         <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext" />
                                     </MultiBinding>
                                 </ListBox.ItemsSource>
@@ -437,16 +438,19 @@
                                 <!-- Template for calendar event list item -->
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Background="{Binding CategoryVM.DisplayColor}"
+                                        <Button Style="{x:Null}"
+                                                Visibility="{Binding CategoryVM.IsDisplayed, 
+                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                Background="{Binding CategoryVM.DisplayColor}"
                                                 HorizontalContentAlignment="Left"
                                                 BorderThickness="0"
-                                                Margin="4" Padding="0">
+                                                Margin="3" Padding="1,2,1,2">
                                             <Button.InputBindings>
                                                 <MouseBinding Gesture="LeftClick" Command="{Binding EditCommand}" />
                                             </Button.InputBindings>
                                             <Button.Resources>
                                                 <Style TargetType="Border">
-                                                    <Setter Property="CornerRadius" Value="8" />
+                                                    <Setter Property="CornerRadius" Value="4" />
                                                 </Style>
                                             </Button.Resources>
                                             <StackPanel Orientation="Horizontal">
@@ -460,7 +464,7 @@
                                                 </StackPanel.Resources>
                                                 <TextBlock Text="{Binding StartTime, StringFormat=t,
                                                                   ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
-                                                <TextBlock Text="{Binding Subject}" />
+                                                <TextBlock Text="{Binding DisplaySubject}" />
                                             </StackPanel>
                                         </Button>
                                     </DataTemplate>

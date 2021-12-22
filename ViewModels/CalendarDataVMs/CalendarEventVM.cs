@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
+using System.Collections.Generic;
 using System.Timers;
 using System.Windows.Input;
 using TienIchLich.Services;
@@ -8,6 +9,84 @@ using TienIchLich.ViewModels.Converters;
 namespace TienIchLich.ViewModels
 {
     /// <summary>
+    /// View model for calendar event display card on calendar views.
+    /// </summary>
+    public class CalendarEventCardVM : ViewModelBase
+    {
+        private string displaySubject;
+
+        /// <summary>
+        /// Subject name to display.
+        /// </summary>
+        public string DisplaySubject
+        {
+            get
+            {
+                return displaySubject;
+            }
+            set
+            {
+                displaySubject = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string subject;
+
+        /// <summary>
+        /// Original subject name of this event.
+        /// </summary>
+        public string Subject
+        {
+            get
+            {
+                return subject;
+            }
+            set
+            {
+                subject = value;
+                SetDisplaySubject();
+            }
+        }
+
+        /// <summary>
+        /// This event's start time.
+        /// </summary>
+        public DateTime StartTime { get; set; }
+
+        /// <summary>
+        /// Day number since start time.
+        /// </summary>
+        public int DayCount { get; set; }
+
+        /// <summary>
+        /// Number of days this event happens.
+        /// </summary>
+        public int DayNum { get; set; }
+
+        /// <summary>
+        /// View model of this event's calendar category.
+        /// </summary>
+        public CalendarCategoryVM CategoryVM { get; set; }
+
+        /// <summary>
+        /// Command to edit this event.
+        /// </summary>
+        public ICommand EditCommand { get; set; }
+
+        /// <summary>
+        /// Set day components of display subject name.
+        /// </summary>
+        public void SetDisplaySubject()
+        {
+            if (DayNum == 1)
+                DisplaySubject = $"{Subject}";
+            else
+                DisplaySubject = $"{Subject} ({DayCount}/{DayNum})";
+        }
+    }
+
+    /// <summary>
     /// View model of a calendar event.
     /// </summary>
     public class CalendarEventVM : ViewModelBase
@@ -15,6 +94,8 @@ namespace TienIchLich.ViewModels
         private NavigationVM navigationVM;
         private CalendarEventVMManager eventVMManager;
         private DialogService dialogService;
+
+        public Dictionary<DateTime, CalendarEventCardVM> EventCardVMs { get; private set; }
 
         private int id = 0;
 
@@ -200,6 +281,7 @@ namespace TienIchLich.ViewModels
             this.navigationVM = navigationVM;
             this.dialogService = dialogService;
             this.eventVMManager = eventVMManager;
+            EventCardVMs = new();
 
             CalculateActualRemainingTime = false;
 
@@ -222,6 +304,31 @@ namespace TienIchLich.ViewModels
         {
             if (dialogService.ShowConfirmation("Bạn có thật sự muốn xóa loại sự kiện này?"))
                 eventVMManager.Delete(this);
+        }
+
+        /// <summary>
+        /// Create event card view models for this event.
+        /// </summary>
+        public void CreateEventCardVMs()
+        {
+            EventCardVMs.Clear();
+            int dayNum = (EndTime - StartTime).Days;
+            for (int i = 0; i <= dayNum; i++)
+            {
+                var cardVM = new CalendarEventCardVM()
+                {
+                    Subject = Subject,
+                    StartTime = StartTime,
+                    DayCount = i + 1,
+                    DayNum = dayNum + 1,
+                    CategoryVM = CategoryVM,
+                    EditCommand = EditCommand
+                };
+                cardVM.SetDisplaySubject();
+
+                DateTime dateOnCalendar = StartTime.Date.AddDays(i);
+                EventCardVMs.Add(dateOnCalendar, cardVM);
+            }
         }
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)
