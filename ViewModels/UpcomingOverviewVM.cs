@@ -46,17 +46,40 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Collection view for the upcoming event DataGrid.
         /// </summary>
-        public ObservableCollection<CalendarEventVM> UpcomingEventVMs { get; private set; }
+        public ObservableCollection<CalendarEventCardVM> UpcomingEventCardVMs { get; private set; }
 
         private static UpcomingOverviewStartTimeFilterOption[] startTimeFilterOptions =
         {
-            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Week1, Time = new TimeSpan(7, 0, 0, 0) },
-            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Week2, Time = new TimeSpan(14, 0, 0, 0) },
-            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Month1, Time = new TimeSpan(31, 0, 0, 0) },
-            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Month6, Time = new TimeSpan(186, 0, 0, 0) },
-            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Year1, Time = new TimeSpan(366, 0, 0, 0) },
-            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.All },
-            new UpcomingOverviewStartTimeFilterOption() { Id = UpcomingOverviewStartTimeFilterOptionId.Custom, Time = new TimeSpan(1, 0, 0, 0) }
+            new UpcomingOverviewStartTimeFilterOption() 
+            { 
+                Id = UpcomingOverviewStartTimeFilterOptionId.Week1, 
+                Time = new TimeSpan(7, 0, 0, 0) 
+            },
+            new UpcomingOverviewStartTimeFilterOption() 
+            { 
+                Id = UpcomingOverviewStartTimeFilterOptionId.Week2, 
+                Time = new TimeSpan(14, 0, 0, 0) },
+            new UpcomingOverviewStartTimeFilterOption() 
+            { 
+                Id = UpcomingOverviewStartTimeFilterOptionId.Month1, 
+                Time = new TimeSpan(31, 0, 0, 0) },
+            new UpcomingOverviewStartTimeFilterOption() 
+            { 
+                Id = UpcomingOverviewStartTimeFilterOptionId.Month6, 
+                Time = new TimeSpan(186, 0, 0, 0) },
+            new UpcomingOverviewStartTimeFilterOption() 
+            { 
+                Id = UpcomingOverviewStartTimeFilterOptionId.Year1, 
+                Time = new TimeSpan(366, 0, 0, 0) },
+            new UpcomingOverviewStartTimeFilterOption() 
+            { 
+                Id = UpcomingOverviewStartTimeFilterOptionId.All 
+            },
+            new UpcomingOverviewStartTimeFilterOption() 
+            { 
+                Id = UpcomingOverviewStartTimeFilterOptionId.Custom, 
+                Time = new TimeSpan(1, 0, 0, 0) 
+            }
         };
 
         /// <summary>
@@ -128,7 +151,7 @@ namespace TienIchLich.ViewModels
         {
             this.eventVMs = eventVMs;
             this.categoryVMs = categoryVMs;
-            UpcomingEventVMs = new();
+            UpcomingEventCardVMs = new ObservableCollection<CalendarEventCardVM>();
             GetUpcomingEventVMs();
             AttachEventHandlersToCalendarDataVMs();
             SelectedStartTimeFilterOption = StartTimeFilterOptions[0];
@@ -139,29 +162,42 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void GetUpcomingEventVMs()
         {
-            UpcomingEventVMs.Clear();
+            UpcomingEventCardVMs.Clear();
             foreach (CalendarEventVM eventVM in eventVMs)
             {
-                bool startTimeAccepted = SelectedStartTimeFilterOption.Id == UpcomingOverviewStartTimeFilterOptionId.All ||
-                                         (eventVM.StartTime < (DateTime.Now + StartTimeFilterValue)
-                                          && eventVM.StartTime > DateTime.Now);
-                if (startTimeAccepted && eventVM.CategoryVM.IsDisplayed)
-                    UpcomingEventVMs.Add(eventVM);
+                if (eventVM.CategoryVM.IsDisplayed)
+                {
+                    foreach (var entry in eventVM.EventCardVMs)
+                    {
+                        CalendarEventCardVM cardVM = entry.Value;
+                        if (SelectedStartTimeFilterOption.Id != UpcomingOverviewStartTimeFilterOptionId.All)
+                        {
+                            if (cardVM.IsFirstDay
+                                && cardVM.EventVM.StartTime <= (DateTime.Now + StartTimeFilterValue)
+                                && cardVM.EventVM.StartTime > DateTime.Now)
+                                 UpcomingEventCardVMs.Add(cardVM);
+                            else if (cardVM.DateOnCalendar <= (DateTime.Now + StartTimeFilterValue))
+                                UpcomingEventCardVMs.Add(cardVM);
+                        }
+                        else
+                            UpcomingEventCardVMs.Add(cardVM);
+                    }
+                }
             }
         }
 
         /// <summary>
-        /// Attach filter refresh event handlers for calendar category and event property change.
+        /// Attach filter refresh event handlers for calendar category and event card change.
         /// </summary>
         private void AttachEventHandlersToCalendarDataVMs()
         {
             eventVMs.CollectionChanged += EventVMs_CollectionChanged;
             foreach (CalendarEventVM eventVM in eventVMs)
-                eventVM.PropertyChanged += DataVMChanged;
+                eventVM.RequestAddEventCardVM += EventVM_RequestAddEventCardVM;
 
             categoryVMs.CollectionChanged += CategoryVMs_CollectionChanged;
             foreach (CalendarCategoryVM categoryVM in categoryVMs)
-                categoryVM.PropertyChanged += DataVMChanged;
+                categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
         }
 
         private void CategoryVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -169,12 +205,7 @@ namespace TienIchLich.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 CalendarCategoryVM categoryVM = (CalendarCategoryVM)e.NewItems[0];
-                categoryVM.PropertyChanged += DataVMChanged;
-            }
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                CalendarCategoryVM categoryVM = (CalendarCategoryVM)e.OldItems[0];
-                categoryVM.PropertyChanged -= DataVMChanged;
+                categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
             }
         }
 
@@ -183,18 +214,17 @@ namespace TienIchLich.ViewModels
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 CalendarEventVM eventVM = (CalendarEventVM)e.NewItems[0];
-                eventVM.PropertyChanged += DataVMChanged;
-            }
-
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-            {
-                CalendarEventVM eventVM = (CalendarEventVM)e.OldItems[0];
-                eventVM.PropertyChanged -= DataVMChanged;
+                eventVM.RequestAddEventCardVM += EventVM_RequestAddEventCardVM;
             }
             GetUpcomingEventVMs();
         }
 
-        private void DataVMChanged(object sender, PropertyChangedEventArgs e)
+        private void EventVM_RequestAddEventCardVM(CalendarEventVM sender)
+        {
+            GetUpcomingEventVMs();
+        }
+
+        private void CategoryVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             GetUpcomingEventVMs();
         }

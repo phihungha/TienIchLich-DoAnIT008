@@ -417,8 +417,8 @@
                                 <ListBox.ItemsSource>
                                     <MultiBinding Converter="{StaticResource EventConverter}">
                                         <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
-                                                              AncestorType={x:Type local:MonthEventCalendar}}"
-                                             Path="CalendarVM.EventCardVMs" />
+                                                                  AncestorType={x:Type local:MonthEventCalendar}}"
+                                                 Path="CalendarVM.EventCardVMs" />
                                         <Binding RelativeSource="{RelativeSource Mode=Self}" Path="DataContext" />
                                     </MultiBinding>
                                 </ListBox.ItemsSource>
@@ -465,8 +465,11 @@
                                                         <Setter Property="Foreground" Value="White" />
                                                     </Style>
                                                 </StackPanel.Resources>
-                                                <TextBlock Text="{Binding StartTime, StringFormat=t,
-                                                                  ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
+                                                <TextBlock Visibility="{Binding IsFirstDay, 
+                                                                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                           Text="{Binding EventVM.StartTime, StringFormat=t,
+                                                                  ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}">
+                                                </TextBlock>
                                                 <TextBlock Text="{Binding DisplaySubject}" />
                                             </StackPanel>
                                         </Button>

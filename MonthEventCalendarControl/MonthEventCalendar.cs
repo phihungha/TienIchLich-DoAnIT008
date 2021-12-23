@@ -25,9 +25,6 @@ namespace TienIchLich.MonthEventCalendarControl
                     new PropertyChangedCallback(OnCalendarVMPropertyChanged))
             );
 
-        // The old calendar view model before property change. Used for removing unused event handlers.
-        private CalendarVM oldCalendarVM;
-
         /// <summary>
         /// View model for this calendar.
         /// </summary>

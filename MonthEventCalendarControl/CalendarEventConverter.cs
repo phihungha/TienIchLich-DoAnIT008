@@ -27,7 +27,7 @@ namespace TienIchLich.MonthEventCalendarControl
             if (eventCardVMs.ContainsKey(currentDate))
             {
                 ICollectionView eventCollectionViewSource = CollectionViewSource.GetDefaultView(eventCardVMs[currentDate]);
-                eventCollectionViewSource.SortDescriptions.Add(new SortDescription("StartTime", ListSortDirection.Ascending));
+                eventCollectionViewSource.SortDescriptions.Add(new SortDescription("EventVM.StartTime", ListSortDirection.Ascending));
                 return eventCollectionViewSource;
             }
             return null;

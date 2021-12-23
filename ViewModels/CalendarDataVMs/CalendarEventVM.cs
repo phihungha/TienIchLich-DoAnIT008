@@ -33,19 +33,14 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
-        /// This event's start time.
-        /// </summary>
-        public DateTime StartTime { get; set; }
-
-        /// <summary>
         /// Day number since start time.
         /// </summary>
-        public int DayCount { get; set; }
+        public DateTime DateOnCalendar { get; set; }
 
         /// <summary>
         /// Number of days this event happens.
         /// </summary>
-        public int DayNum { get; set; }
+        public int TotalDayNum { get; set; }
 
         private CalendarEventVM eventVM;
 
@@ -72,10 +67,20 @@ namespace TienIchLich.ViewModels
         public CalendarCategoryVM CategoryVM { get; set; }
 
         /// <summary>
+        /// This event card is for the first day of the event.
+        /// </summary>
+        public bool IsFirstDay { get; set; }
+
+        /// <summary>
         /// Command to edit this event.
         /// </summary>
         public ICommand EditCommand { get; set; }
 
+        /// <summary>
+        /// Update display subject name when event's subject changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EventVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Subject")
@@ -87,10 +92,13 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public void UpdateDisplaySubject()
         {
-            if (DayNum == 1)
+            if (TotalDayNum == 1)
                 DisplaySubject = $"{EventVM.Subject}";
             else
-                DisplaySubject = $"{EventVM.Subject} ({DayCount}/{DayNum})";
+            {
+                int dayCount = (DateOnCalendar - EventVM.StartTime.Date).Days + 1;
+                DisplaySubject = $"{EventVM.Subject} ({dayCount}/{TotalDayNum})";
+            }
         }
     }
 
@@ -340,20 +348,21 @@ namespace TienIchLich.ViewModels
             EventCardVMs.Clear();
 
             int dayNum = (EndTime.Date - StartTime.Date).Days + 1;
+            bool firstDay = true;
             for (int i = 1; i <= dayNum; i++)
             {
+                DateTime dateOnCalendar = StartTime.Date.AddDays(i - 1);
                 var cardVM = new CalendarEventCardVM()
                 {
-                    DayCount = i,
-                    DayNum = dayNum,
+                    DateOnCalendar = dateOnCalendar,
+                    TotalDayNum = dayNum,
                     EventVM = this,
-                    StartTime = StartTime,
+                    IsFirstDay = firstDay,
                     CategoryVM = CategoryVM,
                     EditCommand = EditCommand
                 };
-
-                DateTime dateOnCalendar = StartTime.Date.AddDays(i - 1);
                 EventCardVMs.Add(dateOnCalendar, cardVM);
+                firstDay = false;
             }
 
             RequestAddEventCardVM?.Invoke(this);

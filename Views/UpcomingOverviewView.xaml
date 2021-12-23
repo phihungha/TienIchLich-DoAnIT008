@@ -13,12 +13,12 @@
         <converters:StartTimeFilterOptionToString x:Key="StartTimeFilterOptionToString" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-        <CollectionViewSource x:Key="UpcomingEventCollectionView" Source="{Binding UpcomingEventVMs}">
+        <CollectionViewSource x:Key="UpcomingEventCollectionView" Source="{Binding UpcomingEventCardVMs}">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="StartTime" />
+                <scm:SortDescription PropertyName="EventVM.StartTime" />
             </CollectionViewSource.SortDescriptions>
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="StartTime.Date" />
+                <PropertyGroupDescription PropertyName="DateOnCalendar" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
@@ -64,12 +64,19 @@
                                     <Setter Property="Foreground" Value="White" />
                                 </Style>
                             </DataTemplate.Resources>
-                            <Border HorizontalAlignment="Stretch" Background="{Binding CategoryVM.DisplayColor}" CornerRadius="6" Margin="5,5,10,5">
+                            <Border HorizontalAlignment="Stretch" 
+                                    Background="{Binding CategoryVM.DisplayColor}" 
+                                    CornerRadius="6" 
+                                    Margin="5,5,10,5">
                                 <StackPanel>
-                                    <TextBlock FontSize="14" FontWeight="Bold" Margin="6,6,0,2" Text="{Binding Subject}" />
-                                    <TextBlock Margin="6,0,0,7" Text="{Binding StartTime, StringFormat=t}" />
-                                    <TextBlock  FontSize="13" Margin="6,0,0,6" TextWrapping="Wrap"
-                                                Foreground="White" Text="{Binding Description}">
+                                    <TextBlock FontSize="14" FontWeight="Bold" Margin="6,6,0,2" Text="{Binding DisplaySubject}" />
+                                    <TextBlock Margin="6,0,0,7" 
+                                               Visibility="{Binding IsFirstDay, 
+                                                            Converter={StaticResource BooleanToVisibilityConverter}}"
+                                               Text="{Binding EventVM.StartTime, StringFormat=t, 
+                                                      ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
+                                    <TextBlock FontSize="13" Margin="6,0,0,6" TextWrapping="Wrap"
+                                               Foreground="White" Text="{Binding EventVM.Description}">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Style.Triggers>
@@ -117,8 +124,9 @@
                                     <ControlTemplate>
                                         <Expander IsExpanded="True" Margin="0,5,0,5">
                                             <Expander.Header>
-                                                <TextBlock FontSize="14" Text="{Binding Name, StringFormat=D,
-                                                                         ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
+                                                <TextBlock FontSize="14" 
+                                                           Text="{Binding Name, StringFormat=D,
+                                                                  ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
                                             </Expander.Header>
                                             <ItemsPresenter Margin="0,5,0,5" />
                                         </Expander>
