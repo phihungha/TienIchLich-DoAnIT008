@@ -121,14 +121,14 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Request calendar view model to remove outdated event card view models.
         /// </summary>
-        public event RequestRemoveEventCardVMHandler RequestRemoveEventCardVM;
+        public event RequestRemoveEventCardVMHandler EventCardVMsRemoved;
 
         public delegate void RequestAddEventCardVMHandler(CalendarEventVM sender);
 
         /// <summary>
         /// Request calendar view model to add new event card view models.
         /// </summary>
-        public event RequestAddEventCardVMHandler RequestAddEventCardVM;
+        public event RequestAddEventCardVMHandler EventCardVMsAdded;
 
         private int id = 0;
 
@@ -344,7 +344,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public void CreateEventCardVMs()
         {
-            RequestRemoveEventCardVM?.Invoke(this);
+            EventCardVMsRemoved?.Invoke(this);
             EventCardVMs.Clear();
 
             int dayNum = (EndTime.Date - StartTime.Date).Days + 1;
@@ -365,7 +365,7 @@ namespace TienIchLich.ViewModels
                 firstDay = false;
             }
 
-            RequestAddEventCardVM?.Invoke(this);
+            EventCardVMsAdded?.Invoke(this);
         }
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)

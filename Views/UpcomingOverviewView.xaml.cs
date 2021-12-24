@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Data;
+using TienIchLich.ViewModels;
 
 namespace TienIchLich.Views
 {
@@ -10,6 +12,15 @@ namespace TienIchLich.Views
         public UpcomingOverviewView()
         {
             InitializeComponent();
+        }
+
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            CalendarEventCardVM cardVM = e.Item as CalendarEventCardVM;
+            if (cardVM != null && cardVM.CategoryVM.IsDisplayed)
+                e.Accepted = true;
+            else
+                e.Accepted = false;
         }
     }
 }

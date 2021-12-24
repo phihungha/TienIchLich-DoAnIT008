@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
@@ -13,10 +14,15 @@
         <converters:StartTimeFilterOptionToString x:Key="StartTimeFilterOptionToString" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-        <CollectionViewSource x:Key="UpcomingEventCollectionView" Source="{Binding UpcomingEventCardVMs}">
+        <CollectionViewSource x:Key="UpcomingEventCollectionView" Source="{Binding UpcomingEventCardVMs}"
+                              Filter="CollectionViewSource_Filter"
+                              IsLiveFilteringRequested="True">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="EventVM.StartTime" />
             </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.LiveFilteringProperties>
+                <sys:String>CategoryVM.IsDisplayed</sys:String>
+            </CollectionViewSource.LiveFilteringProperties>
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="DateOnCalendar" />
             </CollectionViewSource.GroupDescriptions>

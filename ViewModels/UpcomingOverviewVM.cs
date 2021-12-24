@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 
 namespace TienIchLich.ViewModels
 {
@@ -41,10 +41,9 @@ namespace TienIchLich.ViewModels
     public class UpcomingOverviewVM : ViewModelBase
     {
         private ObservableCollection<CalendarEventVM> eventVMs;
-        private ObservableCollection<CalendarCategoryVM> categoryVMs;
 
         /// <summary>
-        /// Collection view for the upcoming event DataGrid.
+        /// A collection of upcoming event cards.
         /// </summary>
         public ObservableCollection<CalendarEventCardVM> UpcomingEventCardVMs { get; private set; }
 
@@ -119,7 +118,7 @@ namespace TienIchLich.ViewModels
             set
             {
                 startTimeFilterValue = value;
-                GetUpcomingEventVMs();
+                LoadCardVMsOfAllEventVMs();
                 NotifyPropertyChanged();
             }
         }
@@ -127,7 +126,7 @@ namespace TienIchLich.ViewModels
         private UpcomingOverviewStartTimeFilterOption selectedStartTimeFilterOption;
 
         /// <summary>
-        /// Selected tart time filter option.
+        /// Selected start time filter option.
         /// </summary>
         public UpcomingOverviewStartTimeFilterOption SelectedStartTimeFilterOption
         {
@@ -147,86 +146,86 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public UpcomingOverviewVM(ObservableCollection<CalendarEventVM> eventVMs, ObservableCollection<CalendarCategoryVM> categoryVMs)
+        public UpcomingOverviewVM(ObservableCollection<CalendarEventVM> eventVMs)
         {
             this.eventVMs = eventVMs;
-            this.categoryVMs = categoryVMs;
+            eventVMs.CollectionChanged += EventVMs_CollectionChanged;
             UpcomingEventCardVMs = new ObservableCollection<CalendarEventCardVM>();
-            GetUpcomingEventVMs();
-            AttachEventHandlersToCalendarDataVMs();
+            LoadCardVMsOfAllEventVMs();
             SelectedStartTimeFilterOption = StartTimeFilterOptions[0];
         }
 
         /// <summary>
-        /// Get all upcoming events that satisfy filters.
+        /// Load all upcoming event cards of all events.
         /// </summary>
-        private void GetUpcomingEventVMs()
+        private void LoadCardVMsOfAllEventVMs()
         {
             UpcomingEventCardVMs.Clear();
             foreach (CalendarEventVM eventVM in eventVMs)
             {
-                if (eventVM.CategoryVM.IsDisplayed)
-                {
-                    foreach (var entry in eventVM.EventCardVMs)
-                    {
-                        CalendarEventCardVM cardVM = entry.Value;
-                        if (SelectedStartTimeFilterOption.Id != UpcomingOverviewStartTimeFilterOptionId.All)
-                        {
-                            if (cardVM.IsFirstDay
-                                && cardVM.EventVM.StartTime <= (DateTime.Now + StartTimeFilterValue)
-                                && cardVM.EventVM.StartTime > DateTime.Now)
-                                 UpcomingEventCardVMs.Add(cardVM);
-                            else if (cardVM.DateOnCalendar <= (DateTime.Now + StartTimeFilterValue))
-                                UpcomingEventCardVMs.Add(cardVM);
-                        }
-                        else
-                            UpcomingEventCardVMs.Add(cardVM);
-                    }
-                }
+                LoadUpcomingEventCardVMs(eventVM.EventCardVMs);
+                eventVM.EventCardVMsAdded += EventVM_AddEventCardVMsAdded;
+                eventVM.EventCardVMsRemoved += EventVM_EventCardVMsRemoved;
             }
         }
 
         /// <summary>
-        /// Attach filter refresh event handlers for calendar category and event card change.
+        /// Load all event cards that satisfy upcoming event filter.
         /// </summary>
-        private void AttachEventHandlersToCalendarDataVMs()
+        /// <param name="cardVMs"></param>
+        private void LoadUpcomingEventCardVMs(Dictionary<DateTime,CalendarEventCardVM> cardVMs)
         {
-            eventVMs.CollectionChanged += EventVMs_CollectionChanged;
-            foreach (CalendarEventVM eventVM in eventVMs)
-                eventVM.RequestAddEventCardVM += EventVM_RequestAddEventCardVM;
-
-            categoryVMs.CollectionChanged += CategoryVMs_CollectionChanged;
-            foreach (CalendarCategoryVM categoryVM in categoryVMs)
-                categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
-        }
-
-        private void CategoryVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
+            foreach (CalendarEventCardVM cardVM in cardVMs.Values)
             {
-                CalendarCategoryVM categoryVM = (CalendarCategoryVM)e.NewItems[0];
-                categoryVM.PropertyChanged += CategoryVM_PropertyChanged;
+                if (SelectedStartTimeFilterOption.Id != UpcomingOverviewStartTimeFilterOptionId.All)
+                {
+                    if (cardVM.IsFirstDay
+                        && cardVM.EventVM.StartTime <= (DateTime.Now + StartTimeFilterValue)
+                        && cardVM.EventVM.StartTime >= DateTime.Now)
+                        UpcomingEventCardVMs.Add(cardVM);
+                    else if (cardVM.DateOnCalendar <= (DateTime.Now + StartTimeFilterValue)
+                             && cardVM.DateOnCalendar >= DateTime.Now.Date)
+                        UpcomingEventCardVMs.Add(cardVM);
+                }
+                else
+                    UpcomingEventCardVMs.Add(cardVM);
             }
         }
 
+        /// <summary>
+        /// Update upcoming event card collection when an event is added/removed.
+        /// </summary>
         private void EventVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 CalendarEventVM eventVM = (CalendarEventVM)e.NewItems[0];
-                eventVM.RequestAddEventCardVM += EventVM_RequestAddEventCardVM;
+                LoadUpcomingEventCardVMs(eventVM.EventCardVMs);
+                eventVM.EventCardVMsAdded += EventVM_AddEventCardVMsAdded;
+                eventVM.EventCardVMsRemoved += EventVM_EventCardVMsRemoved;
             }
-            GetUpcomingEventVMs();
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                var removedEvent = (CalendarEventVM)e.OldItems[0];
+                EventVM_EventCardVMsRemoved(removedEvent);
+            }
         }
 
-        private void EventVM_RequestAddEventCardVM(CalendarEventVM sender)
+        /// <summary>
+        /// Remove outdated event cards after an event changes.
+        /// </summary>
+        private void EventVM_EventCardVMsRemoved(CalendarEventVM sender)
         {
-            GetUpcomingEventVMs();
+            foreach (CalendarEventCardVM cardVM in sender.EventCardVMs.Values)
+                UpcomingEventCardVMs.Remove(cardVM);
         }
 
-        private void CategoryVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// Add new event cards after an event changes.
+        /// </summary>
+        private void EventVM_AddEventCardVMsAdded(CalendarEventVM sender)
         {
-            GetUpcomingEventVMs();
+            LoadUpcomingEventCardVMs(sender.EventCardVMs);
         }
     }
 }

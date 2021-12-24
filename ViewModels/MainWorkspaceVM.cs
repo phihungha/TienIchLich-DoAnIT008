@@ -49,7 +49,7 @@ namespace TienIchLich.ViewModels
         {
             CalendarVM = new CalendarVM(eventVMs, categoryVMs, navigationVM, this);
             EventListVM = new EventListVM(eventVMs);
-            UpcomingOverviewVM = new UpcomingOverviewVM(eventVMs, categoryVMs);
+            UpcomingOverviewVM = new UpcomingOverviewVM(eventVMs);
             StatisticsVM = new StatisticsVM(eventVMs, categoryVMs);
         }
     }

@@ -127,8 +127,8 @@ namespace TienIchLich.ViewModels
             foreach (CalendarEventVM eventVM in CalendarEventVMs)
             {
                 AddCardVMsOfEventVM(eventVM);
-                eventVM.RequestAddEventCardVM += AddCardVMsOfEventVM;
-                eventVM.RequestRemoveEventCardVM += RemoveCardVMsOfEventVM;
+                eventVM.EventCardVMsAdded += AddCardVMsOfEventVM;
+                eventVM.EventCardVMsRemoved += RemoveCardVMsOfEventVM;
             }
         }
 
@@ -141,8 +141,8 @@ namespace TienIchLich.ViewModels
             {
                 var newEvent = (CalendarEventVM)e.NewItems[0];
                 AddCardVMsOfEventVM(newEvent);
-                newEvent.RequestAddEventCardVM += AddCardVMsOfEventVM;
-                newEvent.RequestRemoveEventCardVM += RemoveCardVMsOfEventVM;
+                newEvent.EventCardVMsAdded += AddCardVMsOfEventVM;
+                newEvent.EventCardVMsRemoved += RemoveCardVMsOfEventVM;
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
@@ -181,8 +181,9 @@ namespace TienIchLich.ViewModels
             bool needRefresh = false;
             foreach (var entry in eventVM.EventCardVMs)
             {
-                EventCardVMs[entry.Key].Remove(entry.Value);
-                if (EventCardVMs[entry.Key].Count == 0)
+                ObservableCollection<CalendarEventCardVM> cardVMs = EventCardVMs[entry.Key];
+                cardVMs.Remove(entry.Value);
+                if (cardVMs.Count == 0)
                 {
                     EventCardVMs.Remove(entry.Key);
                     needRefresh = true;
