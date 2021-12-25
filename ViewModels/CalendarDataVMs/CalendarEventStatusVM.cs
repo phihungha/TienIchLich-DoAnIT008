@@ -5,14 +5,23 @@
     /// </summary>
     public static class CalendarEventStatuses
     {
-        public readonly static CalendarEventStatusVM Upcoming = new() { Id = CalendarEventStatusId.Upcoming };
-        public readonly static CalendarEventStatusVM Happening = new() { Id = CalendarEventStatusId.Happening };
-        public readonly static CalendarEventStatusVM Finished = new() { Id = CalendarEventStatusId.Finished };
+        public readonly static CalendarEventStatusVM Upcoming = new() 
+        { 
+            Id = CalendarEventStatusId.Upcoming, 
+            DisplayColor = "#ff0000" 
+        };
+        public readonly static CalendarEventStatusVM Happening = new() 
+        { 
+            Id = CalendarEventStatusId.Happening, 
+            DisplayColor = "#00e013" 
+        };
+        public readonly static CalendarEventStatusVM Finished = new() 
+        { 
+            Id = CalendarEventStatusId.Finished, 
+            DisplayColor = "#00aaff" 
+        };
     }
 
-    /// <summary>
-    /// Statuses of an event.
-    /// </summary>
     public enum CalendarEventStatusId
     {
         Upcoming,
@@ -26,9 +35,14 @@
     public class CalendarEventStatusVM : ViewModelBase
     {
         /// <summary>
-        /// This status's identifier.
+        /// Identifier of this status.
         /// </summary>
         public CalendarEventStatusId Id { get; set; }
+
+        /// <summary>
+        /// Display color of this status.
+        /// </summary>
+        public string DisplayColor { get; set; }
 
         private bool isDisplayed = true;
 

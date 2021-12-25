@@ -67,11 +67,6 @@ namespace TienIchLich.ViewModels
         public bool IsFirstDay { get; set; }
 
         /// <summary>
-        /// Command to edit this event.
-        /// </summary>
-        public ICommand EditCommand { get; set; }
-
-        /// <summary>
         /// Update display subject name when event's subject changes.
         /// </summary>
         /// <param name="sender"></param>
@@ -393,8 +388,7 @@ namespace TienIchLich.ViewModels
                     DateOnCalendar = dateOnCalendar,
                     TotalDayNum = dayNum,
                     EventVM = this,
-                    IsFirstDay = firstDay,
-                    EditCommand = EditCommand
+                    IsFirstDay = firstDay
                 };
                 EventCardVMs.Add(dateOnCalendar, cardVM);
                 firstDay = false;

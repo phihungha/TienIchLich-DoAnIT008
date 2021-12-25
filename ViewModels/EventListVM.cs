@@ -224,6 +224,7 @@ namespace TienIchLich.ViewModels
             eventCollectionViewSource.Filter += EventCollectionViewSource_Filter;
             // Update collection view on calendar category display status changed.
             eventCollectionViewSource.LiveFilteringProperties.Add("CategoryVM.IsDisplayed");
+            eventCollectionViewSource.LiveFilteringProperties.Add("StatusVM.IsDisplayed");
         }
 
         /// <summary>
@@ -233,6 +234,7 @@ namespace TienIchLich.ViewModels
         {
             var eventVM = (CalendarEventVM)e.Item;
             e.Accepted = eventVM.CategoryVM.IsDisplayed
+                         && eventVM.StatusVM.IsDisplayed
                          && SubjectFilter.Filter(eventVM.Subject)
                          && DescriptionFilter.Filter(eventVM.Description)
                          && StartTimeFilter.Filter(eventVM.StartTime)

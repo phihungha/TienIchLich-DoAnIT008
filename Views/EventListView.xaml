@@ -10,6 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:TimeSpanToString x:Key="TimespanToStringConverter" />
+        <converters:EventStatusIdToString x:Key="EventStatusIdToStringConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -72,6 +73,17 @@
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Trạng thái" Width="*"
+                                    Binding="{Binding StatusVM.Id, 
+                                              Converter={StaticResource EventStatusIdToStringConverter}}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Foreground" Value="{Binding StatusVM.DisplayColor}" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>

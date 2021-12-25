@@ -98,17 +98,17 @@
 
             <CheckBox Grid.Row="1" Grid.Column="0" 
                       IsChecked="{Binding IsDisplayed, Source={x:Static vm:CalendarEventStatuses.Upcoming}}" />
-            <Ellipse Grid.Row="1" Grid.Column="1" Fill="{StaticResource UpcomingEventStatusColor}" />
+            <Ellipse Grid.Row="1" Grid.Column="1" Fill="{Binding DisplayColor, Source={x:Static vm:CalendarEventStatuses.Upcoming}}" />
             <TextBlock Grid.Row="1" Grid.Column="2">Tiếp theo</TextBlock>
             
             <CheckBox Grid.Row="2" Grid.Column="0" 
                       IsChecked="{Binding IsDisplayed, Source={x:Static vm:CalendarEventStatuses.Happening}}" />
-            <Ellipse Grid.Row="2" Grid.Column="1" Fill="{StaticResource HappeningEventStatusColor}" />
+            <Ellipse Grid.Row="2" Grid.Column="1" Fill="{Binding DisplayColor, Source={x:Static vm:CalendarEventStatuses.Happening}}" />
             <TextBlock Grid.Row="2" Grid.Column="2">Đang diễn ra</TextBlock>
 
             <CheckBox Grid.Row="3" Grid.Column="0" 
                       IsChecked="{Binding IsDisplayed, Source={x:Static vm:CalendarEventStatuses.Finished}}" />
-            <Ellipse Grid.Row="3" Grid.Column="1" Fill="{StaticResource FinishedEventStatusColor}" />
+            <Ellipse Grid.Row="3" Grid.Column="1" Fill="{Binding DisplayColor, Source={x:Static vm:CalendarEventStatuses.Finished}}" />
             <TextBlock Grid.Row="3" Grid.Column="2">Đã xong</TextBlock>
 
         </Grid>

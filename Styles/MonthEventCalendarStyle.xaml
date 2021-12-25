@@ -6,7 +6,6 @@
 
     <local:CalendarEventConverter x:Key="EventConverter" />
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    <local:CalendarEventCardTemplateSelector x:Key="CalendarEventCardTemplateSelector" />
 
     <!-- Style for an event card's TextBlock -->
     <Style x:Key="EventCardTextBlock" TargetType="TextBlock">
@@ -14,90 +13,6 @@
         <Setter Property="FontSize" Value="11" />
         <Setter Property="Foreground" Value="White" />
     </Style>
-
-    <!-- Template for event card of upcoming events -->
-    <DataTemplate x:Key="UpcomingEventCardTemplate">
-        <Grid Margin="2,1,2,1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Column="0" Margin="0,0,3,0"
-                       Style="{StaticResource EventCardTextBlock}"
-                       Visibility="{Binding DataContext.IsFirstDay, 
-                                    RelativeSource={RelativeSource AncestorType={x:Type Button}}, 
-                                    Converter={StaticResource BooleanToVisibilityConverter}}"
-                       Text="{Binding DataContext.EventVM.StartTime, 
-                              RelativeSource={RelativeSource AncestorType={x:Type Button}},
-                              StringFormat=t,
-                              ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
-            <TextBlock Grid.Column="1"
-                       Style="{StaticResource EventCardTextBlock}"
-                       Text="{Binding DataContext.DisplaySubject, 
-                              RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
-
-            <Ellipse Grid.Column="2" HorizontalAlignment="Right"
-                     Margin="3,0,3,0" Fill="{StaticResource UpcomingEventStatusColor}" Width="10" Height="10" />
-        </Grid>
-    </DataTemplate>
-
-    <!-- Template for event card of happening events -->
-    <DataTemplate x:Key="HappeningEventCardTemplate">
-        <Grid Margin="2,1,2,1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Column="0" Margin="0,0,3,0"
-                       Style="{StaticResource EventCardTextBlock}"
-                       Visibility="{Binding DataContext.IsFirstDay, 
-                                    RelativeSource={RelativeSource AncestorType={x:Type Button}}, 
-                                    Converter={StaticResource BooleanToVisibilityConverter}}"
-                       Text="{Binding DataContext.EventVM.StartTime, 
-                              RelativeSource={RelativeSource AncestorType={x:Type Button}},
-                              StringFormat=t,
-                              ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
-            <TextBlock Grid.Column="1"
-                       Style="{StaticResource EventCardTextBlock}"
-                       Text="{Binding DataContext.DisplaySubject, 
-                              RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
-
-            <Ellipse Grid.Column="2" HorizontalAlignment="Right"
-                     Margin="3,0,3,0" Fill="{StaticResource HappeningEventStatusColor}" Width="10" Height="10" />
-        </Grid>
-    </DataTemplate>
-
-    <!-- Template for event card of finished events -->
-    <DataTemplate x:Key="FinishedEventCardTemplate">
-        <Grid Margin="2,1,2,1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            
-            <TextBlock Grid.Column="0" Margin="0,0,3,0"
-                       Style="{StaticResource EventCardTextBlock}"
-                       Visibility="{Binding DataContext.IsFirstDay, 
-                                    RelativeSource={RelativeSource AncestorType={x:Type Button}}, 
-                                    Converter={StaticResource BooleanToVisibilityConverter}}"
-                       Text="{Binding DataContext.EventVM.StartTime, 
-                              RelativeSource={RelativeSource AncestorType={x:Type Button}},
-                              StringFormat=t,
-                              ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
-            <TextBlock Grid.Column="1"
-                       Style="{StaticResource EventCardTextBlock}"
-                       Text="{Binding DataContext.DisplaySubject, 
-                              RelativeSource={RelativeSource AncestorType={x:Type Button}}}" />
-
-            <Ellipse Grid.Column="2" HorizontalAlignment="Right"
-                     Margin="3,0,3,0" Fill="{StaticResource FinishedEventStatusColor}" Width="10" Height="10" />
-        </Grid>
-    </DataTemplate>
 
     <!-- Custom style for calendar item -->
     <Style x:Key="CustomCalendarItemStyle" TargetType="CalendarItem">
@@ -534,17 +449,12 @@
                                         <Button Background="{Binding EventVM.CategoryVM.DisplayColor}"
                                                 HorizontalContentAlignment="Stretch"
                                                 BorderThickness="0"  Margin="3"
-                                                Content="{Binding EventVM.StatusVM}"
-                                                ContentTemplateSelector="{StaticResource CalendarEventCardTemplateSelector}">
+                                                Command="{Binding EventVM.EditCommand}">
                                             <Button.Resources>
                                                 <Style TargetType="Border">
                                                     <Setter Property="CornerRadius" Value="2" />
                                                 </Style>
                                             </Button.Resources>
-
-                                            <Button.InputBindings>
-                                                <MouseBinding Gesture="LeftClick" Command="{Binding EditCommand}" />
-                                            </Button.InputBindings>
 
                                             <Button.Style>
                                                 <Style TargetType="Button">
@@ -560,6 +470,33 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </Button.Style>
+
+                                            <Grid Margin="2,1,2,1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.InputBindings>
+                                                    <MouseBinding Gesture="LeftClick" Command="{Binding EventVM.EditCommand}" />
+                                                </Grid.InputBindings>
+
+                                                <TextBlock Grid.Column="0" Margin="0,0,3,0"
+                                                           Style="{StaticResource EventCardTextBlock}"
+                                                           Visibility="{Binding IsFirstDay,
+                                                                        Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                           Text="{Binding EventVM.StartTime, StringFormat=t,
+                                                                  ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
+                                                                                    
+                                                <TextBlock Grid.Column="1"
+                                                           Style="{StaticResource EventCardTextBlock}"
+                                                           Text="{Binding DisplaySubject}" />
+
+                                                <Ellipse Grid.Column="2" HorizontalAlignment="Right"
+                                                         Margin="3,0,3,0" Fill="{Binding EventVM.StatusVM.DisplayColor}" 
+                                                         Width="10" Height="10" />
+                                            </Grid>
                                         </Button>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
