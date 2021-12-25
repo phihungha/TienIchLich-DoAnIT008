@@ -21,7 +21,7 @@
                 <scm:SortDescription PropertyName="EventVM.StartTime" />
             </CollectionViewSource.SortDescriptions>
             <CollectionViewSource.LiveFilteringProperties>
-                <sys:String>CategoryVM.IsDisplayed</sys:String>
+                <sys:String>EventVM.CategoryVM.IsDisplayed</sys:String>
             </CollectionViewSource.LiveFilteringProperties>
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="DateOnCalendar" />
@@ -71,7 +71,7 @@
                                 </Style>
                             </DataTemplate.Resources>
                             <Border HorizontalAlignment="Stretch" 
-                                    Background="{Binding CategoryVM.DisplayColor}" 
+                                    Background="{Binding EventVM.CategoryVM.DisplayColor}" 
                                     CornerRadius="6" 
                                     Margin="5,5,10,5">
                                 <StackPanel>

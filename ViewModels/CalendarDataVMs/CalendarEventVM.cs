@@ -62,11 +62,6 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
-        /// View model of this event's calendar category.
-        /// </summary>
-        public CalendarCategoryVM CategoryVM { get; set; }
-
-        /// <summary>
         /// This event card is for the first day of the event.
         /// </summary>
         public bool IsFirstDay { get; set; }
@@ -130,6 +125,24 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public event RequestAddEventCardVMHandler EventCardVMsAdded;
 
+        private CalendarEventStatusVM statusVM;
+
+        /// <summary>
+        /// Current status of this event.
+        /// </summary>
+        public CalendarEventStatusVM StatusVM
+        {
+            get
+            {
+                return statusVM;
+            }
+            private set
+            {
+                statusVM = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         private int id = 0;
 
         /// <summary>
@@ -179,8 +192,13 @@ namespace TienIchLich.ViewModels
             }
             set
             {
-                startTime = value;
-                NotifyPropertyChanged();
+                if (startTime != value)
+                {
+                    startTime = value;
+                    if (value <= EndTime)
+                        SaveTimeChanges();
+                    NotifyPropertyChanged();
+                }
             }
         }
 
@@ -197,8 +215,13 @@ namespace TienIchLich.ViewModels
             }
             set
             {
-                endTime = value;
-                NotifyPropertyChanged();
+                if (endTime != value)
+                {
+                    endTime = value;
+                    if (value >= StartTime)
+                        SaveTimeChanges();
+                    NotifyPropertyChanged();
+                }    
             }
         }
 
@@ -331,18 +354,31 @@ namespace TienIchLich.ViewModels
         }
 
         /// <summary>
-        /// Delete this event.
+        /// Regenerate event cards and timers after a start/end time change.
         /// </summary>
-        private void Delete()
+        private void SaveTimeChanges()
         {
-            if (dialogService.ShowConfirmation("Bạn có thật sự muốn xóa loại sự kiện này?"))
-                eventVMManager.Delete(this);
+            CreateEventCardVMs();
+            SetStatus();
+        }
+
+        private void SetStatus()
+        {
+            if (DateTime.Now < StartTime)
+                StatusVM = CalendarEventStatuses.Upcoming;
+            else
+            {
+                if (DateTime.Now < EndTime)
+                    StatusVM = CalendarEventStatuses.Happening;
+                else
+                    StatusVM = CalendarEventStatuses.Finished;
+            }
         }
 
         /// <summary>
         /// Create event card view models for this event.
         /// </summary>
-        public void CreateEventCardVMs()
+        private void CreateEventCardVMs()
         {
             EventCardVMsRemoved?.Invoke(this);
             EventCardVMs.Clear();
@@ -358,7 +394,6 @@ namespace TienIchLich.ViewModels
                     TotalDayNum = dayNum,
                     EventVM = this,
                     IsFirstDay = firstDay,
-                    CategoryVM = CategoryVM,
                     EditCommand = EditCommand
                 };
                 EventCardVMs.Add(dateOnCalendar, cardVM);
@@ -366,6 +401,15 @@ namespace TienIchLich.ViewModels
             }
 
             EventCardVMsAdded?.Invoke(this);
+        }
+
+        /// <summary>
+        /// Delete this event.
+        /// </summary>
+        private void Delete()
+        {
+            if (dialogService.ShowConfirmation("Bạn có thật sự muốn xóa loại sự kiện này?"))
+                eventVMManager.Delete(this);
         }
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)

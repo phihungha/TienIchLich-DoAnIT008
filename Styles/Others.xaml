@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
     <!-- Style for datagrid cell. Set vertical alignment of content to center. -->
     <Style TargetType="{x:Type DataGridCell}">
         <Setter Property="Template">
@@ -13,4 +12,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <!-- Calendar event status color -->
+    <SolidColorBrush x:Key="UpcomingEventStatusColor" Color="Red" />
+    <SolidColorBrush x:Key="HappeningEventStatusColor" Color="#00e013" />
+    <SolidColorBrush x:Key="FinishedEventStatusColor" Color="#00aaff" />
 </ResourceDictionary>

@@ -57,7 +57,7 @@ namespace TienIchLich.ViewModels
                 Description = calendarEvent.Description,
                 CategoryVM = categoryVM
             };
-            eventVM.CreateEventCardVMs();
+
             reminderManager.Add(
                 eventVM.Id,
                 eventVM.StartTime,
@@ -92,7 +92,6 @@ namespace TienIchLich.ViewModels
                 eventVM.Id = newEvent.CalendarEventId;
             }
 
-            eventVM.CreateEventCardVMs();
             CalendarEventVMs.Add(eventVM);
 
             reminderManager.Add(
@@ -126,7 +125,6 @@ namespace TienIchLich.ViewModels
                 db.SaveChanges();
             }
 
-            eventVM.CreateEventCardVMs();
             reminderManager.Edit(eventVM.Id, eventVM.StartTime, eventVM.ReminderTime);
         }
 

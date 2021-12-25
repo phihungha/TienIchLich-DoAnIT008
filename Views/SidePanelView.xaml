@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
+             xmlns:vm="clr-namespace:TienIchLich.ViewModels"
              xmlns:views="clr-namespace:TienIchLich.Views"
              x:Class="TienIchLich.Views.SidePanelView"
              mc:Ignorable="d"
@@ -14,6 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="200" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Button Grid.Row="0" Command="{Binding AddEventCommand}"
@@ -53,5 +55,62 @@
         </Border>
 
         <views:CategoryPanelView Grid.Row="3" Margin="4" DataContext="{Binding CategoryPanelVM}" />
+
+        <Grid Grid.Row="4" Margin="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
+                <Style BasedOn="{StaticResource MaterialDesignAccentCheckBox}" TargetType="CheckBox">
+                    <Setter Property="Margin" Value="12,0,12,12" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+                
+                <Style TargetType="Ellipse">
+                    <Setter Property="Width" Value="10" />
+                    <Setter Property="Height" Value="10" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="0,0,12,12" />
+                </Style>
+                
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="0,0,0,16" />
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Grid.ColumnSpan="3" FontSize="20" Margin="0,0,0,5"
+                       FontWeight="Bold" Foreground="White">
+                Trạng thái sự kiện
+            </TextBlock>
+
+            <CheckBox Grid.Row="1" Grid.Column="0" 
+                      IsChecked="{Binding IsDisplayed, Source={x:Static vm:CalendarEventStatuses.Upcoming}}" />
+            <Ellipse Grid.Row="1" Grid.Column="1" Fill="{StaticResource UpcomingEventStatusColor}" />
+            <TextBlock Grid.Row="1" Grid.Column="2">Tiếp theo</TextBlock>
+            
+            <CheckBox Grid.Row="2" Grid.Column="0" 
+                      IsChecked="{Binding IsDisplayed, Source={x:Static vm:CalendarEventStatuses.Happening}}" />
+            <Ellipse Grid.Row="2" Grid.Column="1" Fill="{StaticResource HappeningEventStatusColor}" />
+            <TextBlock Grid.Row="2" Grid.Column="2">Đang diễn ra</TextBlock>
+
+            <CheckBox Grid.Row="3" Grid.Column="0" 
+                      IsChecked="{Binding IsDisplayed, Source={x:Static vm:CalendarEventStatuses.Finished}}" />
+            <Ellipse Grid.Row="3" Grid.Column="1" Fill="{StaticResource FinishedEventStatusColor}" />
+            <TextBlock Grid.Row="3" Grid.Column="2">Đã xong</TextBlock>
+
+        </Grid>
     </Grid>
 </UserControl>

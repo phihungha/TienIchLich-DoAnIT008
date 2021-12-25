@@ -12,22 +12,6 @@ namespace TienIchLich.ViewModels
         private Timer currentTimeUpdateTimer = new() { Interval = 1000, Enabled = true };
         private DateTime currentTime = DateTime.Now;
 
-        /// <summary>
-        /// Current time to display.
-        /// </summary>
-        public DateTime CurrentTime
-        {
-            get
-            {
-                return currentTime;
-            }
-            set
-            {
-                currentTime = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         private bool isEnabled = true;
 
         /// <summary>
@@ -42,6 +26,22 @@ namespace TienIchLich.ViewModels
             set
             {
                 isEnabled = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Current time to display.
+        /// </summary>
+        public DateTime CurrentTime
+        {
+            get
+            {
+                return currentTime;
+            }
+            set
+            {
+                currentTime = value;
                 NotifyPropertyChanged();
             }
         }

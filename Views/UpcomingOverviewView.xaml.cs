@@ -17,7 +17,7 @@ namespace TienIchLich.Views
         private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
         {
             CalendarEventCardVM cardVM = e.Item as CalendarEventCardVM;
-            if (cardVM != null && cardVM.CategoryVM.IsDisplayed)
+            if (cardVM != null && cardVM.EventVM.CategoryVM.IsDisplayed)
                 e.Accepted = true;
             else
                 e.Accepted = false;
