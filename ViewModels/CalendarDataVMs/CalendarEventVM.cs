@@ -95,7 +95,7 @@ namespace TienIchLich.ViewModels
     /// <summary>
     /// View model of a calendar event.
     /// </summary>
-    public class CalendarEventVM : ViewModelBase
+    public class CalendarEventVM : ViewModelBase, IDisposable
     {
         private NavigationVM navigationVM;
         private CalendarEventVMManager eventVMManager;
@@ -119,6 +119,8 @@ namespace TienIchLich.ViewModels
         /// Request calendar view model to add new event card view models.
         /// </summary>
         public event RequestAddEventCardVMHandler EventCardVMsAdded;
+
+        private SmartTimer statusUpdateTimer = SmartTimerService.GetTimer();
 
         private CalendarEventStatusVM statusVM;
 
@@ -342,6 +344,8 @@ namespace TienIchLich.ViewModels
                 EndTime = StartTime.AddDays(1);
             }
 
+            statusUpdateTimer.Elapsed += StatusUpdateTimer_Elapsed;
+
             EditCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewToEdit(this));
             DeleteCommand = new RelayCommand(
@@ -357,14 +361,25 @@ namespace TienIchLich.ViewModels
             SetStatus();
         }
 
+        private void StatusUpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            SetStatus();
+        }
+
         private void SetStatus()
         {
             if (DateTime.Now < StartTime)
+            {
                 StatusVM = CalendarEventStatuses.Upcoming;
+                statusUpdateTimer.ElapsedTime = StartTime;
+            }
             else
             {
                 if (DateTime.Now < EndTime)
+                {
                     StatusVM = CalendarEventStatuses.Happening;
+                    statusUpdateTimer.ElapsedTime = EndTime;
+                }
                 else
                     StatusVM = CalendarEventStatuses.Finished;
             }
@@ -418,6 +433,14 @@ namespace TienIchLich.ViewModels
 
             string subtitle = $"Bắt đầu: {StartTime:f}\nKết thúc: {EndTime:f}";
             new ToastContentBuilder().AddText(title).AddText(subtitle).AddText(Description).Show();
+        }
+
+        /// <summary>
+        /// Dispose unmanaged resources of this event.
+        /// </summary>
+        public void Dispose()
+        {
+            statusUpdateTimer.Dispose();
         }
     }
 }
