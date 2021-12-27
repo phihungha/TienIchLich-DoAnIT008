@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace TienIchLich.ViewModels.Converters
 {
+    /// <summary>
+    /// Convert calendar event status identifier to user-readable text
+    /// </summary>
     [ValueConversion(typeof(CalendarEventStatusId), typeof(string))]
     public class EventStatusIdToString : IValueConverter
     {

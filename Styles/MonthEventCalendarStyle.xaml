@@ -488,13 +488,13 @@
                                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                            Text="{Binding EventVM.StartTime, StringFormat=t,
                                                                   ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
-                                                                                    
+
                                                 <TextBlock Grid.Column="1"
                                                            Style="{StaticResource EventCardTextBlock}"
                                                            Text="{Binding DisplaySubject}" />
 
                                                 <Ellipse Grid.Column="2" HorizontalAlignment="Right"
-                                                         Margin="3,0,3,0" Fill="{Binding EventVM.StatusVM.DisplayColor}" 
+                                                         Margin="3,0,3,0" Fill="{Binding EventVM.StatusVM.DisplayColor}"
                                                          Width="10" Height="10" />
                                             </Grid>
                                         </Button>

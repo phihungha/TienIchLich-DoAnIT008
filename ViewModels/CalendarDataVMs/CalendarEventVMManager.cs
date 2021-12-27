@@ -14,7 +14,6 @@ namespace TienIchLich.ViewModels
     {
         private CalendarCategoryVMManager categoryVMs;
         private NavigationVM navigationVM;
-        private ReminderManager reminderManager;
         private DialogService dialogService;
 
         /// <summary>
@@ -22,11 +21,10 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ObservableCollection<CalendarEventVM> CalendarEventVMs { get; private set; }
 
-        public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs, ReminderManager reminderManager, DialogService dialogService)
+        public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs, DialogService dialogService)
         {
             this.navigationVM = navigationVM;
             this.categoryVMs = categoryVMs;
-            this.reminderManager = reminderManager;
             this.dialogService = dialogService;
             CalendarEventVMs = new ObservableCollection<CalendarEventVM>();
 
@@ -57,12 +55,6 @@ namespace TienIchLich.ViewModels
                 Description = calendarEvent.Description,
                 CategoryVM = categoryVM
             };
-
-            reminderManager.Add(
-                eventVM.Id,
-                eventVM.StartTime,
-                eventVM.ReminderTime,
-                eventVM.ReminderTimer_Elapsed);
             return eventVM;
         }
 
@@ -93,12 +85,6 @@ namespace TienIchLich.ViewModels
             }
 
             CalendarEventVMs.Add(eventVM);
-
-            reminderManager.Add(
-                eventVM.Id,
-                eventVM.StartTime,
-                eventVM.ReminderTime,
-                eventVM.ReminderTimer_Elapsed);
         }
 
         /// <summary>
@@ -124,8 +110,6 @@ namespace TienIchLich.ViewModels
 
                 db.SaveChanges();
             }
-
-            reminderManager.Edit(eventVM.Id, eventVM.StartTime, eventVM.ReminderTime);
         }
 
         /// <summary>
@@ -144,8 +128,6 @@ namespace TienIchLich.ViewModels
             eventVM.CategoryVM.UnregisterEvent();
             eventVM.Dispose();
             CalendarEventVMs.Remove(eventVM);
-
-            reminderManager.Remove(eventVM.Id);
         }
 
         /// <summary>

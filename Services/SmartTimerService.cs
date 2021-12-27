@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace TienIchLich.Services
 {
-
     /// <summary>
     /// A timer that can start only when the elapsed time is near.
     /// </summary>
-    public class SmartTimer: Timer
+    public class SmartTimer : Timer
     {
-        public readonly static TimeSpan MAXIMUM_INTERVAL = new TimeSpan(0, 30, 0);
+        public static readonly TimeSpan MAXIMUM_INTERVAL = new TimeSpan(0, 30, 0);
 
         // Id of this timer
         private int id;
@@ -71,15 +67,15 @@ namespace TienIchLich.Services
     /// </summary>
     public static class SmartTimerService
     {
-        public readonly static Dictionary<int, SmartTimer> Timers = new();
+        public static readonly Dictionary<int, SmartTimer> Timers = new();
 
-        public readonly static TimeSpan REFRESH_INTERVAL = new TimeSpan(0, 30, 0);
+        public static readonly TimeSpan REFRESH_INTERVAL = new TimeSpan(0, 30, 0);
 
         // Timer to refresh all smart timers periodically.
-        private static Timer refreshTimer = new() 
-        { 
-            AutoReset = true, 
-            Interval = REFRESH_INTERVAL.TotalMilliseconds, 
+        private static Timer refreshTimer = new()
+        {
+            AutoReset = true,
+            Interval = REFRESH_INTERVAL.TotalMilliseconds,
             Enabled = true,
         };
 

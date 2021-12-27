@@ -12,7 +12,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- Calendar event status color -->
     <SolidColorBrush x:Key="UpcomingEventStatusColor" Color="Red" />
     <SolidColorBrush x:Key="HappeningEventStatusColor" Color="#00e013" />

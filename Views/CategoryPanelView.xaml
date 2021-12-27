@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="TienIchLich.Views.CategoryPanelView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:vm="clr-namespace:TienIchLich.ViewModels"
              xmlns:converters="clr-namespace:TienIchLich.ViewModels.Converters"
              xmlns:selectors="clr-namespace:TienIchLich.ViewModels.DataTemplateSelectors"
@@ -113,10 +113,14 @@
                             <Setter Property="Background" Value="{x:Null}" />
                             <Setter Property="BorderBrush" Value="{x:Null}" />
                         </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{x:Null}" />
+                            <Setter Property="BorderBrush" Value="{x:Null}" />
+                        </Trigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
-            
+
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -129,7 +133,7 @@
                 <DataGridTemplateColumn Width="37">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Ellipse Width="10" Height="10" 
+                            <Ellipse Width="10" Height="10"
                                      VerticalAlignment="Center" Margin="0,0,6,0"
                                      Fill="{Binding DisplayColor}" />
                         </DataTemplate>
@@ -153,6 +157,7 @@
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
                             <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Margin" Value="0,0,0,3" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
@@ -161,21 +166,21 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Command="{Binding DeleteCommand}"
-                                    Margin="0,0,0,0" Padding="5" 
+                                    Margin="0,0,0,0" Padding="5"
                                     HorizontalAlignment="Center">
-                                <materialDesign:PackIcon Kind="Delete" />
                                 <Button.Style>
                                     <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
-                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Setter Property="Opacity" Value="0" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMouseOver, 
+                                            <DataTrigger Binding="{Binding IsMouseOver,
                                                                    RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}, Mode=FindAncestor}}"
                                                          Value="True">
-                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Setter Property="Opacity" Value="1" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
+                                <materialDesign:PackIcon Kind="Delete" />
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

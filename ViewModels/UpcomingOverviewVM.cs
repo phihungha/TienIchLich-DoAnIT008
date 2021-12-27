@@ -49,35 +49,35 @@ namespace TienIchLich.ViewModels
 
         private static UpcomingOverviewStartTimeFilterOption[] startTimeFilterOptions =
         {
-            new UpcomingOverviewStartTimeFilterOption() 
-            { 
-                Id = UpcomingOverviewStartTimeFilterOptionId.Week1, 
-                Time = new TimeSpan(7, 0, 0, 0) 
+            new UpcomingOverviewStartTimeFilterOption()
+            {
+                Id = UpcomingOverviewStartTimeFilterOptionId.Week1,
+                Time = new TimeSpan(7, 0, 0, 0)
             },
-            new UpcomingOverviewStartTimeFilterOption() 
-            { 
-                Id = UpcomingOverviewStartTimeFilterOptionId.Week2, 
+            new UpcomingOverviewStartTimeFilterOption()
+            {
+                Id = UpcomingOverviewStartTimeFilterOptionId.Week2,
                 Time = new TimeSpan(14, 0, 0, 0) },
-            new UpcomingOverviewStartTimeFilterOption() 
-            { 
-                Id = UpcomingOverviewStartTimeFilterOptionId.Month1, 
+            new UpcomingOverviewStartTimeFilterOption()
+            {
+                Id = UpcomingOverviewStartTimeFilterOptionId.Month1,
                 Time = new TimeSpan(31, 0, 0, 0) },
-            new UpcomingOverviewStartTimeFilterOption() 
-            { 
-                Id = UpcomingOverviewStartTimeFilterOptionId.Month6, 
+            new UpcomingOverviewStartTimeFilterOption()
+            {
+                Id = UpcomingOverviewStartTimeFilterOptionId.Month6,
                 Time = new TimeSpan(186, 0, 0, 0) },
-            new UpcomingOverviewStartTimeFilterOption() 
-            { 
-                Id = UpcomingOverviewStartTimeFilterOptionId.Year1, 
+            new UpcomingOverviewStartTimeFilterOption()
+            {
+                Id = UpcomingOverviewStartTimeFilterOptionId.Year1,
                 Time = new TimeSpan(366, 0, 0, 0) },
-            new UpcomingOverviewStartTimeFilterOption() 
-            { 
-                Id = UpcomingOverviewStartTimeFilterOptionId.All 
+            new UpcomingOverviewStartTimeFilterOption()
+            {
+                Id = UpcomingOverviewStartTimeFilterOptionId.All
             },
-            new UpcomingOverviewStartTimeFilterOption() 
-            { 
-                Id = UpcomingOverviewStartTimeFilterOptionId.Custom, 
-                Time = new TimeSpan(1, 0, 0, 0) 
+            new UpcomingOverviewStartTimeFilterOption()
+            {
+                Id = UpcomingOverviewStartTimeFilterOptionId.Custom,
+                Time = new TimeSpan(1, 0, 0, 0)
             }
         };
 
@@ -173,7 +173,7 @@ namespace TienIchLich.ViewModels
         /// Load all event cards that satisfy upcoming event filter.
         /// </summary>
         /// <param name="cardVMs"></param>
-        private void LoadUpcomingEventCardVMs(Dictionary<DateTime,CalendarEventCardVM> cardVMs)
+        private void LoadUpcomingEventCardVMs(Dictionary<DateTime, CalendarEventCardVM> cardVMs)
         {
             foreach (CalendarEventCardVM cardVM in cardVMs.Values)
             {

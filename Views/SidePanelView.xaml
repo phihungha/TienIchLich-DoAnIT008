@@ -74,14 +74,14 @@
                     <Setter Property="Margin" Value="12,0,12,12" />
                     <Setter Property="VerticalAlignment" Value="Center" />
                 </Style>
-                
+
                 <Style TargetType="Ellipse">
                     <Setter Property="Width" Value="10" />
                     <Setter Property="Height" Value="10" />
                     <Setter Property="VerticalAlignment" Value="Center" />
                     <Setter Property="Margin" Value="0,0,12,12" />
                 </Style>
-                
+
                 <Style TargetType="TextBlock">
                     <Setter Property="Margin" Value="0,0,0,16" />
                     <Setter Property="FontSize" Value="15" />
@@ -96,15 +96,15 @@
                 Trạng thái sự kiện
             </TextBlock>
 
-            <CheckBox Grid.Row="1" Grid.Column="0" 
+            <CheckBox Grid.Row="1" Grid.Column="0"
                       IsChecked="{Binding IsDisplayed, Source={x:Static vm:CalendarEventStatuses.Upcoming}}" />
-            <Ellipse Grid.Row="1" Grid.Column="1" 
+            <Ellipse Grid.Row="1" Grid.Column="1"
                      Fill="{Binding DisplayColor, Source={x:Static vm:CalendarEventStatuses.Upcoming}}" />
             <TextBlock Grid.Row="1" Grid.Column="2">Tiếp theo</TextBlock>
-            
-            <CheckBox Grid.Row="2" Grid.Column="0" 
+
+            <CheckBox Grid.Row="2" Grid.Column="0"
                       IsChecked="{Binding IsDisplayed, Source={x:Static vm:CalendarEventStatuses.Happening}}" />
-            <Ellipse Grid.Row="2" Grid.Column="1" 
+            <Ellipse Grid.Row="2" Grid.Column="1"
                      Fill="{Binding DisplayColor, Source={x:Static vm:CalendarEventStatuses.Happening}}" />
             <TextBlock Grid.Row="2" Grid.Column="2">Đang diễn ra</TextBlock>
 

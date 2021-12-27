@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -44,7 +42,6 @@ namespace TienIchLich.MonthEventCalendarControl
         public MonthEventCalendar()
             : base()
         {
-
         }
 
         protected override void OnGotMouseCapture(MouseEventArgs e)

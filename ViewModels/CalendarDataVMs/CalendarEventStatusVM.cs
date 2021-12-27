@@ -5,20 +5,22 @@
     /// </summary>
     public static class CalendarEventStatuses
     {
-        public readonly static CalendarEventStatusVM Upcoming = new() 
-        { 
-            Id = CalendarEventStatusId.Upcoming, 
-            DisplayColor = "#ff0000" 
+        public static readonly CalendarEventStatusVM Upcoming = new()
+        {
+            Id = CalendarEventStatusId.Upcoming,
+            DisplayColor = "#ff0000"
         };
-        public readonly static CalendarEventStatusVM Happening = new() 
-        { 
-            Id = CalendarEventStatusId.Happening, 
-            DisplayColor = "#00e013" 
+
+        public static readonly CalendarEventStatusVM Happening = new()
+        {
+            Id = CalendarEventStatusId.Happening,
+            DisplayColor = "#00e013"
         };
-        public readonly static CalendarEventStatusVM Finished = new() 
-        { 
-            Id = CalendarEventStatusId.Finished, 
-            DisplayColor = "#00aaff" 
+
+        public static readonly CalendarEventStatusVM Finished = new()
+        {
+            Id = CalendarEventStatusId.Finished,
+            DisplayColor = "#00aaff"
         };
     }
 

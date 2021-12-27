@@ -194,6 +194,7 @@ namespace TienIchLich.ViewModels
                     startTime = value;
                     if (value <= EndTime)
                         SaveTimeChanges();
+                    SetReminderTimer();
                     NotifyPropertyChanged();
                 }
             }
@@ -218,7 +219,7 @@ namespace TienIchLich.ViewModels
                     if (value >= StartTime)
                         SaveTimeChanges();
                     NotifyPropertyChanged();
-                }    
+                }
             }
         }
 
@@ -240,6 +241,8 @@ namespace TienIchLich.ViewModels
             }
         }
 
+        private SmartTimer reminderTimer = SmartTimerService.GetTimer();
+
         private TimeSpan reminderTime = new TimeSpan(0, 30, 0);
 
         /// <summary>
@@ -253,32 +256,20 @@ namespace TienIchLich.ViewModels
             }
             set
             {
-                reminderTime = value;
-                NotifyPropertyChanged();
+                if (reminderTime != value)
+                {
+                    reminderTime = value;
+                    SetReminderTimer();
+                    RemainingTime = reminderTime;
+                    NotifyPropertyChanged();
+                }
             }
         }
-
-        /// <summary>
-        /// True if remaining time needs to be real.
-        /// </summary>
-        public bool CalculateActualRemainingTime { get; set; }
 
         /// <summary>
         /// Remaining time until event happens.
         /// </summary>
-        public TimeSpan RemainingTime
-        {
-            get
-            {
-                if (CalculateActualRemainingTime)
-                {
-                    if (DateTime.Now < StartTime)
-                        return StartTime - DateTime.Now;
-                    return TimeSpan.Zero;
-                }
-                return ReminderTime;
-            }
-        }
+        public TimeSpan RemainingTime { get; set; }
 
         private string description = "";
 
@@ -336,15 +327,19 @@ namespace TienIchLich.ViewModels
             this.eventVMManager = eventVMManager;
             EventCardVMs = new();
 
-            CalculateActualRemainingTime = false;
-
             if (startTime != null)
             {
                 StartTime = (DateTime)startTime;
                 EndTime = StartTime.AddDays(1);
             }
+            else
+            {
+                SetReminderTimer();
+                SetStatus();
+            }
 
             statusUpdateTimer.Elapsed += StatusUpdateTimer_Elapsed;
+            reminderTimer.Elapsed += ReminderTimer_Elapsed;
 
             EditCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewToEdit(this));
@@ -359,30 +354,6 @@ namespace TienIchLich.ViewModels
         {
             CreateEventCardVMs();
             SetStatus();
-        }
-
-        private void StatusUpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            SetStatus();
-        }
-
-        private void SetStatus()
-        {
-            if (DateTime.Now < StartTime)
-            {
-                StatusVM = CalendarEventStatuses.Upcoming;
-                statusUpdateTimer.ElapsedTime = StartTime;
-            }
-            else
-            {
-                if (DateTime.Now < EndTime)
-                {
-                    StatusVM = CalendarEventStatuses.Happening;
-                    statusUpdateTimer.ElapsedTime = EndTime;
-                }
-                else
-                    StatusVM = CalendarEventStatuses.Finished;
-            }
         }
 
         /// <summary>
@@ -419,6 +390,55 @@ namespace TienIchLich.ViewModels
         {
             if (dialogService.ShowConfirmation("Bạn có thật sự muốn xóa loại sự kiện này?"))
                 eventVMManager.Delete(this);
+        }
+
+        private void StatusUpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            SetStatus();
+        }
+
+        /// <summary>
+        /// Set current status of this event.
+        /// </summary>
+        private void SetStatus()
+        {
+            if (DateTime.Now < StartTime)
+            {
+                StatusVM = CalendarEventStatuses.Upcoming;
+                statusUpdateTimer.ElapsedTime = StartTime;
+            }
+            else
+            {
+                if (DateTime.Now < EndTime)
+                {
+                    StatusVM = CalendarEventStatuses.Happening;
+                    statusUpdateTimer.ElapsedTime = EndTime;
+                }
+                else
+                    StatusVM = CalendarEventStatuses.Finished;
+            }
+        }
+
+        /// <summary>
+        /// Set timer to remind again.
+        /// </summary>
+        /// <param name="interval">Remind again interval</param>
+        public void RemindAgain(TimeSpan interval)
+        {
+            reminderTimer.ElapsedTime = DateTime.Now + interval;
+            TimeSpan remainingTime = StartTime - reminderTimer.ElapsedTime;
+            if (remainingTime < TimeSpan.Zero)
+                RemainingTime = TimeSpan.Zero;
+            else
+                RemainingTime = remainingTime;
+        }
+
+        /// <summary>
+        /// Set elapsed time on reminder timer.
+        /// </summary>
+        private void SetReminderTimer()
+        {
+            reminderTimer.ElapsedTime = StartTime - ReminderTime;
         }
 
         public void ReminderTimer_Elapsed(object sender, ElapsedEventArgs e)

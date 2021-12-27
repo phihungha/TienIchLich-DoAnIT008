@@ -78,7 +78,7 @@
                 </DataGridTextColumn>
 
                 <DataGridTextColumn Header="Trạng thái" Width="*"
-                                    Binding="{Binding StatusVM.Id, 
+                                    Binding="{Binding StatusVM.Id,
                                               Converter={StaticResource EventStatusIdToStringConverter}}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">

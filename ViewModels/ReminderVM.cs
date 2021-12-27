@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Input;
-using TienIchLich.Models;
 using TienIchLich.Properties;
 using TienIchLich.Services;
 
@@ -32,7 +31,6 @@ namespace TienIchLich.ViewModels
     {
         private NavigationVM navigationVM;
         private SidePanelVM sidePanelVM;
-        private ReminderManager reminderManager;
         private AlarmSoundService alarmSoundService;
 
         private CalendarEventVM eventVM;
@@ -105,11 +103,10 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand RemindLaterCommand { get; private set; }
 
-        public ReminderVM(NavigationVM navigationVM, SidePanelVM sidePanelVM, ReminderManager reminderManager, AlarmSoundService alarmSoundService)
+        public ReminderVM(NavigationVM navigationVM, SidePanelVM sidePanelVM, AlarmSoundService alarmSoundService)
         {
             this.navigationVM = navigationVM;
             this.sidePanelVM = sidePanelVM;
-            this.reminderManager = reminderManager;
             this.alarmSoundService = alarmSoundService;
 
             AckCommand = new RelayCommand(i => Acknowledge());
@@ -132,8 +129,7 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void RemindAgain()
         {
-            reminderManager.EditInterval(eventVM.Id, SelectedRemindAgainTimeOption.Time);
-            eventVM.CalculateActualRemainingTime = true;
+            eventVM.RemindAgain(SelectedRemindAgainTimeOption.Time);
             Exit();
         }
 
@@ -142,7 +138,6 @@ namespace TienIchLich.ViewModels
         /// </summary>
         private void Acknowledge()
         {
-            eventVM.CalculateActualRemainingTime = false;
             Exit();
         }
 
