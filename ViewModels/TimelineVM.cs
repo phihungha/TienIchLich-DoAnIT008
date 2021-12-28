@@ -36,18 +36,18 @@ namespace TienIchLich.ViewModels
                     DateTime.DaysInMonth(value.Year, value.Month));
                 FirstDateOfMonth = new DateTime(selectedDisplayMonth.Year, selectedDisplayMonth.Month, 1);
                 ResetDisplayDayRange();
-                LoadAllEventsIntoTimelineChart();
+                LoadAllEventsIntoChart();
                 NotifyPropertyChanged();
             }
         }
 
         /// <summary>
-        /// First date of selected month.
+        /// First date of selected display month.
         /// </summary>
         private DateTime FirstDateOfMonth { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
         /// <summary>
-        /// Last date of selected month.
+        /// Last date of selected display month.
         /// </summary>
         private DateTime LastDateOfMonth => SelectedDisplayMonth;
 
@@ -87,7 +87,6 @@ namespace TienIchLich.ViewModels
             }
         }
 
-
         /// <summary>
         /// Display previous month on the chart.
         /// </summary>
@@ -102,7 +101,6 @@ namespace TienIchLich.ViewModels
         /// Reset chart's zoom and pan.
         /// </summary>
         public ICommand ResetDisplayDayRangeCommand { get; private set; }
-
 
         public TimelineVM(ObservableCollection<CalendarEventVM> eventVMs)
         {
@@ -126,13 +124,18 @@ namespace TienIchLich.ViewModels
                     Values = timelineChartValues,
                     DataLabels = true,
                     Foreground = Brushes.White,
-                    LabelPoint = i => GetLineName((CalendarEventVM)i.Instance)
+                    LabelPoint = i => GetDataLabel((CalendarEventVM)i.Instance)
                 }
             };
 
-            LoadAllEventsIntoTimelineChart();
+            LoadAllEventsIntoChart();
         }
 
+        /// <summary>
+        /// Get the number of days since the start of current selected display month of a time point.
+        /// </summary>
+        /// <param name="time">Time point</param>
+        /// <returns></returns>
         private double GetDayNumSinceStartOfMonth(DateTime time)
         {
             if (time > LastDateOfMonth)
@@ -142,31 +145,45 @@ namespace TienIchLich.ViewModels
             return (time - FirstDateOfMonth).TotalDays;
         }
 
+        /// <summary>
+        /// Reset chart's display day range.
+        /// </summary>
         private void ResetDisplayDayRange()
         {
             MinDisplayDay = 1;
             MaxDisplayDay = SelectedDisplayMonth.Day;
         }
 
+        /// <summary>
+        /// Set chart to display previous month.
+        /// </summary>
         private void GoToPrevDisplayMonth()
         {
             SelectedDisplayMonth = SelectedDisplayMonth.AddMonths(-1);
         }
 
+        /// <summary>
+        /// Set chart to display next month.
+        /// </summary>
         private void GoToNextDisplayMonth()
         {
             SelectedDisplayMonth = SelectedDisplayMonth.AddMonths(1);
         }
-
-        private string GetLineName(CalendarEventVM eventVM)
+        
+        /// <summary>
+        /// Get data label of an event timeline on the chart.
+        /// </summary>
+        /// <param name="eventVM">View model of the event</param>
+        /// <returns></returns>
+        private string GetDataLabel(CalendarEventVM eventVM)
         {
             return $"{eventVM.Subject}\n({eventVM.StartTime:g} - {eventVM.EndTime:g})";
         }
 
         /// <summary>
-        /// Load all calendar event view models into timeline chart.
+        /// Load all calendar events into the chart.
         /// </summary>
-        private void LoadAllEventsIntoTimelineChart()
+        private void LoadAllEventsIntoChart()
         {
             timelineChartValues.Clear();
             foreach (CalendarEventVM eventVM in eventVMs)
@@ -177,6 +194,9 @@ namespace TienIchLich.ViewModels
                     timelineChartValues.Add(eventVM);
         }
 
+        /// <summary>
+        /// Update chart when calendar events are added/removed.
+        /// </summary>
         private void EventVMs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
@@ -184,6 +204,5 @@ namespace TienIchLich.ViewModels
             else if (e.Action == NotifyCollectionChangedAction.Remove)
                 timelineChartValues.Remove((CalendarEventVM)e.OldItems[0]);
         }
-
     }
 }
