@@ -70,6 +70,19 @@
                 <views:EventListView DataContext="{Binding EventListVM}" />
             </TabItem>
 
+            <!-- Timeline view -->
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock FontSize="14" FontWeight="Bold">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />
+                        </TextBlock.Foreground>
+                        Dòng thời gian
+                    </TextBlock>
+                </TabItem.Header>
+                <views:TimelineView DataContext="{Binding TimelineVM}" />
+            </TabItem>
+
             <!-- Statistics view -->
             <TabItem>
                 <TabItem.Header>

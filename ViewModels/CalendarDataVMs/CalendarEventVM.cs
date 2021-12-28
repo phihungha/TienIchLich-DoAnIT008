@@ -320,23 +320,14 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand DeleteCommand { get; private set; }
 
-        public CalendarEventVM(CalendarEventVMManager eventVMManager, NavigationVM navigationVM, DialogService dialogService, DateTime? startTime = null)
+        public CalendarEventVM(CalendarEventVMManager eventVMManager, NavigationVM navigationVM, DialogService dialogService)
         {
             this.navigationVM = navigationVM;
             this.dialogService = dialogService;
             this.eventVMManager = eventVMManager;
             EventCardVMs = new();
-
-            if (startTime != null)
-            {
-                StartTime = (DateTime)startTime;
-                EndTime = StartTime.AddDays(1);
-            }
-            else
-            {
-                SetReminderTimer();
-                SetStatus();
-            }
+            SetReminderTimer();
+            SaveTimeChanges();
 
             statusUpdateTimer.Elapsed += StatusUpdateTimer_Elapsed;
             reminderTimer.Elapsed += ReminderTimer_Elapsed;

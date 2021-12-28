@@ -23,6 +23,11 @@ namespace TienIchLich.ViewModels
         public UpcomingOverviewVM UpcomingOverviewVM { get; private set; }
 
         /// <summary>
+        /// View model for timeline view.
+        /// </summary>
+        public TimelineVM TimelineVM { get; private set; }
+
+        /// <summary>
         /// View model for upcoming event overview.
         /// </summary>
         public StatisticsVM StatisticsVM { get; private set; }
@@ -50,6 +55,7 @@ namespace TienIchLich.ViewModels
             CalendarVM = new CalendarVM(eventVMs, categoryVMs, navigationVM, this);
             EventListVM = new EventListVM(eventVMs);
             UpcomingOverviewVM = new UpcomingOverviewVM(eventVMs);
+            TimelineVM = new TimelineVM(eventVMs);
             StatisticsVM = new StatisticsVM(eventVMs, categoryVMs);
         }
     }

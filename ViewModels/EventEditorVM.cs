@@ -367,9 +367,12 @@ namespace TienIchLich.ViewModels
             }
             else
             {
-                CalendarEventVM = new CalendarEventVM(eventVMManager, navigationVM, dialogService, startTime)
+                DateTime notNullStartTime = (DateTime)startTime;
+                CalendarEventVM = new CalendarEventVM(eventVMManager, navigationVM, dialogService)
                 {
                     CategoryVM = CategoryVMs[0],
+                    StartTime = notNullStartTime,
+                    EndTime = notNullStartTime.AddDays(1),
                     ReminderTime = new TimeSpan(0, 30, 0)
                 };
             }
