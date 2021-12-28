@@ -9,6 +9,9 @@ using System.Windows.Media;
 
 namespace TienIchLich.ViewModels
 {
+    /// <summary>
+    /// View model for timeline chart view.
+    /// </summary>
     public class TimelineVM : ViewModelBase
     {
         private ObservableCollection<CalendarEventVM> eventVMs;
@@ -102,10 +105,11 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ICommand ResetDisplayDayRangeCommand { get; private set; }
 
-        public TimelineVM(ObservableCollection<CalendarEventVM> eventVMs)
+        public TimelineVM(ObservableCollection<CalendarEventVM> eventVMs, CalendarCategoryVMManager categoryVMManager)
         {
             this.eventVMs = eventVMs;
             this.eventVMs.CollectionChanged += EventVMs_CollectionChanged;
+            categoryVMManager.RequestRefresh += CategoryVMManager_RequestRefresh;
             ResetDisplayDayRange();
 
             PrevMonthCommand = new RelayCommand(i => GoToPrevDisplayMonth());
@@ -135,7 +139,7 @@ namespace TienIchLich.ViewModels
         /// Get the number of days since the start of current selected display month of a time point.
         /// </summary>
         /// <param name="time">Time point</param>
-        /// <returns></returns>
+        /// <returns>Number of days</returns>
         private double GetDayNumSinceStartOfMonth(DateTime time)
         {
             if (time > LastDateOfMonth)
@@ -203,6 +207,14 @@ namespace TienIchLich.ViewModels
                 timelineChartValues.Add((CalendarEventVM)e.NewItems[0]);
             else if (e.Action == NotifyCollectionChangedAction.Remove)
                 timelineChartValues.Remove((CalendarEventVM)e.OldItems[0]);
+        }
+
+        /// <summary>
+        /// Reload all data into chart of any calendar category changes. (To fix bug in LiveChart)
+        /// </summary>
+        private void CategoryVMManager_RequestRefresh()
+        {
+            LoadAllEventsIntoChart();
         }
     }
 }

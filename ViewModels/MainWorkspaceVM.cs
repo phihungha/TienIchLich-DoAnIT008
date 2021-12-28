@@ -50,13 +50,13 @@ namespace TienIchLich.ViewModels
             }
         }
 
-        public MainWorkspaceVM(ObservableCollection<CalendarEventVM> eventVMs, ObservableCollection<CalendarCategoryVM> categoryVMs, NavigationVM navigationVM)
+        public MainWorkspaceVM(ObservableCollection<CalendarEventVM> eventVMs, CalendarCategoryVMManager categoryVMManager, NavigationVM navigationVM)
         {
-            CalendarVM = new CalendarVM(eventVMs, categoryVMs, navigationVM, this);
+            CalendarVM = new CalendarVM(eventVMs, categoryVMManager.CalendarCategoryVMs, navigationVM, this);
             EventListVM = new EventListVM(eventVMs);
             UpcomingOverviewVM = new UpcomingOverviewVM(eventVMs);
-            TimelineVM = new TimelineVM(eventVMs);
-            StatisticsVM = new StatisticsVM(eventVMs, categoryVMs);
+            TimelineVM = new TimelineVM(eventVMs, categoryVMManager);
+            StatisticsVM = new StatisticsVM(eventVMs, categoryVMManager.CalendarCategoryVMs);
         }
     }
 }

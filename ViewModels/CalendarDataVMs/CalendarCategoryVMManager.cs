@@ -18,6 +18,10 @@ namespace TienIchLich.ViewModels
         /// </summary>
         public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs { get; private set; }
 
+        public delegate void RequestRefreshEventHandler();
+
+        public event RequestRefreshEventHandler RequestRefresh;
+
         /// <summary>
         /// Calendar event view model manager.
         /// </summary>
@@ -87,6 +91,8 @@ namespace TienIchLich.ViewModels
 
                 db.SaveChanges();
             }
+
+            RequestRefresh?.Invoke();
         }
 
         /// <summary>
