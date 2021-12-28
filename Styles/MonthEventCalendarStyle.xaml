@@ -446,16 +446,9 @@
                                 <!-- Template for calendar event list item -->
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Background="{Binding EventVM.CategoryVM.DisplayColor}"
+                                        <Button Background="{x:Null}"
                                                 HorizontalContentAlignment="Stretch"
-                                                BorderThickness="0"  Margin="3"
-                                                Command="{Binding EventVM.EditCommand}">
-                                            <Button.Resources>
-                                                <Style TargetType="Border">
-                                                    <Setter Property="CornerRadius" Value="2" />
-                                                </Style>
-                                            </Button.Resources>
-
+                                                BorderThickness="0"  Margin="3">
                                             <Button.Style>
                                                 <Style TargetType="Button">
                                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -471,32 +464,36 @@
                                                 </Style>
                                             </Button.Style>
 
-                                            <Grid Margin="2,1,2,1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition />
-                                                </Grid.ColumnDefinitions>
-
-                                                <Grid.InputBindings>
+                                            <Border Background="{Binding EventVM.CategoryVM.DisplayColor}"
+                                                    CornerRadius="3">
+                                                <Border.InputBindings>
                                                     <MouseBinding Gesture="LeftClick" Command="{Binding EventVM.EditCommand}" />
-                                                </Grid.InputBindings>
+                                                </Border.InputBindings>
+                                                
+                                                <Grid Margin="2,1,2,1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition />
+                                                    </Grid.ColumnDefinitions>
 
-                                                <TextBlock Grid.Column="0" Margin="0,0,3,0"
+                                                    <TextBlock Grid.Column="0" Margin="0,0,3,0"
                                                            Style="{StaticResource EventCardTextBlock}"
                                                            Visibility="{Binding IsFirstDay,
                                                                         Converter={StaticResource BooleanToVisibilityConverter}}"
                                                            Text="{Binding EventVM.StartTime, StringFormat=t,
                                                                   ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}" />
 
-                                                <TextBlock Grid.Column="1"
+                                                    <TextBlock Grid.Column="1"
                                                            Style="{StaticResource EventCardTextBlock}"
                                                            Text="{Binding DisplaySubject}" />
 
-                                                <Ellipse Grid.Column="2" HorizontalAlignment="Right"
-                                                         Margin="3,0,3,0" Fill="{Binding EventVM.StatusVM.DisplayColor}"
+                                                    <Ellipse Grid.Column="2" HorizontalAlignment="Right" Margin="3,0,3,0" 
+                                                         Fill="{Binding EventVM.StatusVM.DisplayColor}"
+                                                         Stroke="White" StrokeThickness="1.5"
                                                          Width="10" Height="10" />
-                                            </Grid>
+                                                </Grid>
+                                            </Border>
                                         </Button>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
