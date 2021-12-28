@@ -1,18 +1,6 @@
 ﻿using LiveCharts.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using TienIchLich.ViewModels;
 
 namespace TienIchLich.Views
 {
@@ -28,9 +16,10 @@ namespace TienIchLich.Views
 
         private void Axis_PreviewRangeChanged(PreviewRangeChangedEventArgs e)
         {
-            if (e.PreviewMaxValue > 32)
+            TimelineVM timelineVM = (TimelineVM)DataContext;
+            if (e.PreviewMaxValue > timelineVM.SelectedDisplayMonth.Day)
                 e.Cancel = true;
-            if (e.PreviewMinValue < 0)
+            if (e.PreviewMinValue < 1)
                 e.Cancel = true;
         }
     }
