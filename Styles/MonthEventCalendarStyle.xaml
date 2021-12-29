@@ -446,9 +446,15 @@
                                 <!-- Template for calendar event list item -->
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Background="{x:Null}"
+                                        <Button Background="{Binding EventVM.CategoryVM.DisplayColor}"
                                                 HorizontalContentAlignment="Stretch"
                                                 BorderThickness="0"  Margin="3">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="3" />
+                                                </Style>
+                                            </Button.Resources>
+                                            
                                             <Button.Style>
                                                 <Style TargetType="Button">
                                                     <Setter Property="Visibility" Value="Collapsed" />
@@ -464,8 +470,7 @@
                                                 </Style>
                                             </Button.Style>
 
-                                            <Border Background="{Binding EventVM.CategoryVM.DisplayColor}"
-                                                    CornerRadius="3">
+                                            <Border Background="Transparent">
                                                 <Border.InputBindings>
                                                     <MouseBinding Gesture="LeftClick" Command="{Binding EventVM.EditCommand}" />
                                                 </Border.InputBindings>
