@@ -10,7 +10,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// View model for navigation purposes.
         /// </summary>
-        public NavigationVM NavigationVM { get; private set; }
+        public NavigationVM NavigationVM { get; private set; } = new();
 
         /// <summary>
         /// View model for category panel.
@@ -19,8 +19,6 @@ namespace TienIchLich.ViewModels
 
         public MainWindowVM(DialogService dialogService, AlarmSoundService alarmSoundService)
         {
-            NavigationVM = new NavigationVM();
-
             var calendarCategoryVMManager = new CalendarCategoryVMManager(dialogService);
             var calendarEventVMManager = new CalendarEventVMManager(NavigationVM, calendarCategoryVMManager, dialogService);
             calendarCategoryVMManager.EventVMManager = calendarEventVMManager;

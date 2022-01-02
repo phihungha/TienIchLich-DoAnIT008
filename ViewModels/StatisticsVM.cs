@@ -356,11 +356,6 @@ namespace TienIchLich.ViewModels
                 EventCountChartValues.Add(new ObservableValue(0));
         }
 
-        private void IncrementDayEventCount(int day)
-        {
-            EventCountChartValues[day - 1].Value++;
-        }
-
         private void CalculateEventCountLineChartForAnEvent(CalendarEventVM eventVM)
         {
             DateTime startOfMonth = new DateTime(CurrentMonthOfEventCountLineChart.Year, CurrentMonthOfEventCountLineChart.Month, 1);
@@ -373,7 +368,7 @@ namespace TienIchLich.ViewModels
                 int startDay = startTime < startOfMonth ? 1 : startTime.Day;
                 int endDay = endTime > endOfMonth ? endOfMonth.Day : endTime.Day;
                 for (int day = startDay; day <= endDay; day++)
-                    IncrementDayEventCount(day);
+                    EventCountChartValues[day - 1].Value++;
             }
         }
     }

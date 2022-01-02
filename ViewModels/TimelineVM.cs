@@ -127,7 +127,7 @@ namespace TienIchLich.ViewModels
                 {
                     Values = timelineChartValues,
                     DataLabels = true,
-                    Foreground = Brushes.White,
+                    
                     LabelPoint = i => GetDataLabel((CalendarEventVM)i.Instance)
                 }
             };

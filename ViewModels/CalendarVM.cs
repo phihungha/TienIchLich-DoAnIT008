@@ -24,7 +24,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Calendar event card view models for calendar controls to display.
         /// </summary>
-        public Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>> EventCardVMs { get; private set; }
+        public Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>> EventCardVMs { get; private set; } = new();
 
         /// <summary>
         /// Calendar event view models to display.
@@ -109,7 +109,6 @@ namespace TienIchLich.ViewModels
             CalendarEventVMs = eventVMs;
             CalendarCategoryVMs = categoryVMs;
             CalendarEventVMs.CollectionChanged += CalendarEventVMs_CollectionChanged;
-            EventCardVMs = new();
 
             AddEventCommand = new RelayCommand(
                 i => navigationVM.NavigateToEventEditorViewToAdd(MonthCalendarSelectedDate));

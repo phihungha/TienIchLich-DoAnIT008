@@ -8,7 +8,7 @@ using TienIchLich.ViewModels;
 namespace TienIchLich.MonthEventCalendarControl
 {
     /// <summary>
-    /// A month calendar with event support.
+    /// A month calendar control with event card display support.
     /// </summary>
     public class MonthEventCalendar : Calendar
     {

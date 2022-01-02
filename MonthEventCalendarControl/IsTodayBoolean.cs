@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace TienIchLich.MonthEventCalendarControl
 {
     /// <summary>
-    /// If the current day is today.
+    /// Get whether the current day is today.
     /// </summary>
     public class IsTodayBoolean : IValueConverter
     {

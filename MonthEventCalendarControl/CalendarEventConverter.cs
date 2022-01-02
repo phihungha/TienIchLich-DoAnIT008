@@ -40,7 +40,7 @@ namespace TienIchLich.MonthEventCalendarControl
     }
 
     /// <summary>
-    /// Get whether there is event in current day.
+    /// Get whether there are event cards in current day.
     /// </summary>
     [ValueConversion(typeof(Dictionary<DateTime, ObservableCollection<CalendarEventCardVM>>), typeof(bool))]
     public class CalendarEventsToBoolConverter : IMultiValueConverter

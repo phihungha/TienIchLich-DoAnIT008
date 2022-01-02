@@ -27,7 +27,7 @@
                   Background="Transparent" BorderThickness="0"
                   FontSize="14">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Tiêu đề" Binding="{Binding Subject}" Width="*">
+                <DataGridTextColumn Header="Chủ đề" Binding="{Binding Subject}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />

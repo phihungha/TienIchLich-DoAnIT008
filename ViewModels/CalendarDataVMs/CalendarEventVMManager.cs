@@ -19,14 +19,13 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Calendar event view model collection.
         /// </summary>
-        public ObservableCollection<CalendarEventVM> CalendarEventVMs { get; private set; }
+        public ObservableCollection<CalendarEventVM> CalendarEventVMs { get; private set; } = new();
 
         public CalendarEventVMManager(NavigationVM navigationVM, CalendarCategoryVMManager categoryVMs, DialogService dialogService)
         {
             this.navigationVM = navigationVM;
             this.categoryVMs = categoryVMs;
             this.dialogService = dialogService;
-            CalendarEventVMs = new ObservableCollection<CalendarEventVM>();
 
             // Build view models for all calendar events in database
             using (var db = new CalendarDbContext())

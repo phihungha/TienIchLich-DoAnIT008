@@ -104,7 +104,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// View models of event cards belong to this event.
         /// </summary>
-        public Dictionary<DateTime, CalendarEventCardVM> EventCardVMs { get; private set; }
+        public Dictionary<DateTime, CalendarEventCardVM> EventCardVMs { get; private set; } = new();
 
         public delegate void RequestRemoveEventCardVMHandler(CalendarEventVM sender);
 
@@ -325,7 +325,6 @@ namespace TienIchLich.ViewModels
             this.navigationVM = navigationVM;
             this.dialogService = dialogService;
             this.eventVMManager = eventVMManager;
-            EventCardVMs = new();
             SetReminderTimer();
             SaveTimeChanges();
 

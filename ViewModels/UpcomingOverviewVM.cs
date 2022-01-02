@@ -45,7 +45,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// A collection of upcoming event cards.
         /// </summary>
-        public ObservableCollection<CalendarEventCardVM> UpcomingEventCardVMs { get; private set; }
+        public ObservableCollection<CalendarEventCardVM> UpcomingEventCardVMs { get; private set; } = new();
 
         private static UpcomingOverviewStartTimeFilterOption[] startTimeFilterOptions =
         {
@@ -150,7 +150,6 @@ namespace TienIchLich.ViewModels
         {
             this.eventVMs = eventVMs;
             eventVMs.CollectionChanged += EventVMs_CollectionChanged;
-            UpcomingEventCardVMs = new ObservableCollection<CalendarEventCardVM>();
             LoadCardVMsOfAllEventVMs();
             SelectedStartTimeFilterOption = StartTimeFilterOptions[0];
         }

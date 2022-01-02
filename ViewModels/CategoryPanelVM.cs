@@ -12,7 +12,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Calendar category view models to display in a DataGrid.
         /// </summary>
-        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs { get; set; }
+        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs { get; private set; }
 
         /// <summary>
         /// Command to add a new category.

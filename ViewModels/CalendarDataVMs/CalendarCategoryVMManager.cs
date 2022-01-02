@@ -16,7 +16,7 @@ namespace TienIchLich.ViewModels
         /// <summary>
         /// Calendar category view models.
         /// </summary>
-        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs { get; private set; }
+        public ObservableCollection<CalendarCategoryVM> CalendarCategoryVMs { get; private set; } = new();
 
         public delegate void RequestRefreshEventHandler();
 
@@ -30,7 +30,6 @@ namespace TienIchLich.ViewModels
         public CalendarCategoryVMManager(DialogService dialogService)
         {
             this.dialogService = dialogService;
-            CalendarCategoryVMs = new ObservableCollection<CalendarCategoryVM>();
 
             // Build view models for all calendar categories in database
             using (var db = new CalendarDbContext())
